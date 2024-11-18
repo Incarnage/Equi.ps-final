@@ -1,0 +1,74 @@
+name: equips_v2
+description: "A new Flutter project."
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: ^3.5.0
+
+
+dependencies:
+  flutter:
+    sdk: flutter
+  # utility packages
+  http: ^1.2.2
+  intl: ^0.19.0
+  logger: ^2.4.0
+  lottie: ^2.7.0
+  shimmer: ^3.0.0
+  image_picker: ^1.0.4
+  connectivity_plus: ^5.0.1
+  url_launcher: ^6.3.0
+  flutter_native_splash: ^2.4.1
+  
+  
+
+#Icons#
+  iconsax: ^0.0.8
+  cupertino_icons: ^1.0.8
+
+  get: ^4.6.6
+  get_storage: ^2.1.1
+  smooth_page_indicator: ^1.2.0+3
+  carousel_slider: ^5.0.0
+  readmore: ^3.0.0
+  flutter_rating_bar: ^4.0.1
+
+  #firebase
+  firebase_core: ^3.4.1
+  firebase_auth: ^5.3.0
+  cloud_firestore: ^5.4.2
+  firebase_storage: ^12.3.2
+  cached_network_image: ^3.4.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/logo/
+    - assets/icon/
+    - assets/pic/
+
+  fonts:
+    - family: Inter
+      fonts:
+        - asset: assets/font/Inter_18pt-Light.ttf
+          weight: 300
+        - asset: assets/font/Inter_18pt-Regular.ttf
+          weight: 400
+        - asset: assets/font/Inter_18pt-Italic.ttf
+          style: italic
+        - asset: assets/font/Inter_18pt-Medium.ttf
+          weight: 500
+        - asset: assets/font/Inter_18pt-MediumItalic.ttf
+          weight: 500
+          style: italic
+        - asset: assets/font/Inter_18pt-Bold.ttf
+          weight: 800
+
+

@@ -1,5 +1,7 @@
 import 'package:equips_v2/feature/auth/screen/home/home.dart';
+import 'package:equips_v2/feature/chat/chat.dart';
 import 'package:equips_v2/feature/personalize/screen/settings/settings.dart';
+
 import 'package:equips_v2/feature/shop/screen/store/store.dart';
 import 'package:equips_v2/feature/shop/screen/wishlist/wishlist.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +28,7 @@ class NavigationMenu extends StatelessWidget {
             destinations: const [
               NavigationDestination(icon: Icon(Iconsax.home), label: 'Home'),
               NavigationDestination(icon: Icon(Iconsax.shop), label: 'Store'),
+              NavigationDestination(icon: Icon(Iconsax.message), label: 'Chat'),
               NavigationDestination(
                   icon: Icon(Iconsax.bookmark), label: 'Saved'),
               NavigationDestination(icon: Icon(Iconsax.user), label: 'Profile'),
@@ -44,6 +47,7 @@ class NavigationController extends GetxController {
   final screens = [
     const HomeScreen(),
     const Store(),
+    const Chat(),
     const Wishlist(),
     const SettingScreen(),
   ];

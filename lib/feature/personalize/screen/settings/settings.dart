@@ -12,9 +12,17 @@ import 'package:equips_v2/utilities/constants/size.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SettingScreen extends StatelessWidget {
   const SettingScreen({super.key});
+
+  Future<void> goToWebPage(String urlString) async {
+    final Uri _url = Uri.parse(urlString);
+    if (!await launchUrl(_url)) {
+      throw 'Could not launch $_url';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -112,7 +120,13 @@ class SettingScreen extends StatelessWidget {
                     subtitle: "Manage Data usage and connected accounts",
                   ),
 
-                  // APP SETTINGS
+                  ESettingMenuTile(
+                      icon: Iconsax.ticket,
+                      title: "Report a problem",
+                      subtitle: "Generate a ticket",
+                      onTap: () async {
+                        await goToWebPage("https://flutter.dev");
+                      }),
 
                   // Logout Button
                   const SizedBox(height: TSizes.spaceSections),

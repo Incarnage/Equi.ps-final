@@ -4,6 +4,7 @@ import 'package:equips_v2/common/widgets/custom_shapes/container/header_containe
 import 'package:equips_v2/common/widgets/layouts/list_tile/settingsMenu_tile.dart';
 import 'package:equips_v2/common/widgets/layouts/list_tile/userProfile_tile.dart';
 import 'package:equips_v2/data/repository/authenticate_repository.dart';
+import 'package:equips_v2/feature/personalize/screen/FAQs/faqs.dart';
 import 'package:equips_v2/feature/personalize/screen/address/widgets/address.dart';
 import 'package:equips_v2/feature/personalize/screen/profile/profile.dart';
 import 'package:equips_v2/feature/shop/screen/cart/cart.dart';
@@ -99,13 +100,6 @@ class SettingScreen extends StatelessWidget {
                     subtitle: "Update your Account Details",
                   ),
 
-                  // Discount
-                  /*const ESettingMenuTile(
-                    icon: Iconsax.discount_shape,
-                    title: "My Coupons",
-                    subtitle: "List of all discounted coupons",
-                  ),*/
-
                   // Notification
                   const ESettingMenuTile(
                     icon: Iconsax.notification,
@@ -119,13 +113,33 @@ class SettingScreen extends StatelessWidget {
                     title: "Account Privacy",
                     subtitle: "Manage Data usage and connected accounts",
                   ),
+                  const SizedBox(height: TSizes.spaceItems),
 
+                  // Support
+                  ESectionHeading(
+                    title: 'Support',
+                    showActionButton: false,
+                    onPressed: () {},
+                  ),
+                  const SizedBox(height: TSizes.spaceItems),
+
+                  // FAQs
+                  ESettingMenuTile(
+                    icon: Iconsax.message_question,
+                    title: "Equi.ps Guide",
+                    subtitle:
+                        "Learn more about the app through the Frequently Asked Questions (FAQs) and quick tutorials.",
+                    onTap: () => Get.to(() => FrequentlyAskedQuestions()),
+                  ),
+
+                  // Report
                   ESettingMenuTile(
                       icon: Iconsax.ticket,
                       title: "Report a problem",
-                      subtitle: "Generate a ticket",
+                      subtitle: "Report mobile-based problems you encounter",
                       onTap: () async {
-                        await goToWebPage("https://flutter.dev");
+                        await goToWebPage(
+                            "https://docs.google.com/forms/d/e/1FAIpQLSdt04Ty7G_Mglsbfd_8_lFDmiksSTCEC7eNERLCWdw0CCHH2A/viewform?usp=header");
                       }),
 
                   // Logout Button

@@ -40,7 +40,8 @@ class HorizontalProductcard extends StatelessWidget {
                       applyImageRadius: true,
                       isNetworkImage: true),
                 ),
-                Positioned(top: 0, right: 0, child: EBookmark(productId: ''))
+                const Positioned(
+                    top: 0, right: 0, child: EBookmark(productId: ''))
               ],
             ),
           ),

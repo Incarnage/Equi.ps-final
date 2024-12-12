@@ -2,7 +2,6 @@ import 'package:equips_v2/common/images/e_circular_image.dart';
 import 'package:equips_v2/common/widgets/custom_shapes/container/ERoundedContainer.dart';
 import 'package:equips_v2/common/widgets/text/brandTitle_with_verifiedIcon.dart';
 import 'package:equips_v2/feature/auth/controller/signUp/widgets/usermodel.dart';
-import 'package:equips_v2/feature/shop/models/lessor_model.dart';
 import 'package:equips_v2/utilities/constants/enums.dart';
 import 'package:equips_v2/utilities/constants/size.dart';
 import 'package:flutter/material.dart';

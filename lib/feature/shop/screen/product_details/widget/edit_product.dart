@@ -64,8 +64,6 @@ class EditProductDetails extends StatelessWidget {
                     height: TSizes.spaceItems,
                   ),
 
-                  const Divider(),
-
                   //desc
                   const SectionHeading(
                     title: 'Description',
@@ -75,7 +73,7 @@ class EditProductDetails extends StatelessWidget {
                     height: TSizes.spaceItems,
                   ),
                   ReadMoreText(product.description ?? '',
-                      style: TextStyle(fontWeight: FontWeight.normal),
+                      style: const TextStyle(fontWeight: FontWeight.normal),
                       trimLines: 2,
                       trimMode: TrimMode.Line,
                       trimCollapsedText: 'Show more',
@@ -84,9 +82,9 @@ class EditProductDetails extends StatelessWidget {
                         fontSize: 14,
                         fontWeight: FontWeight.w800,
                       )),
-
-                  //rating
-                  const RatingAndShare(),
+                  const SizedBox(
+                    height: TSizes.spaceItems,
+                  ),
 
                   //reviews
                   const Divider(),

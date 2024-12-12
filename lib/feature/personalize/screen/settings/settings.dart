@@ -107,14 +107,6 @@ class SettingScreen extends StatelessWidget {
                     subtitle: "Check updates for your rental requests!",
                   ),
 
-                  // Security
-                  const ESettingMenuTile(
-                    icon: Iconsax.security,
-                    title: "Account Privacy",
-                    subtitle: "Manage Data usage and connected accounts",
-                  ),
-                  const SizedBox(height: TSizes.spaceItems),
-
                   // Support
                   ESectionHeading(
                     title: 'Support',

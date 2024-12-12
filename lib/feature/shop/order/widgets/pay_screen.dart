@@ -12,7 +12,6 @@ import 'package:equips_v2/feature/shop/order/widgets/order_date_picker.dart';
 import 'package:equips_v2/feature/shop/order/widgets/order_info.dart';
 import 'package:equips_v2/utilities/constants/size.dart';
 import 'package:equips_v2/utilities/popups/loaders.dart';
-import 'package:equips_v2/utilities/validator/validate.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';

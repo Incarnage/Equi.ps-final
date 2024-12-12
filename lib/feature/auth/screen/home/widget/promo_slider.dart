@@ -18,8 +18,9 @@ class EPromoSlider extends StatelessWidget {
     return Obx(
       () {
         // Loader
-        if (controller.isLoading.value)
+        if (controller.isLoading.value) {
           return const ShimmerEffect(width: double.infinity, height: 190);
+        }
 
         // no data found
         if (controller.banners.isEmpty) {

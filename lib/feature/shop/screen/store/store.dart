@@ -1,11 +1,9 @@
 import 'package:equips_v2/common/widgets/appbar/appbar.dart';
 import 'package:equips_v2/common/widgets/appbar/tabbar.dart';
 import 'package:equips_v2/common/widgets/custom_shapes/container/eSectionHeading.dart';
-
 import 'package:equips_v2/common/widgets/layouts/gridLayout.dart';
 import 'package:equips_v2/common/widgets/brands/lessor_card.dart';
 import 'package:equips_v2/common/widgets/shimmer/lessor_shimmer.dart';
-import 'package:equips_v2/feature/personalize/controller/user_controller.dart';
 import 'package:equips_v2/feature/shop/controller/category_controller.dart';
 import 'package:equips_v2/feature/shop/controller/lessor_controller.dart';
 import 'package:equips_v2/feature/shop/screen/lessor/all_lessor.dart';

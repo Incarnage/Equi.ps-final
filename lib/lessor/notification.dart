@@ -22,6 +22,7 @@ class LessorNotificationScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: TAppbar(
+        showBackArrow: true,
         title: Text(
           'Rental Request',
           style: Theme.of(context)

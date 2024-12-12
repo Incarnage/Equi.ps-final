@@ -6,7 +6,6 @@ import 'package:equips_v2/feature/shop/models/product_model.dart';
 import 'package:equips_v2/feature/shop/screen/product_details/widget/bottom_add_cart.dart';
 import 'package:equips_v2/feature/shop/screen/product_details/widget/image_slider.dart';
 import 'package:equips_v2/feature/shop/screen/product_details/widget/product_data.dart';
-import 'package:equips_v2/feature/shop/screen/product_details/widget/rating_share.dart';
 import 'package:equips_v2/feature/shop/screen/product_details/widget/unavailable.dart';
 import 'package:equips_v2/feature/shop/screen/product_reviews/productReviews.dart';
 import 'package:equips_v2/utilities/constants/enums.dart';
@@ -49,6 +48,10 @@ class ProductDetails extends StatelessWidget {
 
             const SizedBox(height: TSizes.spaceItems),
 
+            const Divider(),
+            const SizedBox(
+              height: TSizes.spaceItems,
+            ),
             //product details
             Padding(
               padding: const EdgeInsets.only(
@@ -67,16 +70,12 @@ class ProductDetails extends StatelessWidget {
                     height: TSizes.spaceItems,
                   ),
 
-                  const Divider(),
-
                   //desc
                   const SectionHeading(
                     title: 'Description',
                     showActionButton: false,
                   ),
-                  const SizedBox(
-                    height: TSizes.spaceItems,
-                  ),
+
                   ReadMoreText(product.description ?? '',
                       style: const TextStyle(fontWeight: FontWeight.normal),
                       trimLines: 2,
@@ -87,9 +86,12 @@ class ProductDetails extends StatelessWidget {
                         fontSize: 14,
                         fontWeight: FontWeight.w800,
                       )),
+                  const SizedBox(
+                    height: TSizes.spaceItems,
+                  ),
 
                   //rating
-                  const RatingAndShare(),
+                  // const RatingAndShare(),
 
                   //reviews
                   const Divider(),

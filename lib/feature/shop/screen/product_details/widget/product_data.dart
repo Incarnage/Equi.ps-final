@@ -36,7 +36,7 @@ class ProductData extends StatelessWidget {
             const SizedBox(width: TSizes.spaceItems),
             Text(
               controller.getStock(product.isAvailable),
-              style: Theme.of(context).textTheme.titleLarge,
+              style: Theme.of(context).textTheme.titleMedium,
             ),
           ],
         ),

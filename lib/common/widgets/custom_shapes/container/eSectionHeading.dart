@@ -1,4 +1,5 @@
 // ignore: file_names
+import 'package:equips_v2/utilities/constants/size.dart';
 import 'package:flutter/material.dart';
 
 class ESectionHeading extends StatelessWidget {
@@ -27,7 +28,11 @@ class ESectionHeading extends StatelessWidget {
           maxLines: 1,
           overflow: TextOverflow.ellipsis),
       if (showActionButton)
-        TextButton(onPressed: onPressed, child: Text(buttonTitle))
+        TextButton(
+            onPressed: onPressed,
+            child: Text(buttonTitle,
+                style: const TextStyle(
+                    fontSize: TSizes.fontMedium, color: Color(0xFFFFD233))))
     ]);
   }
 }

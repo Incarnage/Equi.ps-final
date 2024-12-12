@@ -10,6 +10,7 @@ import 'package:equips_v2/feature/auth/screen/home/widget/home_appbar.dart';
 import 'package:equips_v2/feature/auth/screen/home/widget/home_categories.dart';
 import 'package:equips_v2/feature/auth/screen/home/widget/promo_slider.dart';
 import 'package:equips_v2/feature/shop/controller/product/product_controller.dart';
+import 'package:equips_v2/feature/shop/models/product_model.dart';
 import 'package:equips_v2/feature/shop/screen/all_products/all_products.dart';
 import 'package:equips_v2/utilities/constants/size.dart';
 import 'package:flutter/material.dart';
@@ -73,29 +74,41 @@ class HomeScreen extends StatelessWidget {
 
                     // Heading
                     ESectionHeading(
-                        title: "Most Searched",
-                        onPressed: () => Get.to(() => AllProducts(
-                              title: 'Most Searched',
-                              futureMethod:
-                                  controller.fetchAllFeaturedProducts(),
-                            ))),
+                      title: "You may like",
+                    onPressed: () => Get.to(() => AllProducts(
+  title: 'You may like',
+  futureMethod: controller.fetchRandomProducts(limit: 4),  // Pass random products as futureMethod
+)),
+
+                    ),
                     const SizedBox(height: TSizes.spaceSections),
 
-                    Obx(() {
-                      if (controller.isLoading.value) {
-                        return const EVerticalProductShimmer();
-                      }
+                    // Fetch Random Products using FutureBuilder or Obx
+                    FutureBuilder<List<ProductModel>>(
+                      future: controller.fetchRandomProducts(limit: 4),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          return const EVerticalProductShimmer();
+                        }
 
-                      if (controller.featuredProducts.isEmpty) {
-                        return const Center(
-                          child: Text('No Data Found!'),
-                        );
-                      }
-                      return EGridLayout(
-                          itemCount: controller.featuredProducts.length,
+                        if (snapshot.hasError) {
+                          return Center(child: Text('Error: ${snapshot.error}'));
+                        }
+
+                        if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                          return const Center(child: Text('No Data Found!'));
+                        }
+
+                        final randomProducts = snapshot.data!;
+
+                        return EGridLayout(
+                          itemCount: randomProducts.length,
                           itemBuilder: (_, index) => VerticalProductCard(
-                              product: controller.featuredProducts[index]));
-                    }),
+                            product: randomProducts[index],
+                          ),
+                        );
+                      },
+                    ),
                   ],
                 )),
           ],

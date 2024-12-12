@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equips_v2/data/repository/user/user_repository.dart';
 import 'package:equips_v2/feature/shop/models/product_model.dart';
@@ -212,75 +214,49 @@ class ProductRepository extends GetxController {
       Get.off(() => const LessorNavigationMenu());
     }
   }
+
+   Future<List<ProductModel>>  getRandomProducts({int limit = 4}) async {
+    try {
+      // Fetch all available products
+      final snapshot = await _db
+          .collection('Products')
+          .where('isAvailable', isEqualTo: true)
+          .get();
+
+      // Convert Firestore documents to a list of ProductModel
+      List<ProductModel> allProducts = snapshot.docs
+          .map((e) => ProductModel.fromSnapshot(e))
+          .toList();
+
+      // Check if the number of available products is less than the requested limit
+      if (allProducts.length <= limit) {
+        return allProducts;  // Return all products if there are fewer than the limit
+      }
+
+      // Randomly select the products
+      List<ProductModel> randomProducts = [];
+      Random random = Random();
+      
+      // Ensure that we select unique products
+      Set<int> selectedIndexes = {};
+      while (randomProducts.length < limit) {
+        int randomIndex = random.nextInt(allProducts.length);
+        if (!selectedIndexes.contains(randomIndex)) {
+          selectedIndexes.add(randomIndex);
+          randomProducts.add(allProducts[randomIndex]);
+        }
+      }
+
+      return randomProducts;
+    } on FirebaseException catch (e) {
+      throw EFirebaseException(e.code).message;
+    } on PlatformException catch (e) {
+      throw EPlatformException(e.code).message;
+    } catch (e) {
+      throw 'Something went wrong. Please try again';
+    }
+  }
 }
 
 
-//update firestore
-  // Future<void> updateUserDetails(UserModel updateUser) async {
-  //   try {
-  //     await _db
-  //         .collection("Users")
-  //         .doc(updateUser.id)
-  //         .update(updateUser.toJson());
-  //   } on FirebaseException catch (e) {
-  //     throw EFirebaseException(e.code).message;
-  //   } on FormatException catch (_) {
-  //     throw const EFormatException();
-  //   } on PlatformException catch (e) {
-  //     throw EPlatformException(e.code).message;
-  //   } catch (e) {
-  //     throw "Something went wrong. Try Again";
-  //   }
-  // }
 
-  // //update field
-  // Future<void> updateSingleField(Map<String, dynamic> json) async {
-  //   try {
-  //     await _db
-  //         .collection("Users")
-  //         .doc(AuthenticateRepository.instance.authUser?.uid)
-  //         .update(json);
-  //   } on FirebaseException catch (e) {
-  //     throw EFirebaseException(e.code).message;
-  //   } on FormatException catch (_) {
-  //     throw const EFormatException();
-  //   } on PlatformException catch (e) {
-  //     throw EPlatformException(e.code).message;
-  //   } catch (e) {
-  //     throw "Something went wrong. Try Again";
-  //   }
-  // }
-
-  // //delete user data
-
-  // Future<void> removeUserRecord(String userId) async {
-  //   try {
-  //     await _db.collection("Users").doc(userId).delete();
-  //   } on FirebaseException catch (e) {
-  //     throw EFirebaseException(e.code).message;
-  //   } on FormatException catch (_) {
-  //     throw const EFormatException();
-  //   } on PlatformException catch (e) {
-  //     throw EPlatformException(e.code).message;
-  //   } catch (e) {
-  //     throw "Something went wrong. Try Again";
-  //   }
-  // }
-
-  // // upload any image
-  // Future<String> uploadImage(String path, XFile image) async {
-  //   try {
-  //     final ref = FirebaseStorage.instance.ref(path).child(image.name);
-  //     await ref.putFile(File(image.path));
-  //     final url = await ref.getDownloadURL();
-  //     return url;
-  //   } on FirebaseException catch (e) {
-  //     throw EFirebaseException(e.code).message;
-  //   } on FormatException catch (_) {
-  //     throw const EFormatException();
-  //   } on PlatformException catch (e) {
-  //     throw EPlatformException(e.code).message;
-  //   } catch (e) {
-  //     throw "Something went wrong. Try Again";
-  //   }
-  // }

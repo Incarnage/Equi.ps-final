@@ -16,11 +16,11 @@ class LessorController extends GetxController {
 
   @override
   void onInit() {
-    getFeaturedLessors();
+    getAllLessors();
     super.onInit();
   }
 
-  Future<void> getFeaturedLessors() async {
+  Future<void> getAllLessors() async {
     try {
       isLoading.value = true;
 
@@ -57,4 +57,17 @@ class LessorController extends GetxController {
       return [];
     }
   }
+
+  List<UserModel> getRandomLessors() {
+    try {
+      if (allLessors.isEmpty) return []; // Return empty if no lessors
+      final randomLessors = List<UserModel>.from(allLessors);
+      randomLessors.shuffle();  // Shuffle to get random order
+      return randomLessors.take(2).toList(); // Return the first 2 random lessors
+    } catch (e) {
+      ELoaders.errorSnackBar(title: 'Error', message: e.toString());
+      return [];
+    }
+  }
+
 }

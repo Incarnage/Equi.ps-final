@@ -70,6 +70,8 @@ class UserRepository extends GetxController {
     }
   }
 
+  
+
   //update firestore
   Future<void> updateUserDetails(UserModel updateUser) async {
     try {

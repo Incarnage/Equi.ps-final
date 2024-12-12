@@ -14,12 +14,13 @@ class AllProducts extends StatelessWidget {
       {super.key, required this.title, this.query, this.futureMethod});
 
   final String title;
-  final Query? query;
-  final Future<List<ProductModel>>? futureMethod;
+  final Query? query;  
+  final Future<List<ProductModel>>? futureMethod;  
 
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(AllProductController());
+    
     return Scaffold(
       appBar: TAppbar(
         title: Text(title),
@@ -28,11 +29,12 @@ class AllProducts extends StatelessWidget {
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(TSizes.defaultSpace),
-          child: FutureBuilder(
-            future: futureMethod ?? controller.fetchProductsbyQuery(query),
+          child: FutureBuilder<List<ProductModel>>(
+            future: futureMethod ?? controller.fetchProductsbyQuery(query),  
             builder: (context, snapshot) {
               const loader = EVerticalProductShimmer();
 
+              
               final widget = ECloudHelperFunctions.checkMultiRecordState(
                 snapshot: snapshot,
                 loader: loader,

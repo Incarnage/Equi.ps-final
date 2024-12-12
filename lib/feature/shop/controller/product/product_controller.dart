@@ -21,6 +21,7 @@ class ProductController extends GetxController {
   RxList<ProductModel> featuredProducts = <ProductModel>[].obs;
   RxList<ProductModel> lessorProducts = <ProductModel>[].obs;
 
+
   late final GlobalKey<FormState> addProductFormKey;
 
   final productName =
@@ -65,6 +66,8 @@ class ProductController extends GetxController {
       return [];
     }
   }
+
+  
 
   Future<List<ProductModel>> fetchAllLessorProducts() async {
     try {
@@ -151,6 +154,17 @@ class ProductController extends GetxController {
         Get.offAll(() => const LessorNavigationMenu());
         isLoading.value = false;
       }
+    }
+  }
+
+  Future<List<ProductModel>> fetchRandomProducts({int limit = 4}) async {
+    try {
+      // Fetch random products using the repository method
+      final products = await productRepository.getRandomProducts(limit: limit);
+      return products;
+    } catch (e) {
+      ELoaders.errorSnackBar(title: 'Oh Snap', message: e.toString());
+      return [];
     }
   }
 }

@@ -1,4 +1,7 @@
 import 'package:equips_v2/feature/auth/screen/home/lessor_home.dart';
+import 'package:equips_v2/feature/chat/chat.dart';
+import 'package:equips_v2/feature/chat/chat_menu.dart';
+import 'package:equips_v2/feature/personalize/controller/user_controller.dart';
 import 'package:equips_v2/feature/personalize/screen/settings/settings.dart';
 import 'package:equips_v2/lessor/add_product/form/add_product_form.dart';
 import 'package:equips_v2/lessor/notification.dart';
@@ -27,6 +30,7 @@ class LessorNavigationMenu extends StatelessWidget {
               NavigationDestination(icon: Icon(Iconsax.home), label: 'Home'),
               NavigationDestination(
                   icon: Icon(Iconsax.shop), label: 'Products'),
+                  NavigationDestination(icon: Icon(Iconsax.message), label: 'Chat'),
               NavigationDestination(
                   icon: Icon(Iconsax.notification), label: 'Notifications'),
               NavigationDestination(icon: Icon(Iconsax.user), label: 'Profile'),
@@ -45,6 +49,7 @@ class NavigationController extends GetxController {
   final screens = [
     const LessorHomeScreen(),
     const AddProductForm(),
+     ChatNavigation(),  
     const LessorNotificationScreen(),
     const SettingScreen(),
   ];

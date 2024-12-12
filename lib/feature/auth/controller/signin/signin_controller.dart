@@ -13,6 +13,7 @@ class SigninController extends GetxController {
   final lStorage = GetStorage();
   final email = TextEditingController();
   final password = TextEditingController();
+  final RxString userID = ''.obs;
   GlobalKey<FormState> signinFormKey = GlobalKey<FormState>();
 
   //email and pass signin
@@ -42,6 +43,8 @@ class SigninController extends GetxController {
       //login user with email and pass
       final userCredentials = await AuthenticateRepository.instance
           .loginWithEmailAndPassword(email.text.trim(), password.text.trim());
+
+          userID.value = userCredentials.user?.uid??'';
 
       EFullScreenLoader.stopLoading();
 

@@ -1,5 +1,8 @@
+import 'package:equips_v2/data/repository/authenticate_repository.dart';
+import 'package:equips_v2/feature/auth/controller/signin/signin_controller.dart';
 import 'package:equips_v2/feature/auth/screen/home/home.dart';
 import 'package:equips_v2/feature/chat/chat.dart';
+import 'package:equips_v2/feature/chat/chat_menu.dart';
 import 'package:equips_v2/feature/personalize/screen/settings/settings.dart';
 
 import 'package:equips_v2/feature/shop/screen/store/store.dart';
@@ -14,6 +17,7 @@ class NavigationMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(NavigationController());
+   
 
     return Scaffold(
         bottomNavigationBar: Obx(
@@ -44,11 +48,17 @@ class NavigationMenu extends StatelessWidget {
 class NavigationController extends GetxController {
   final Rx<int> selectedIndex = 0.obs;
 
-  final screens = [
+  
+  
+
+  late final screens = [
     const HomeScreen(),
     const Store(),
-    const Chat(),
+     ChatNavigation(), // Pass userId here
     const Wishlist(),
     const SettingScreen(),
   ];
+
+ 
 }
+

@@ -1,10 +1,8 @@
 import 'package:equips_v2/common/widgets/custom_shapes/container/eSectionHeading.dart';
 import 'package:equips_v2/common/widgets/custom_shapes/container/header_container.dart';
-
 import 'package:equips_v2/common/widgets/layouts/gridLayout.dart';
 import 'package:equips_v2/common/widgets/products%20cart/vertical_productCard.dart';
 import 'package:equips_v2/common/widgets/shimmer/vertical_product_shimmer.dart';
-
 import 'package:equips_v2/common/widgets/text/section_heading.dart';
 import 'package:equips_v2/feature/auth/screen/home/widget/home_appbar.dart';
 import 'package:equips_v2/feature/auth/screen/home/widget/home_categories.dart';

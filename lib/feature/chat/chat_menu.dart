@@ -6,8 +6,8 @@ import 'package:get/get.dart';
 import 'package:equips_v2/feature/shop/order/widgets/order_controller.dart';
 import 'package:equips_v2/utilities/constants/size.dart';
 
-class LessorNotificationScreen extends StatelessWidget {
-  const LessorNotificationScreen({super.key});
+class ChatNavigation extends StatelessWidget {
+  const ChatNavigation({super.key});
 
   @override
   Widget build(BuildContext context) {

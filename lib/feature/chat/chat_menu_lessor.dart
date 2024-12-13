@@ -15,7 +15,7 @@ class ChatNavigationLessor extends StatelessWidget {
         title: Text('Chat Rooms'),
       ),
        body: FutureBuilder<Map<String, List<Map<String, dynamic>>>>(
-  future: chatController.getChatroomsWithMessages(UserController.instance.user.value.id),
+  future: chatController.getChatroomsWithMessages('s'),
   builder: (context, snapshot) {
     if (snapshot.connectionState == ConnectionState.waiting) {
       return Center(child: CircularProgressIndicator());
@@ -48,8 +48,8 @@ class ChatNavigationLessor extends StatelessWidget {
   itemBuilder: (context, index) {
     final senderName = uniqueSenderList[index].key; // Name of the sender
     final senderDetails = chatRooms[uniqueSenderList[index].value]!.first; // Get the first message from the chat room to retrieve sender details
-    final senderEmail = senderDetails['receiverName'] ?? '';
-    final senderID = senderDetails['receiverID'] ?? '';
+    final senderEmail = senderDetails['senderName'] ?? '';
+    final senderID = senderDetails['senderID'] ?? '';
 
     return ListTile(
       title: Text(senderName),

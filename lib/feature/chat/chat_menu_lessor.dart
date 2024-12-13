@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'chat_controller.dart';
 
-class ChatNavigation extends StatelessWidget {
+class ChatNavigationLessor extends StatelessWidget {
   final ChatController chatController = Get.put(ChatController());
 
   @override
@@ -34,7 +34,7 @@ class ChatNavigation extends StatelessWidget {
 
     chatRooms.forEach((chatRoomID, messages) {
       for (var message in messages) {
-        final senderName = message['receiverName'] ?? 'Unknown Sender';
+        final senderName = message['senderName'] ?? 'Unknown Sender';
         // Add the sender to the map if not already present
         uniqueSenders[senderName] = chatRoomID;
       }

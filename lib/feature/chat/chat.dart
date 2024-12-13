@@ -11,14 +11,15 @@ class ChatRoom extends StatelessWidget {
   required this.receiverEmail, required this.receiverID});
 
   final String receiverEmail;
+  
   final String receiverID;
   final TextEditingController _messageController = TextEditingController();
-  final Chatcontroller _chatcontroller = Chatcontroller();
+  final ChatController _chatcontroller = ChatController();
   
   
   void sendMessage() async{
     if(_messageController.text.isNotEmpty){
-      await _chatcontroller.sendMessage(receiverID, _messageController.text);
+      await _chatcontroller.sendMessage(receiverID,receiverEmail, _messageController.text);
 
       _messageController.clear();
     }

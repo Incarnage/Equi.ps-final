@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class ChatModel {
   final String senderID;
   final String senderName;
+  final String receiverName;
   final String receiverID;
   final String message;
   final Timestamp timestamp;
@@ -10,6 +11,7 @@ class ChatModel {
   ChatModel({
   required this.senderID,
   required this.senderName,
+  required this.receiverName,
   required this.receiverID,
   required this.message,
   required this.timestamp});
@@ -18,6 +20,7 @@ class ChatModel {
     return {
       'senderID': senderID,
       'senderName': senderName,
+      'receiverName': receiverName,
       'receiverID': receiverID,
       'message': message,
       'timestamp': timestamp,

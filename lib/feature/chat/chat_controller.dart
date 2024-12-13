@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 class ChatController extends GetxController {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
+  // Sends a message, ensuring chatRoomID is consistent regardless of sender/receiver order
   Future<void> sendMessage(String receiverID, String receiverName, String message) async {
     final String currentUserId = UserController.instance.user.value.id;
     final String currentUserName = UserController.instance.user.value.fullName;
@@ -20,6 +21,7 @@ class ChatController extends GetxController {
       timestamp: timestamp,
     );
 
+    // Ensure chatRoomID is generated consistently by sorting the IDs
     List<String> ids = [currentUserId, receiverID];
     ids.sort();
     String chatRoomID = ids.join('_');
@@ -31,7 +33,9 @@ class ChatController extends GetxController {
         .add(newMessage.toMap());
   }
 
+  // Retrieves a stream of messages from the correct chat room
   Stream<QuerySnapshot> getMessage(String userID, String otherID) {
+    // Ensure chatRoomID is consistent regardless of sender/receiver order
     List<String> ids = [userID, otherID];
     ids.sort();
     String chatRoomID = ids.join('_');
@@ -44,49 +48,33 @@ class ChatController extends GetxController {
         .snapshots();
   }
 
-Future<Map<String, List<Map<String, dynamic>>>> getChatroomsWithMessages(String targetSubstring) async {
-  Map<String, List<Map<String, dynamic>>> chatRoomsWithMessages = {};
+  // Fetches chat rooms containing messages involving the current user
+  Future<Map<String, List<Map<String, dynamic>>>> getChatroomsWithMessages(String currentUserId) async {
+    Map<String, List<Map<String, dynamic>>> chatRoomsWithMessages = {};
 
-  try {
-    // Query the 'messages' subcollections across all chat rooms
-    final querySnapshot = await _firestore.collectionGroup('messages').get();
+    try {
+      // Use collectionGroup to fetch all messages across chat rooms
+      final querySnapshot = await _firestore.collectionGroup('messages').get();
 
-    for (var doc in querySnapshot.docs) {
-      // Extract the parent document ID (the chat room ID)
-      String chatRoomID = doc.reference.parent.parent!.id;
+      for (var doc in querySnapshot.docs) {
+        String chatRoomID = doc.reference.parent.parent!.id;
+        Map<String, dynamic> messageData = doc.data();
 
-      // Check if the parent document ID contains the target substring
-      if (chatRoomID.contains(targetSubstring)) {
-        // Fetch the message data
-        final messageData = doc.data();
+        // Extract the IDs involved in this chat room
+        List<String> ids = chatRoomID.split('_');
 
-        // Add to the map: key is the chat room ID, value is a list of messages
-        if (!chatRoomsWithMessages.containsKey(chatRoomID)) {
-          chatRoomsWithMessages[chatRoomID] = [];
+        // Check if the current user is part of this chat room
+        if (ids.contains(currentUserId)) {
+          // Add the message to the appropriate chat room
+          chatRoomsWithMessages.putIfAbsent(chatRoomID, () => []);
+          chatRoomsWithMessages[chatRoomID]!.add(messageData);
         }
-
-        chatRoomsWithMessages[chatRoomID]!.add(messageData);
       }
+
+      return chatRoomsWithMessages;
+    } catch (e) {
+      print('Error fetching chat rooms with messages: $e');
+      return {};
     }
-
-    print('Chat rooms with messages: $chatRoomsWithMessages');
-    return chatRoomsWithMessages;
-  } catch (e) {
-    print('Error fetching chat rooms with messages: $e');
-    return {};
   }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

@@ -1,77 +1,99 @@
 import 'package:equips_v2/feature/chat/chat.dart';
 import 'package:equips_v2/feature/personalize/controller/user_controller.dart';
+import 'package:equips_v2/utilities/constants/size.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'chat_controller.dart';
 
+// ignore: use_key_in_widget_constructors
 class ChatNavigationLessor extends StatelessWidget {
   final ChatController chatController = Get.put(ChatController());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFF25291C),
       appBar: AppBar(
-        title: Text('Chat Rooms'),
+        title: Text(
+          'Messages',
+          style: Theme.of(context)
+              .textTheme
+              .headlineMedium!
+              .apply(color: Colors.white),
+        ),
       ),
-       body: FutureBuilder<Map<String, List<Map<String, dynamic>>>>(
-  future: chatController.getChatroomsWithMessages('s'),
-  builder: (context, snapshot) {
-    if (snapshot.connectionState == ConnectionState.waiting) {
-      return Center(child: CircularProgressIndicator());
-    }
-    if (snapshot.hasError) {
-      return Center(child: Text('Error: ${snapshot.error}'));
-    }
-    if (!snapshot.hasData || snapshot.data!.isEmpty) {
-      return Center(child: Text('No chat rooms found.'));
-    }
+      body: FutureBuilder<Map<String, List<Map<String, dynamic>>>>(
+        future: chatController.getChatroomsWithMessages(UserController.instance.user.value.id),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          }
+          if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return const Center(child: Text('No chat rooms found.'));
+          }
 
-    final chatRooms = snapshot.data!;
+          final chatRooms = snapshot.data!;
 
-    // Create a unique set of senders mapped to their chatRoomID
-    final Map<String, String> uniqueSenders = {};
+          // Collect unique chat participants
+          final Map<String, String> uniqueParticipants = {};
 
-    chatRooms.forEach((chatRoomID, messages) {
-      for (var message in messages) {
-        final senderName = message['senderName'] ?? 'Unknown Sender';
-        // Add the sender to the map if not already present
-        uniqueSenders[senderName] = chatRoomID;
-      }
-    });
+          chatRooms.forEach((chatRoomID, messages) {
+            if (messages.isNotEmpty) {
+              // Get the last message in the chat room (to represent the most recent participant)
+              final lastMessage = messages.last;
+              final currentUserID = UserController.instance.user.value.id;
 
-    // Convert the map into a list of entries
-    final uniqueSenderList = uniqueSenders.entries.toList();
+              // Check whether the current user is the sender or receiver
+              final isCurrentUserSender = lastMessage['senderID'] == currentUserID;
+              final otherParticipantID =
+                  isCurrentUserSender ? lastMessage['receiverID'] : lastMessage['senderID'];
+              final otherParticipantName =
+                  isCurrentUserSender ? lastMessage['receiverName'] : lastMessage['senderName'];
 
-    return  ListView.builder(
-  itemCount: uniqueSenderList.length,
-  itemBuilder: (context, index) {
-    final senderName = uniqueSenderList[index].key; // Name of the sender
-    final senderDetails = chatRooms[uniqueSenderList[index].value]!.first; // Get the first message from the chat room to retrieve sender details
-    final senderEmail = senderDetails['senderName'] ?? '';
-    final senderID = senderDetails['senderID'] ?? '';
+              // Add the other participant to the map if not already added
+              if (!uniqueParticipants.containsKey(otherParticipantID)) {
+                uniqueParticipants[otherParticipantName] = otherParticipantID;
+              }
+            }
+          });
 
-    return ListTile(
-      title: Text(senderName),
-      onTap: () {
-        // Navigate to the chat room with the sender's email and ID
-        Get.to(() => ChatRoom(
-          receiverEmail: senderEmail,
-          receiverID: senderID,
-        ));
-      },
-    );
-  },
-);
-;
-  },
-)
+          // Convert unique participants into a list for display
+          final participantList = uniqueParticipants.entries.toList();
 
+          return ListView.builder(
+            itemCount: participantList.length,
+            itemBuilder: (context, index) {
+              final participantName = participantList[index].key; // Name of the other participant
+              final participantID = participantList[index].value; // ID of the other participant
 
-
+              return Container(
+                margin: const EdgeInsets.all(TSizes.spaceItems),
+                padding: const EdgeInsets.all(TSizes.spaceItems/2),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(width: 1)
+                ),
+                child: ListTile(
+                  
+                  title: Text(participantName),
+                  onTap: () {
+                    // Navigate to the chat room with the participant's details
+                    Get.to(() => ChatRoom(
+                          receiverEmail: participantName, // Display name of the participant
+                          receiverID: participantID, // ID of the participant
+                        ));
+                  },
+                ),
+              );
+            },
+          );
+        },
+      ),
     );
   }
 }
-
-
-

@@ -63,13 +63,14 @@ class SignupForm extends StatelessWidget {
 
             const SizedBox(height: TSizes.spaceInputFields),
 
-            // Email
+            // Username
             TextFormField(
-              controller: controller.email,
-              validator: (value) => EValidate.validateEmail(value),
+              controller: controller.userName,
+              validator: (value) =>
+                  EValidate.validateEmptyText('Address', value),
               decoration: const InputDecoration(
-                labelText: ("Email"),
-                prefixIcon: Icon(Iconsax.direct),
+                labelText: ("Address"),
+                prefixIcon: Icon(Iconsax.home),
               ),
             ),
 
@@ -82,6 +83,18 @@ class SignupForm extends StatelessWidget {
               decoration: const InputDecoration(
                 labelText: ("Phone Number"),
                 prefixIcon: Icon(Iconsax.call),
+              ),
+            ),
+
+            const SizedBox(height: TSizes.spaceInputFields),
+
+            // Email
+            TextFormField(
+              controller: controller.email,
+              validator: (value) => EValidate.validateEmail(value),
+              decoration: const InputDecoration(
+                labelText: ("Email"),
+                prefixIcon: Icon(Iconsax.direct),
               ),
             ),
 

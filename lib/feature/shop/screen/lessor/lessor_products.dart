@@ -4,7 +4,6 @@ import 'package:equips_v2/common/widgets/products/scroll/sortable_product.dart';
 import 'package:equips_v2/common/widgets/shimmer/vertical_product_shimmer.dart';
 import 'package:equips_v2/feature/auth/controller/signUp/widgets/usermodel.dart';
 import 'package:equips_v2/feature/shop/controller/lessor_controller.dart';
-import 'package:equips_v2/feature/shop/models/lessor_model.dart';
 import 'package:equips_v2/utilities/constants/size.dart';
 import 'package:equips_v2/utilities/helper/cloud_helper_functions.dart';
 import 'package:flutter/material.dart';
@@ -19,8 +18,12 @@ class LessorProducts extends StatelessWidget {
     final controller = LessorController.instance;
     return Scaffold(
       appBar: TAppbar(
-        title: Text(lessor.fullName),
+        title: Text(
+          lessor.fullName,
+          style: const TextStyle(color: Colors.white),
+        ),
       ),
+      backgroundColor: const Color(0xFF25291C),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(TSizes.defaultSpace),

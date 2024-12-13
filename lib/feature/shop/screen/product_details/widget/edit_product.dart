@@ -1,12 +1,10 @@
 import 'package:equips_v2/common/widgets/text/brandTitle_with_verifiedIcon.dart';
 import 'package:equips_v2/common/widgets/text/productTitle_text.dart';
 import 'package:equips_v2/common/widgets/text/section_heading.dart';
-
 import 'package:equips_v2/feature/shop/models/product_model.dart';
 import 'package:equips_v2/feature/shop/screen/product_details/widget/delete_product.dart';
 import 'package:equips_v2/feature/shop/screen/product_details/widget/image_slider.dart';
 import 'package:equips_v2/feature/shop/screen/product_details/widget/product_data.dart';
-import 'package:equips_v2/feature/shop/screen/product_details/widget/rating_share.dart';
 import 'package:equips_v2/feature/shop/screen/product_reviews/productReviews.dart';
 import 'package:equips_v2/utilities/constants/enums.dart';
 import 'package:equips_v2/utilities/constants/size.dart';

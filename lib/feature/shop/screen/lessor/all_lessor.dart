@@ -17,26 +17,29 @@ class AllLessors extends StatelessWidget {
     final lessorController = LessorController.instance;
     return Scaffold(
       appBar: const TAppbar(
-        title: Text('Lessors'),
-        showBackArrow: true,
+        title: Text(
+          'Verified Lessors',
+          style: TextStyle(color: Colors.white),
+        ),
+        showBackArrow: false,
       ),
+      backgroundColor: const Color(0xFF25291C),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(TSizes.defaultSpace),
           child: Column(
             children: [
               //heading
-
-              const SectionHeading(
-                title: 'Lessors',
+              /*const SectionHeading(
+                title: 'Verified Lessors',
                 buttonTitle: '',
+                textColor: Colors.white,
               ),
               const SizedBox(
                 height: TSizes.spaceItems,
-              ),
+              ),*/
 
               //brands
-
               Obx(() {
                 if (lessorController.isLoading.value) {
                   return const LessorShimmer();

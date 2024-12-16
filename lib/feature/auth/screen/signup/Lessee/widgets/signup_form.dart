@@ -6,185 +6,206 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
 class SignupForm extends StatelessWidget {
-  const SignupForm({
-    super.key,
-  });
+  const SignupForm({super.key});
 
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(SignupController());
+    final streetController = TextEditingController();
+    final cityController = TextEditingController();
+    final provinceController = TextEditingController();
+
     return Form(
-        key: controller.signupFormKey,
-        child: Column(
-          children: [
-            Row(
-              children: [
-                // First Name
-                Expanded(
-                    child: TextFormField(
+      key: controller.signupFormKey,
+      child: Column(
+        children: [
+          //name
+          Row(
+            children: [
+              Expanded(
+                child: TextFormField(
                   controller: controller.firstName,
                   validator: (value) =>
                       EValidate.validateEmptyText('First name', value),
-                  expands: false,
                   decoration: const InputDecoration(
-                    labelText: ("First Name"),
+                    labelText: "First Name",
                     prefixIcon: Icon(Iconsax.user),
                   ),
-                )),
-                const SizedBox(width: TSizes.spaceInputFields),
-
-                // LAst name
-                Expanded(
-                    child: TextFormField(
+                ),
+              ),
+              const SizedBox(width: TSizes.spaceInputFields),
+              Expanded(
+                child: TextFormField(
                   controller: controller.lastName,
                   validator: (value) =>
                       EValidate.validateEmptyText('Last name', value),
-                  expands: false,
                   decoration: const InputDecoration(
-                    labelText: ("Last Name"),
+                    labelText: "Last Name",
                     prefixIcon: Icon(Iconsax.user),
                   ),
-                )),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: TSizes.spaceInputFields),
+
+          // Username
+          TextFormField(
+            controller: controller.userName,
+            validator: (value) => EValidate.validateEmptyText('Username', value),
+            decoration: const InputDecoration(
+              labelText: "Username",
+              prefixIcon: Icon(Iconsax.user_edit),
+            ),
+          ),
+          const SizedBox(height: TSizes.spaceInputFields),
+
+          //address
+          TextFormField(
+            controller: streetController,
+            validator: (value) =>
+                EValidate.validateEmptyText('Street', value),
+            decoration: const InputDecoration(
+              labelText: "Street",
+              prefixIcon: Icon(Iconsax.home),
+            ),
+          ),
+          const SizedBox(height: TSizes.spaceInputFields),
+          Row(children: [
+            Expanded(
+              child: TextFormField(
+              controller: cityController,
+              validator: (value) => EValidate.validateEmptyText('City', value),
+              decoration: const InputDecoration(
+                labelText: "City",
+                prefixIcon: Icon(Iconsax.location),
+              ),
+                            ),
+            ),
+               const SizedBox(width: TSizes.spaceInputFields),        
+          Expanded(
+            child: TextFormField(
+              controller: provinceController,
+              validator: (value) =>
+                  EValidate.validateEmptyText('Province', value),
+              decoration: const InputDecoration(
+                labelText: "Province",
+                prefixIcon: Icon(Iconsax.map),
+              ),
+            ),
+          ),
+          ],),
+          const SizedBox(height: TSizes.spaceInputFields),
+
+          // cp number
+          TextFormField(
+            controller: controller.phoneNumber,
+            validator: (value) => EValidate.validatePhoneNumber(value),
+            decoration: const InputDecoration(
+              labelText: "Phone Number",
+              prefixIcon: Icon(Iconsax.call),
+            ),
+          ),
+          const SizedBox(height: TSizes.spaceInputFields),
+
+          // email
+          TextFormField(
+            controller: controller.email,
+            validator: (value) => EValidate.validateEmail(value),
+            decoration: const InputDecoration(
+              labelText: "Email",
+              prefixIcon: Icon(Iconsax.direct),
+            ),
+          ),
+          const SizedBox(height: TSizes.spaceInputFields),
+
+          // Password and Confirm Password
+          Obx(
+            () => TextFormField(
+              controller: controller.password,
+              validator: (value) => EValidate.validatePass(value),
+              obscureText: controller.hidePass.value,
+              decoration: InputDecoration(
+                labelText: "Password",
+                prefixIcon: const Icon(Iconsax.password_check),
+                suffixIcon: IconButton(
+                  onPressed: () => controller.hidePass.value =
+                      !controller.hidePass.value,
+                  icon: Icon(controller.hidePass.value
+                      ? Iconsax.eye_slash
+                      : Iconsax.eye),
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: TSizes.spaceInputFields),
+          Obx(
+            () => TextFormField(
+              validator: (value) {
+                if (value != controller.password.text) {
+                  return 'Passwords do not match';
+                }
+                return null;
+              },
+              obscureText: controller.hidePass.value,
+              decoration: InputDecoration(
+                labelText: "Confirm Password",
+                prefixIcon: const Icon(Iconsax.password_check),
+                suffixIcon: IconButton(
+                  onPressed: () => controller.hidePass.value =
+                      !controller.hidePass.value,
+                  icon: Icon(controller.hidePass.value
+                      ? Iconsax.eye_slash
+                      : Iconsax.eye),
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: TSizes.spaceInputFields),
+
+          // Upload Valid ID
+          Obx(
+            () => Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const Text(
+                  "Upload Valid ID:",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: TSizes.spaceItems),
+                TextButton.icon(
+                  onPressed: () => controller.uploadValidID(),
+                  icon: const Icon(Iconsax.image),
+                  label: const Text("Upload Image"),
+                ),
+                if (controller.validID.value.isNotEmpty)
+                  Text(
+                    "Selected File: ${controller.validID.value}",
+                    style: const TextStyle(fontSize: 12),
+                    overflow: TextOverflow.ellipsis,
+                  ),
               ],
             ),
+          ),
+          const SizedBox(height: TSizes.spaceInputFields),
 
-            const SizedBox(height: TSizes.spaceInputFields),
-
-            // Username
-            TextFormField(
-              controller: controller.userName,
-              validator: (value) =>
-                  EValidate.validateEmptyText('Username', value),
-              decoration: const InputDecoration(
-                labelText: ("Username"),
-                prefixIcon: Icon(Iconsax.user_edit),
-              ),
-            ),
-
-            const SizedBox(height: TSizes.spaceInputFields),
-
-            // Username
-            TextFormField(
-              controller: controller.address,
-              validator: (value) =>
-                  EValidate.validateEmptyText('Address', value),
-              decoration: const InputDecoration(
-                labelText: ("Address"),
-                prefixIcon: Icon(Iconsax.home),
-              ),
-            ),
-
-            const SizedBox(height: TSizes.spaceInputFields),
-
-            // Phone Number
-            TextFormField(
-              controller: controller.phoneNumber,
-              validator: (value) => EValidate.validatePhoneNumber(value),
-              decoration: const InputDecoration(
-                labelText: ("Phone Number"),
-                prefixIcon: Icon(Iconsax.call),
-              ),
-            ),
-
-            const SizedBox(height: TSizes.spaceInputFields),
-
-            // Email
-            TextFormField(
-              controller: controller.email,
-              validator: (value) => EValidate.validateEmail(value),
-              decoration: const InputDecoration(
-                labelText: ("Email"),
-                prefixIcon: Icon(Iconsax.direct),
-              ),
-            ),
-
-            const SizedBox(height: TSizes.spaceInputFields),
-
-            // Password
-            Obx(
-              () => TextFormField(
-                controller: controller.password,
-                validator: (value) => EValidate.validatePass(value),
-                obscureText: controller.hidePass.value,
-                decoration: InputDecoration(
-                    labelText: ("Password"),
-                    prefixIcon: const Icon(Iconsax.password_check),
-                    suffixIcon: IconButton(
-                      onPressed: () => controller.hidePass.value =
-                          !controller.hidePass.value,
-                      icon: Icon(controller.hidePass.value
-                          ? Iconsax.eye_slash
-                          : Iconsax.eye),
-                    )),
-              ),
-            ),
-            const SizedBox(height: TSizes.spaceInputFields),
-            Obx(
-              () => TextFormField(
-                validator: (value) {
-                  if (value != controller.password.text) {
-                    return 'Passwords do not match';
-                  }
-                  return null;
-                },
-                obscureText: controller.hidePass.value,
-                decoration: InputDecoration(
-                    labelText: ("Confirm Password"),
-                    prefixIcon: const Icon(Iconsax.password_check),
-                    suffixIcon: IconButton(
-                      onPressed: () => controller.hidePass.value =
-                          !controller.hidePass.value,
-                      icon: Icon(controller.hidePass.value
-                          ? Iconsax.eye_slash
-                          : Iconsax.eye),
-                    )),
-              ),
-            ),
- const SizedBox(height: TSizes.spaceInputFields),
-
-Obx(() {
-             {
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  const Text(
-                    "Upload Valid ID:",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: TSizes.spaceItems),
-                  TextButton.icon(
-                    onPressed: () => controller.uploadValidID(),
-                    icon: const Icon(Iconsax.image),
-                    label: const Text("Upload Image"),
-                  ),
-                  if (controller.validID.isNotEmpty)
-                    Text(
-                      "Image Selected: ${controller.validID}",
-                      style: const TextStyle(fontSize: 12),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                ],
-              );
-            }
-            
-          }),
-
-            const SizedBox(height: TSizes.spaceInputFields),
-
-            
-            Obx(() => DropdownButtonFormField<String>(
+          // User Type Dropdown
+           Obx(
+            () => Column(
+              children: [
+                DropdownButtonFormField<String>(
                   value: controller.userType.value.isEmpty
                       ? null
                       : controller.userType.value,
                   items: ['Lessee', 'Lessor']
-                      .map((type) => DropdownMenuItem(
-                            value: type,
-                            child: Text(type),
-                          ))
+                      .map(
+                        (type) => DropdownMenuItem(
+                          value: type,
+                          child: Text(type),
+                        ),
+                      )
                       .toList(),
-                  onChanged: (value) {
-                    controller.userType.value = value!;
-                  },
+                  onChanged: (value) => controller.userType.value = value!,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please select a user type';
@@ -195,85 +216,55 @@ Obx(() {
                     labelText: "Select User Type",
                     prefixIcon: Icon(Iconsax.user_tag),
                   ),
-                )),
-
-            const SizedBox(height: TSizes.spaceInputFields),
-
-            // Conditional Image Upload for Lessor
-           Obx(() {
-            if (controller.userType.value == 'Lessor') {
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  const Text(
-                    "Upload QR Code:",
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: TSizes.spaceInputFields),
+                if (controller.userType.value == 'Lessor')
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      const Text(
+                        "Upload QR Code:",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: TSizes.spaceItems),
+                      TextButton.icon(
+                        onPressed: () => controller.uploadQRCode(),
+                        icon: const Icon(Iconsax.image),
+                        label: const Text("Upload Image"),
+                      ),
+                      if (controller.QRCode.isNotEmpty)
+                        Text(
+                          "Selected File: ${controller.QRCode.value}",
+                          style: const TextStyle(fontSize: 12),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                    ],
                   ),
-                  const SizedBox(height: TSizes.spaceItems),
-                  TextButton.icon(
-                    onPressed: () => controller.uploadQRCode(),
-                    icon: const Icon(Iconsax.image),
-                    label: const Text("Upload Image"),
-                  ),
-                  if (controller.QRCode.isNotEmpty)
-                    Text(
-                      "Image Selected: ${controller.QRCode}",
-                      style: const TextStyle(fontSize: 12),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                ],
-              );
-            }
-            return const SizedBox.shrink();
-          }),
-
-            const SizedBox(height: TSizes.spaceInputFields),
-
-            // Terms and Conditions Check Box
-            Row(
-              children: [
-                SizedBox(
-                    width: 24,
-                    child: Obx(() => Checkbox(
-                        value: controller.termspolicy.value,
-                        onChanged: (value) => controller.termspolicy.value =
-                            !controller.termspolicy.value))),
-                const SizedBox(width: TSizes.spaceItems),
-                Text.rich(TextSpan(children: [
-                  TextSpan(
-                      text: 'I Agree To ',
-                      style: Theme.of(context).textTheme.bodyMedium),
-                  TextSpan(
-                      text: 'Privacy Policy ',
-                      style: Theme.of(context).textTheme.bodyMedium!.apply(
-                          color: Colors.black,
-                          decoration: TextDecoration.underline)),
-                  TextSpan(
-                      text: '&', style: Theme.of(context).textTheme.bodyMedium),
-                  TextSpan(
-                      text: ' Terms of Use',
-                      style: Theme.of(context).textTheme.bodyMedium!.apply(
-                          color: Colors.black,
-                          decoration: TextDecoration.underline)),
-                ]))
               ],
             ),
-            const SizedBox(
-              height: TSizes.spaceItems,
-            ),
+          ),
+          const SizedBox(height: TSizes.spaceInputFields),
+          
 
-            // Sign Up Button
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                  onPressed: () => controller.signUp(),
-                  style: ElevatedButton.styleFrom(
-                    side: const BorderSide(color: Color(0xFF25291C)),
-                    backgroundColor: const Color(0xFF25291C),
-                  ),
-                  child: const Text('Create Account')),
-            )
-          ],
-        ));
+          // Sign Up Button
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton(
+              onPressed: () {
+                
+                controller.address.text =
+                    "${streetController.text}, ${cityController.text}, ${provinceController.text}";
+                controller.signUp();
+              },
+              style: ElevatedButton.styleFrom(
+                side: const BorderSide(color: Color(0xFF25291C)),
+                backgroundColor: const Color(0xFF25291C),
+              ),
+              child: const Text('Create Account'),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

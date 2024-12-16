@@ -30,7 +30,9 @@ class SignupController extends GetxController {
   final validID = ''.obs; // Store the valid ID image path
   final QRCode = ''.obs; // Store the QR Code image path
   final address = TextEditingController();
-  final imagePicker = ImagePicker();
+  
+  final userRepository = Get.put(UserRepository());
+  Rx<UserModel> user = UserModel.empty().obs;
 
   GlobalKey<FormState> signupFormKey = GlobalKey<FormState>();
 
@@ -53,155 +55,160 @@ class SignupController extends GetxController {
   }
 
   // Upload Valid ID Image
-  Future<void> uploadValidID() async {
-    try {
-      final image = await imagePicker.pickImage(
-        source: ImageSource.gallery,
-        imageQuality: 70,
-        maxHeight: 512,
-        maxWidth: 512,
+ Future<void> uploadValidID() async {
+  try {
+    final image = await ImagePicker().pickImage(
+      source: ImageSource.gallery,
+      imageQuality: 70,
+      maxHeight: 512,
+      maxWidth: 512,
+    );
+
+    if (image != null) {
+      // Only store the file path temporarily
+      validID.value = image.path;
+
+      // Notify user of the selection
+      ELoaders.successSnackBar(
+        title: "Image Selected",
+        message: "Your valid ID image has been selected.",
       );
-
-      if (image != null) {
-        validID.value = image.path;
-
-        // Upload Image to Firebase Storage (Pass XFile instead of String)
-        final imageURL = await uploadImage('user_images/validID/', image);
-
-        // Optionally, update Firestore with the image URL (if needed)
-        Map<String, dynamic> json = {'validID': imageURL};
-        await FirebaseFirestore.instance
-            .collection('users')
-            .doc('your_user_doc_id')
-            .update(json);
-
-        ELoaders.successSnackBar(
-            title: "Image Uploaded",
-            message: "Your Valid ID has been uploaded successfully.");
-      }
-    } catch (e) {
-      ELoaders.errorSnackBar(
-          title: "Oh, snap!",
-          message: "Something went wrong while uploading your ID image: $e");
     }
+  } catch (e) {
+    ELoaders.errorSnackBar(
+      title: "Oh, snap!",
+      message: "Something went wrong while selecting your ID image: $e",
+    );
   }
+}
+
 
   // Upload QR Code Image (for Lessor users)
   Future<void> uploadQRCode() async {
-    try {
-      final image = await imagePicker.pickImage(
-        source: ImageSource.gallery,
-        imageQuality: 70,
-        maxHeight: 512,
-        maxWidth: 512,
+  try {
+    final image = await ImagePicker().pickImage(
+      source: ImageSource.gallery,
+      imageQuality: 70,
+      maxHeight: 512,
+      maxWidth: 512,
+    );
+
+    if (image != null) {
+      // Only store the file path temporarily
+      QRCode.value = image.path;
+
+      // Notify user of the selection
+      ELoaders.successSnackBar(
+        title: "Image Selected",
+        message: "Your QR code image has been selected.",
       );
-
-      if (image != null) {
-        QRCode.value = image.path;
-
-        // Upload Image to Firebase Storage (Pass XFile instead of String)
-        final imageURL = await uploadImage('user_images/QRCode/', image);
-
-        // Optionally, update Firestore with the image URL (if needed)
-        Map<String, dynamic> json = {'QRCode': imageURL};
-        await FirebaseFirestore.instance
-            .collection('users')
-            .doc('your_user_doc_id')
-            .update(json);
-
-        ELoaders.successSnackBar(
-            title: "Image Uploaded",
-            message: "Your QR Code has been uploaded successfully.");
-      }
-    } catch (e) {
-      ELoaders.errorSnackBar(
-          title: "Oh, snap!",
-          message:
-              "Something went wrong while uploading your QR Code image: $e");
     }
+  } catch (e) {
+    ELoaders.errorSnackBar(
+      title: "Oh, snap!",
+      message: "Something went wrong while selecting your QR Code image: $e",
+    );
   }
+}
+
 
   // Sign Up Method
   void signUp() async {
-    try {
-      // Start loading dialog
-      EFullScreenLoader.openLoadingDialog(
-          "We are processing your information...", "assets/pic/loading.json");
+  try {
+    // Start loading dialog
+    EFullScreenLoader.openLoadingDialog(
+      "We are processing your information...",
+      "assets/pic/equips-json.json"
+    );
 
-      // Check internet connectivity
-      final isConnected = await NetworkManager.instance.isConnected();
-      if (!isConnected) {
-        EFullScreenLoader.stopLoading();
-        return;
-      }
-
-      // Form Validation
-      if (!signupFormKey.currentState!.validate()) {
-        return;
-      }
-
-      // Privacy Policy Check
-      if (!termspolicy.value) {
-        ELoaders.warningSnackBar(
-            title: 'Accept Terms and Conditions',
-            message:
-                "Accept the terms and conditions in order to create an account");
-        return;
-      }
-
-      if (validID.value.isEmpty) {
-        ELoaders.warningSnackBar(
-          title: "Image Required",
-          message: "Please upload a valid ID to continue.",
-        );
-        return;
-      }
-
-      // Upload Images to Firebase Storage
-      String validIDUrl = await uploadImage('user_images/validID/',
-          XFile(validID.value) // Converting the String (path) to XFile
-          );
-
-      String qrCodeUrl = userType.value == 'Lessor' && QRCode.value.isNotEmpty
-          ? await uploadImage('user_images/QRCode/',
-              XFile(QRCode.value) // Converting the String (path) to XFile
-              )
-          : '';
-
-      // Register the user
-      final UserCredential = await AuthenticateRepository.instance
-          .registerWithEmailAndPassword(
-              email.text.trim(), password.text.trim());
-
-      // Save user data in Firestore
-      final newUser = UserModel(
-        address: address.text.trim(),
-        validID: validIDUrl,
-        gcash: qrCodeUrl,
-        id: UserCredential.user!.uid,
-        username: userName.text.trim(),
-        email: email.text.trim(),
-        firstName: firstName.text.trim(),
-        lastName: lastName.text.trim(),
-        phoneNumber: phoneNumber.text.trim(),
-        profilePicture: '', // Add the profile picture URL if available
-        userType: userType.value,
-      );
-
-      final userRepository = Get.put(UserRepository());
-      await userRepository.saveUserRecord(newUser);
-
-      // Show success message
-      ELoaders.successSnackBar(title: 'Congrats', message: 'Verify your email');
-
-      // Navigate to verify email screen
-      Get.to(() => VerifyEmailScreen(email: email.text.trim()));
-    } catch (e) {
-      // Show error message
-      ELoaders.errorSnackBar(title: "Oh Snap!", message: e.toString());
-    } finally {
-      // Stop loading dialog
+    // Check internet connectivity
+    final isConnected = await NetworkManager.instance.isConnected();
+    if (!isConnected) {
       EFullScreenLoader.stopLoading();
+      return;
     }
+    
+
+    // Form Validation
+    if (!signupFormKey.currentState!.validate()) {
+      return;
+    }
+
+    // Privacy Policy Check
+    if (!termspolicy.value) {
+      ELoaders.warningSnackBar(
+        title: 'Accept Terms and Conditions',
+        message: "Accept the terms and conditions to create an account.",
+      );
+      return;
+    }
+
+    // Ensure a valid ID image is selected
+    if (validID.value.isEmpty) {
+      ELoaders.warningSnackBar(
+        title: "Image Required",
+        message: "Please upload a valid ID to continue.",
+      );
+      return;
+    }
+
+    // Upload Valid ID Image
+    final validIDUrl = await uploadImage(
+      'user_images/validID/',
+      XFile(validID.value), // Converting the file path to XFile
+    );
+
+    // Upload QR Code Image (only if user is a 'Lessor')
+    String qrCodeUrl = '';
+    if (userType.value == 'Lessor' && QRCode.value.isNotEmpty) {
+      qrCodeUrl = await uploadImage(
+        'user_images/QRCode/',
+        XFile(QRCode.value),
+      );
+    }
+
+    // Register the user
+    final UserCredential = await AuthenticateRepository.instance
+        .registerWithEmailAndPassword(email.text.trim(), password.text.trim());
+
+    // Save user data in Firestore
+    final newUser = UserModel(
+      address: address.text.trim(),
+      validID: validIDUrl,
+      gcash: qrCodeUrl,
+      id: UserCredential.user!.uid,
+      username: userName.text.trim(),
+      email: email.text.trim(),
+      firstName: firstName.text.trim(),
+      lastName: lastName.text.trim(),
+      phoneNumber: phoneNumber.text.trim(),
+      profilePicture: '', // Add the profile picture URL if available
+      userType: userType.value,
+    );
+
+    await userRepository.saveUserRecord(newUser);
+EFullScreenLoader.stopLoading();
+    // Show success message
+    ELoaders.successSnackBar(title: 'Congrats', message: 'Verify your email');
+
+    // Delay the navigation until after the async operations are fully completed
+    Future.delayed(Duration(seconds: 1), () {
+      // Check if user is authenticated
+      if (UserCredential.user != null) {
+        // Navigate to verify email screen
+        Get.to(() => VerifyEmailScreen(email: email.text.trim()));
+      } else {
+        ELoaders.errorSnackBar(title: "Error", message: "User authentication failed.");
+      }
+    });
+
+  } catch (e) {
+    // Show error message
+    ELoaders.errorSnackBar(title: "Oh Snap!", message: e.toString());
+  } finally {
+    
   }
+}
+
+
 }

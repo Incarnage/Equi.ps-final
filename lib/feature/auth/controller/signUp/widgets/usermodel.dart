@@ -5,13 +5,17 @@ class UserModel {
   final String id;
   final String username;
   final String email;
-  String? gcash;
+  String address;
+  String gcash;
   String firstName;
   String lastName;
   String phoneNumber;
   String profilePicture;
+  String validID;
 
   UserModel({
+    required this.address,
+    required this.validID,
     required this.gcash,
     required this.userType,
     required this.id,
@@ -40,6 +44,8 @@ class UserModel {
 
   // Static function to create an empty user model.
   static UserModel empty() => UserModel(
+    address: "",
+    validID: "",
       gcash: "",
       id: "",
       firstName: "",
@@ -53,6 +59,8 @@ class UserModel {
   // Convert model to JSON structure for storing data in Firebase.
   Map<String, dynamic> toJson() {
     return {
+      'address': address,
+      'validID': validID,
       'Gcash': gcash,
       'FirstName': firstName,
       'LastName': lastName,
@@ -69,6 +77,8 @@ class UserModel {
       DocumentSnapshot<Map<String, dynamic>> document) {
     final data = document.data()!;
     return UserModel(
+      address: data['address']?? "",
+      validID: data['validID']?? "",
         id: document.id,
         firstName: data['FirstName'] ?? "",
         lastName: data['LastName'] ?? "",

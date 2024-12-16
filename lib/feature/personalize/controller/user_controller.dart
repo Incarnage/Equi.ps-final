@@ -64,6 +64,8 @@ class UserController extends GetxController {
 
           //map the data
           final user = UserModel(
+            address: SignupController.instance.address.text,
+            validID: userCredentials.user!.photoURL??'',
             gcash: userCredentials.user!.photoURL ?? '',
             id: userCredentials.user!.uid,
             username: username,

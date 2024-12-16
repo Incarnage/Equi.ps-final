@@ -7,6 +7,7 @@ import 'package:equips_v2/utilities/popups/full_screen_loader.dart';
 import 'package:equips_v2/utilities/popups/loaders.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 
 class SignupController extends GetxController {
   static SignupController get instance => Get.find();
@@ -21,7 +22,11 @@ class SignupController extends GetxController {
   final password = TextEditingController(); // Controller for password input
   final firstName = TextEditingController(); // Controller for first name input
   final phoneNumber = TextEditingController(); // Controller for phoneNumber i
-  final userType = ''.obs; // To hold the selected dropdown value
+  final userType = ''.obs; // Controller dropdown value
+  final QRCode = ''.obs; //Controller for QR Code
+  final validID = ''.obs; //Controller for ID of the user
+  final address = TextEditingController();
+  final imagePicker = ImagePicker();
 
   GlobalKey<FormState> signupFormKey = GlobalKey<FormState>();
 
@@ -52,6 +57,22 @@ class SignupController extends GetxController {
         return;
       }
 
+      if ( validID.value.isEmpty) {
+        ELoaders.warningSnackBar(
+          title: "Image Required",
+          message: "Please upload a Valid ID to continue.",
+        );
+        return;
+      }
+
+      if (userType.value == "Lessor" && QRCode.value.isEmpty) {
+        ELoaders.warningSnackBar(
+          title: "Image Required",
+          message: "Please upload an image to continue.",
+        );
+        return;
+      }
+
       // Register user in the Firebase Authentication & Save user data in the Firebase
 
       final UserCredential = await AuthenticateRepository.instance
@@ -60,7 +81,9 @@ class SignupController extends GetxController {
 
       // Save Authenticated user data in the Firebase Firestore
       final newUser = UserModel(
-        gcash: '',
+        address: address.text.trim(),
+        validID: validID.value,
+        gcash: QRCode.value,
         id: UserCredential.user!.uid,
         username: userName.text.trim(),
         email: email.text.trim(),
@@ -87,6 +110,22 @@ class SignupController extends GetxController {
     } finally {
       // Remove Loader
       EFullScreenLoader.stopLoading();
+    }
+  }
+  Future<void> uploadImage() async {
+    try {
+      final pickedFile = await imagePicker.pickImage(source: ImageSource.gallery);
+      if (pickedFile != null) {
+        QRCode.value = pickedFile.path;
+        ELoaders.successSnackBar(
+            title: "Image Uploaded", message: "Image selected successfully.");
+      } else {
+        ELoaders.warningSnackBar(
+            title: "No Image Selected", message: "Please select an image.");
+      }
+    } catch (e) {
+      ELoaders.errorSnackBar(
+          title: "Image Upload Failed", message: e.toString());
     }
   }
 }

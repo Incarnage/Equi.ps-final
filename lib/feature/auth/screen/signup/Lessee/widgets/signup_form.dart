@@ -65,7 +65,7 @@ class SignupForm extends StatelessWidget {
 
             // Username
             TextFormField(
-              controller: controller.userName,
+              controller: controller.address,
               validator: (value) =>
                   EValidate.validateEmptyText('Address', value),
               decoration: const InputDecoration(
@@ -140,7 +140,38 @@ class SignupForm extends StatelessWidget {
                     )),
               ),
             ),
+ const SizedBox(height: TSizes.spaceInputFields),
+
+Obx(() {
+             {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  const Text(
+                    "Upload Valid ID:",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: TSizes.spaceItems),
+                  TextButton.icon(
+                    onPressed: () => controller.uploadImage(),
+                    icon: const Icon(Iconsax.image),
+                    label: const Text("Upload Image"),
+                  ),
+                  if (controller.validID.isNotEmpty)
+                    Text(
+                      "Image Selected: ${controller.validID}",
+                      style: const TextStyle(fontSize: 12),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                ],
+              );
+            }
+            
+          }),
+
             const SizedBox(height: TSizes.spaceInputFields),
+
+            
             Obx(() => DropdownButtonFormField<String>(
                   value: controller.userType.value.isEmpty
                       ? null
@@ -165,6 +196,36 @@ class SignupForm extends StatelessWidget {
                     prefixIcon: Icon(Iconsax.user_tag),
                   ),
                 )),
+
+            const SizedBox(height: TSizes.spaceInputFields),
+
+            // Conditional Image Upload for Lessor
+           Obx(() {
+            if (controller.userType.value == 'Lessor') {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  const Text(
+                    "Upload QR Code:",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: TSizes.spaceItems),
+                  TextButton.icon(
+                    onPressed: () => controller.uploadImage(),
+                    icon: const Icon(Iconsax.image),
+                    label: const Text("Upload Image"),
+                  ),
+                  if (controller.QRCode.isNotEmpty)
+                    Text(
+                      "Image Selected: ${controller.QRCode}",
+                      style: const TextStyle(fontSize: 12),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                ],
+              );
+            }
+            return const SizedBox.shrink();
+          }),
 
             const SizedBox(height: TSizes.spaceInputFields),
 
@@ -206,11 +267,11 @@ class SignupForm extends StatelessWidget {
               width: double.infinity,
               child: ElevatedButton(
                   onPressed: () => controller.signUp(),
-                  child: const Text('Create Account'),
                   style: ElevatedButton.styleFrom(
                     side: const BorderSide(color: Color(0xFF25291C)),
                     backgroundColor: const Color(0xFF25291C),
-                  )),
+                  ),
+                  child: const Text('Create Account')),
             )
           ],
         ));

@@ -1,11 +1,17 @@
+import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equips_v2/data/repository/authenticate_repository.dart';
 import 'package:equips_v2/data/repository/user/user_repository.dart';
 import 'package:equips_v2/feature/auth/controller/signUp/widgets/usermodel.dart';
 import 'package:equips_v2/feature/auth/screen/signup/Lessee/verify_email.dart';
+import 'package:equips_v2/utilities/exceptions/authexceptions.dart';
 import 'package:equips_v2/utilities/network/network_manager.dart';
 import 'package:equips_v2/utilities/popups/full_screen_loader.dart';
 import 'package:equips_v2/utilities/popups/loaders.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -98,7 +104,7 @@ class SignupController extends GetxController {
       await userRepository.saveUserRecord(newUser);
       // Show Success Message
 
-      ELoaders.successSnackBar(title: 'Congrats', message: 'Verify');
+     
 
       // Move to verify Email Screen
       Get.to(() => VerifyEmailScreen(
@@ -107,43 +113,84 @@ class SignupController extends GetxController {
     } catch (e) {
       // Show some generic error to the user
       ELoaders.errorSnackBar(title: "Oh Snap!", message: e.toString());
-    } finally {
-      // Remove Loader
-      EFullScreenLoader.stopLoading();
-    }
+    } 
   }
-  Future<void> uploadValidID() async {
+
+
+
+Future<String> uploadImage(String path, XFile image) async {
     try {
-      final pickedFile = await imagePicker.pickImage(source: ImageSource.gallery);
-      if (pickedFile != null) {
-        validID.value = pickedFile.path;
-        ELoaders.successSnackBar(
-            title: "Valid ID Uploaded", message: "Valid ID image selected successfully.");
-      } else {
-        ELoaders.warningSnackBar(
-            title: "No Image Selected", message: "Please select a valid ID image.");
-      }
+      final ref = FirebaseStorage.instance.ref(path).child(image.name);
+      await ref.putFile(File(image.path));
+      final url = await ref.getDownloadURL();
+      return url;
+    } on FirebaseException catch (e) {
+      throw EFirebaseException(e.code).message;
+    } on FormatException catch (_) {
+      throw const EFormatException();
+    } on PlatformException catch (e) {
+      throw EPlatformException(e.code).message;
     } catch (e) {
-      ELoaders.errorSnackBar(
-          title: "Valid ID Upload Failed", message: e.toString());
+      throw "Something went wrong. Try Again";
     }
   }
 
-  // Upload QR Code Image
-  Future<void> uploadQRCode() async {
+   Future<void> uploadValidID() async {
     try {
-      final pickedFile = await imagePicker.pickImage(source: ImageSource.gallery);
-      if (pickedFile != null) {
-        QRCode.value = pickedFile.path;
+      final image = await imagePicker.pickImage(
+        source: ImageSource.gallery,
+        imageQuality: 70,
+        maxHeight: 512,
+        maxWidth: 512,
+      );
+
+      if (image != null) {
+        validID.value = image.path;
+
+        // Upload Image to Firebase Storage
+        final imageURL = await uploadImage('user_images/validID/', image);
+
+        // Optionally, update Firestore with the image URL (if needed)
+        Map<String, dynamic> json = {'validID': imageURL};
+        await FirebaseFirestore.instance.collection('users').doc('your_user_doc_id').update(json);
+
         ELoaders.successSnackBar(
-            title: "QR Code Uploaded", message: "QR Code image selected successfully.");
-      } else {
-        ELoaders.warningSnackBar(
-            title: "No Image Selected", message: "Please select a QR Code image.");
+            title: "Image Uploaded",
+            message: "Your Valid ID has been uploaded successfully.");
       }
     } catch (e) {
       ELoaders.errorSnackBar(
-          title: "QR Code Upload Failed", message: e.toString());
+          title: "Oh, snap!", message: "Something went wrong while uploading your ID image: $e");
+    }
+  }
+
+  // Upload QR Code Image (for Lessor users)
+  Future<void> uploadQRCode() async {
+    try {
+      final image = await imagePicker.pickImage(
+        source: ImageSource.gallery,
+        imageQuality: 70,
+        maxHeight: 512,
+        maxWidth: 512,
+      );
+
+      if (image != null) {
+        QRCode.value = image.path;
+
+        // Upload Image to Firebase Storage
+        final imageURL = await uploadImage('user_images/QRCode/', image);
+
+        // Optionally, update Firestore with the image URL (if needed)
+        Map<String, dynamic> json = {'QRCode': imageURL};
+        await FirebaseFirestore.instance.collection('users').doc('your_user_doc_id').update(json);
+
+        ELoaders.successSnackBar(
+            title: "Image Uploaded",
+            message: "Your QR Code has been uploaded successfully.");
+      }
+    } catch (e) {
+      ELoaders.errorSnackBar(
+          title: "Oh, snap!", message: "Something went wrong while uploading your QR Code image: $e");
     }
   }
 }

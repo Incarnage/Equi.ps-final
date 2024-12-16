@@ -57,7 +57,7 @@ class SignupController extends GetxController {
         return;
       }
 
-      if ( validID.value.isEmpty) {
+      if (validID.value.isEmpty) {
         ELoaders.warningSnackBar(
           title: "Image Required",
           message: "Please upload a Valid ID to continue.",
@@ -98,7 +98,7 @@ class SignupController extends GetxController {
       await userRepository.saveUserRecord(newUser);
       // Show Success Message
 
-      ELoaders.successSnackBar(title: 'Congrats', message: 'Verify');
+      // ELoaders.successSnackBar(title: 'Congrats', message: 'Verify');
 
       // Move to verify Email Screen
       Get.to(() => VerifyEmailScreen(
@@ -107,21 +107,22 @@ class SignupController extends GetxController {
     } catch (e) {
       // Show some generic error to the user
       ELoaders.errorSnackBar(title: "Oh Snap!", message: e.toString());
-    } finally {
-      // Remove Loader
-      EFullScreenLoader.stopLoading();
     }
   }
+
   Future<void> uploadValidID() async {
     try {
-      final pickedFile = await imagePicker.pickImage(source: ImageSource.gallery);
+      final pickedFile =
+          await imagePicker.pickImage(source: ImageSource.gallery);
       if (pickedFile != null) {
         validID.value = pickedFile.path;
         ELoaders.successSnackBar(
-            title: "Valid ID Uploaded", message: "Valid ID image selected successfully.");
+            title: "Valid ID Uploaded",
+            message: "Valid ID image selected successfully.");
       } else {
         ELoaders.warningSnackBar(
-            title: "No Image Selected", message: "Please select a valid ID image.");
+            title: "No Image Selected",
+            message: "Please select a valid ID image.");
       }
     } catch (e) {
       ELoaders.errorSnackBar(
@@ -132,14 +133,17 @@ class SignupController extends GetxController {
   // Upload QR Code Image
   Future<void> uploadQRCode() async {
     try {
-      final pickedFile = await imagePicker.pickImage(source: ImageSource.gallery);
+      final pickedFile =
+          await imagePicker.pickImage(source: ImageSource.gallery);
       if (pickedFile != null) {
         QRCode.value = pickedFile.path;
         ELoaders.successSnackBar(
-            title: "QR Code Uploaded", message: "QR Code image selected successfully.");
+            title: "QR Code Uploaded",
+            message: "QR Code image selected successfully.");
       } else {
         ELoaders.warningSnackBar(
-            title: "No Image Selected", message: "Please select a QR Code image.");
+            title: "No Image Selected",
+            message: "Please select a QR Code image.");
       }
     } catch (e) {
       ELoaders.errorSnackBar(

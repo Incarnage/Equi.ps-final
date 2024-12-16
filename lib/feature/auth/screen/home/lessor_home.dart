@@ -28,9 +28,6 @@ class LessorHomeScreen extends StatelessWidget {
                 children: [
                   //appbar
                   EHomeAppBar(),
-                  SizedBox(
-                    height: TSizes.spaceSections,
-                  ),
 
                   //home categories
 
@@ -44,12 +41,16 @@ class LessorHomeScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(TSizes.defaultSpace),
                 child: Column(
                   children: [
+                    const Text(
+                      "Manage your Inventory",
+                      style: TextStyle(fontSize: TSizes.fontLarge),
+                    ),
                     FutureBuilder(
                         future: controller.lessorProduct(),
                         builder: (context, snapshot) {
                           final emptyWidget = EAnimatedLoaderWidget(
                             text: 'Wishlist is empty',
-                            animation: 'assets/pic/loading.json',
+                            animation: 'assets/pic/equips-json.json',
                             showAction: true,
                             actionText: 'Let\'s add some',
                             onActionPressed: () =>

@@ -13,13 +13,13 @@ class AddRemoveCartItem extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        ECircularIcons(
+        const ECircularIcons(
             icon: Iconsax.minus,
             width: 32,
             height: 32,
             size: TSizes.medium,
             color: Colors.black,
-            backgroundColor: const Color.fromARGB(255, 206, 206, 206)),
+            backgroundColor: Color.fromARGB(255, 206, 206, 206)),
         const SizedBox(
           width: TSizes.spaceItems,
         ),
@@ -30,7 +30,7 @@ class AddRemoveCartItem extends StatelessWidget {
         const SizedBox(
           width: TSizes.spaceItems,
         ),
-        ECircularIcons(
+        const ECircularIcons(
             icon: Iconsax.add,
             width: 32,
             height: 32,

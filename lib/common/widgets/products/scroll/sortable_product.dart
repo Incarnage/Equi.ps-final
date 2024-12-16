@@ -31,7 +31,7 @@ class SortableProduct extends StatelessWidget {
               controller.sortProducts(value!);
             },
             items: [
-              'Name',
+              'Filtergi',
               'Higher Price',
               'Lower Price',
             ]

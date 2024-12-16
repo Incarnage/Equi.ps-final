@@ -12,7 +12,6 @@ import 'package:equips_v2/utilities/constants/size.dart';
 import 'package:equips_v2/utilities/helper/cloud_helper_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:iconsax/iconsax.dart';
 
 class Wishlist extends StatelessWidget {
   const Wishlist({super.key});
@@ -22,14 +21,13 @@ class Wishlist extends StatelessWidget {
     final controller = BookmarkController.instance;
 
     return Scaffold(
-      backgroundColor: const Color(0xFF25291C),
       appBar: TAppbar(
         title: Text(
           'Saved Items',
           style: Theme.of(context)
               .textTheme
               .headlineMedium!
-              .apply(color: Colors.white),
+              .apply(color: const Color(0xFF25291C)),
         ),
       ),
       body: SingleChildScrollView(
@@ -43,7 +41,7 @@ class Wishlist extends StatelessWidget {
                     builder: (context, snapshot) {
                       final emptyWidget = EAnimatedLoaderWidget(
                         text: 'Wishlist is empty',
-                        animation: 'assets/pic/loading.json',
+                        animation: 'assets/pic/equips-json.json',
                         showAction: true,
                         actionText: 'Let\'s add some',
                         onActionPressed: () =>

@@ -153,7 +153,7 @@ Obx(() {
                   ),
                   const SizedBox(height: TSizes.spaceItems),
                   TextButton.icon(
-                    onPressed: () => controller.uploadImage(),
+                    onPressed: () => controller.uploadValidID(),
                     icon: const Icon(Iconsax.image),
                     label: const Text("Upload Image"),
                   ),
@@ -211,7 +211,7 @@ Obx(() {
                   ),
                   const SizedBox(height: TSizes.spaceItems),
                   TextButton.icon(
-                    onPressed: () => controller.uploadImage(),
+                    onPressed: () => controller.uploadQRCode(),
                     icon: const Icon(Iconsax.image),
                     label: const Text("Upload Image"),
                   ),

@@ -112,20 +112,38 @@ class SignupController extends GetxController {
       EFullScreenLoader.stopLoading();
     }
   }
-  Future<void> uploadImage() async {
+  Future<void> uploadValidID() async {
+    try {
+      final pickedFile = await imagePicker.pickImage(source: ImageSource.gallery);
+      if (pickedFile != null) {
+        validID.value = pickedFile.path;
+        ELoaders.successSnackBar(
+            title: "Valid ID Uploaded", message: "Valid ID image selected successfully.");
+      } else {
+        ELoaders.warningSnackBar(
+            title: "No Image Selected", message: "Please select a valid ID image.");
+      }
+    } catch (e) {
+      ELoaders.errorSnackBar(
+          title: "Valid ID Upload Failed", message: e.toString());
+    }
+  }
+
+  // Upload QR Code Image
+  Future<void> uploadQRCode() async {
     try {
       final pickedFile = await imagePicker.pickImage(source: ImageSource.gallery);
       if (pickedFile != null) {
         QRCode.value = pickedFile.path;
         ELoaders.successSnackBar(
-            title: "Image Uploaded", message: "Image selected successfully.");
+            title: "QR Code Uploaded", message: "QR Code image selected successfully.");
       } else {
         ELoaders.warningSnackBar(
-            title: "No Image Selected", message: "Please select an image.");
+            title: "No Image Selected", message: "Please select a QR Code image.");
       }
     } catch (e) {
       ELoaders.errorSnackBar(
-          title: "Image Upload Failed", message: e.toString());
+          title: "QR Code Upload Failed", message: e.toString());
     }
   }
 }

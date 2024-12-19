@@ -24,14 +24,16 @@ class SortableProduct extends StatelessWidget {
         //dropdown
         DropdownButtonFormField(
             style: const TextStyle(
-                fontSize: TSizes.fontLarge, color: Colors.black),
+                fontSize: TSizes.fontLarge, color: Color(0xFF25291C)),
             decoration: const InputDecoration(prefixIcon: Icon(Iconsax.sort)),
+            dropdownColor: const Color(0xFFFFD233),
+            iconEnabledColor: const Color(0xFF25291C),
             value: controller.selectedSortOption.value,
             onChanged: (value) {
               controller.sortProducts(value!);
             },
             items: [
-              'Filtergi',
+              'Name',
               'Higher Price',
               'Lower Price',
             ]

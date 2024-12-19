@@ -56,33 +56,38 @@ class Store extends StatelessWidget {
                         ),
                         const SizedBox(height: TSizes.spaceItems / 1.5),
 
+                        // Lessor Cards
                         Obx(() {
-                        if (lessorController.isLoading.value) {
-                          return const LessorShimmer();
-                        }
+                          if (lessorController.isLoading.value) {
+                            return const LessorShimmer();
+                          }
 
-                        // Get two random lessors from the entire list
-                        final randomLessors = lessorController.getRandomLessors();
+                          // Get two random lessors from the entire list
+                          final randomLessors =
+                              lessorController.getRandomLessors();
 
-                        if (randomLessors.isEmpty) {
-                          return const Center(
-                            child: Text('No Lessors Available'),
-                          );
-                        }
-
-                        return EGridLayout(
-                          itemCount: randomLessors.length, // This will always be 2
-                          mainAxisExtent: 80, // Element height
-                          itemBuilder: (_, index) {
-                            final lessor = randomLessors[index];
-                            return ELessorCard(
-                              onTap: () => Get.to(() => LessorProducts(lessor: lessor)),
-                              showBorder: true,
-                              lessor: lessor,
+                          if (randomLessors.isEmpty) {
+                            return const Center(
+                              child: Text('No Lessors Available',
+                                  style: TextStyle(color: Colors.red)),
                             );
-                          },
-                        );
-                      })
+                          }
+
+                          return EGridLayout(
+                            itemCount:
+                                randomLessors.length, // This will always be 2
+                            mainAxisExtent: 80, // Element height
+                            itemBuilder: (_, index) {
+                              final lessor = randomLessors[index];
+                              return ELessorCard(
+                                onTap: () => Get.to(
+                                    () => LessorProducts(lessor: lessor)),
+                                showBorder: true,
+                                lessor: lessor,
+                              );
+                            },
+                          );
+                        })
                       ],
                     ),
                   ),

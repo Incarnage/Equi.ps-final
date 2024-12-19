@@ -34,6 +34,7 @@ class AddProductForm extends StatelessWidget {
             child: Column(
               children: [
                 const SizedBox(height: TSizes.spaceInputFields),
+                // Product Name
                 TextFormField(
                   controller: controller.productName,
                   validator: (value) =>
@@ -47,7 +48,7 @@ class AddProductForm extends StatelessWidget {
 
                 const SizedBox(height: TSizes.spaceInputFields),
 
-                // Username
+                // Description
                 TextFormField(
                   controller: controller.description,
                   validator: (value) =>
@@ -60,7 +61,7 @@ class AddProductForm extends StatelessWidget {
 
                 const SizedBox(height: TSizes.spaceInputFields),
 
-                // Phone Number
+                // Price
                 TextFormField(
                   validator: (value) =>
                       EValidate.validateEmptyText('Price', value),
@@ -74,18 +75,35 @@ class AddProductForm extends StatelessWidget {
 
                 const SizedBox(height: TSizes.spaceInputFields),
 
+                // Duration
+                TextFormField(
+                  validator: (value) =>
+                      EValidate.validateEmptyText('Duration', value),
+                  controller: controller.price,
+                  decoration: const InputDecoration(
+                    labelText: ("Duration"),
+                    prefixIcon: Icon(Iconsax.clock),
+                  ),
+                ),
+
+                const SizedBox(height: TSizes.spaceInputFields),
+
                 // Password
                 Obx(() => DropdownButtonFormField<String>(
                       value: controller.category.value.isEmpty
                           ? null
                           : controller.category.value,
                       items: [
+                        'Carts',
+                        'Chairs',
+                        'Decorations',
+                        'Kitchenwares',
                         'Lights',
                         'Sound System',
-                        'Venue',
-                        'Chairs',
+                        'Stage',
                         'Tables',
                         'Tents',
+                        'Venue',
                         'Others'
                       ]
                           .map((type) => DropdownMenuItem(

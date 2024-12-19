@@ -20,10 +20,10 @@ class LessorProducts extends StatelessWidget {
       appBar: TAppbar(
         title: Text(
           lessor.fullName,
-          style: const TextStyle(color: Colors.white),
+          style: const TextStyle(color: Color(0xFF25291C)),
         ),
       ),
-      backgroundColor: const Color(0xFF25291C),
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(TSizes.defaultSpace),
@@ -31,13 +31,13 @@ class LessorProducts extends StatelessWidget {
             children: [
               //brand detail
 
-              ELessorCard(
+              /* ELessorCard(
                 showBorder: true,
                 lessor: lessor,
               ),
               const SizedBox(
                 height: TSizes.spaceSections,
-              ),
+              ),*/
               FutureBuilder(
                   future: controller.getLessorProducts(lessorId: lessor.id),
                   builder: (context, snapshot) {

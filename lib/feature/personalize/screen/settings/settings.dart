@@ -5,6 +5,7 @@ import 'package:equips_v2/common/widgets/layouts/list_tile/settingsMenu_tile.dar
 import 'package:equips_v2/common/widgets/layouts/list_tile/userProfile_tile.dart';
 import 'package:equips_v2/data/repository/authenticate_repository.dart';
 import 'package:equips_v2/feature/personalize/screen/FAQs/faqs.dart';
+import 'package:equips_v2/feature/personalize/screen/Social-Media/social_media_accs.dart';
 import 'package:equips_v2/feature/personalize/screen/address/widgets/address.dart';
 import 'package:equips_v2/feature/personalize/screen/profile/profile.dart';
 import 'package:equips_v2/feature/shop/screen/cart/cart.dart';
@@ -67,6 +68,15 @@ class SettingScreen extends StatelessWidget {
                     onPressed: () {},
                   ),
                   const SizedBox(height: TSizes.spaceItems),
+
+                  // Social Media Links
+                  ESettingMenuTile(
+                    icon: Iconsax.people,
+                    title: "Social Media Accounts",
+                    subtitle:
+                        "Add your social media details for other communication channels.",
+                    onTap: () => Get.to(() => const SocialMediaAccs()),
+                  ),
 
                   // Address
                   ESettingMenuTile(

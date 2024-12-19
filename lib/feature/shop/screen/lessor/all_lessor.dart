@@ -1,3 +1,4 @@
+import 'package:equips_v2/common/styles/shadows.dart';
 import 'package:equips_v2/common/widgets/appbar/appbar.dart';
 import 'package:equips_v2/common/widgets/brands/lessor_card.dart';
 import 'package:equips_v2/common/widgets/layouts/gridLayout.dart';
@@ -19,54 +20,62 @@ class AllLessors extends StatelessWidget {
       appBar: const TAppbar(
         title: Text(
           'Verified Lessors',
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: Color(0xFF25291C)),
         ),
         showBackArrow: false,
       ),
-      backgroundColor: const Color(0xFF25291C),
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(TSizes.defaultSpace),
-          child: Column(
-            children: [
-              //heading
-              /*const SectionHeading(
-                title: 'Verified Lessors',
-                buttonTitle: '',
-                textColor: Colors.white,
-              ),
-              const SizedBox(
-                height: TSizes.spaceItems,
-              ),*/
+        child: Container(
+          decoration: BoxDecoration(
+            boxShadow: [ShadowStyle.verticalProductShadow],
+            borderRadius: BorderRadius.circular(TSizes.productItemHeight),
+            color: Colors.white,
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(TSizes.defaultSpace),
+            child: Column(
+              children: [
+                //heading
+                /*const SectionHeading(
+                  title: 'Verified Lessors',
+                  buttonTitle: '',
+                  textColor: Colors.white,
+                ),
+                const SizedBox(
+                  height: TSizes.spaceItems,
+                ),*/
 
-              //brands
-              Obx(() {
-                if (lessorController.isLoading.value) {
-                  return const LessorShimmer();
-                }
+                //brands
+                Obx(() {
+                  if (lessorController.isLoading.value) {
+                    return const LessorShimmer();
+                  }
 
-                if (lessorController.allLessors.isEmpty) {
-                  return const Center(
-                    child: Text('No Data Found'),
-                  );
-                }
-                return EGridLayout(
-                    itemCount: lessorController
-                        .allLessors.length, // number of elements / products
-                    mainAxisExtent:
-                        80, // it's like teh length downwards of each element
-                    itemBuilder: (_, index) {
-                      final lessor = lessorController.allLessors[index];
-                      return ELessorCard(
-                        onTap: () => Get.to(() => LessorProducts(
-                              lessor: lessor,
-                            )),
-                        showBorder: true,
-                        lessor: lessor,
-                      );
-                    });
-              })
-            ],
+                  if (lessorController.allLessors.isEmpty) {
+                    return const Center(
+                      child: Text('No Data Found',
+                          style: TextStyle(color: Colors.red)),
+                    );
+                  }
+                  return EGridLayout(
+                      itemCount: lessorController
+                          .allLessors.length, // number of elements / products
+                      mainAxisExtent:
+                          80, // it's like teh length downwards of each element
+                      itemBuilder: (_, index) {
+                        final lessor = lessorController.allLessors[index];
+                        return ELessorCard(
+                          onTap: () => Get.to(() => LessorProducts(
+                                lessor: lessor,
+                              )),
+                          showBorder: true,
+                          lessor: lessor,
+                        );
+                      });
+                })
+              ],
+            ),
           ),
         ),
       ),

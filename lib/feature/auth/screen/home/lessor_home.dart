@@ -45,6 +45,9 @@ class LessorHomeScreen extends StatelessWidget {
                       "Manage your Inventory",
                       style: TextStyle(fontSize: TSizes.fontLarge),
                     ),
+                    const SizedBox(
+                      height: TSizes.spaceSections,
+                    ),
                     FutureBuilder(
                         future: controller.lessorProduct(),
                         builder: (context, snapshot) {

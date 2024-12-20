@@ -22,12 +22,15 @@ class ProductController extends GetxController {
   RxList<ProductModel> lessorProducts = <ProductModel>[].obs;
 
 
+
   late final GlobalKey<FormState> addProductFormKey;
+    late final GlobalKey<FormState> editProductFormKey;
 
   final productName =
       TextEditingController(); // Controller for first name input
   final description = TextEditingController();
   final price = TextEditingController();
+  final pduration = TextEditingController();
   final category = ''.obs;
 
   Rx<XFile?> imageFile = Rx<XFile?>(null);
@@ -35,7 +38,10 @@ class ProductController extends GetxController {
 
   ProductController() {
     addProductFormKey = GlobalKey<FormState>();
+    editProductFormKey = GlobalKey<FormState>();
   }
+
+  
 
   @override
   void onInit() {
@@ -46,9 +52,7 @@ class ProductController extends GetxController {
   void fetchFeaturedProducts() async {
     try {
       isLoading.value = true;
-
       final products = await productRepository.getFeaturedProducts();
-
       featuredProducts.assignAll(products);
     } catch (e) {
       ELoaders.errorSnackBar(title: 'Oh Snap', message: e.toString());
@@ -91,7 +95,7 @@ class ProductController extends GetxController {
     return isAvailable ? 'Available' : 'Rented';
   }
 
-  Future<void> pickImage() async {
+   Future<void> pickImage() async {
     final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       imageFile.value = pickedFile;
@@ -118,44 +122,94 @@ class ProductController extends GetxController {
   }
 
   // Function to add a product
-  Future<void> addProduct() async {
-    if (addProductFormKey.currentState!.validate()) {
-      final user = await userRepository.fetchUserDetail();
-      isLoading.value = true;
-      try {
-        final imageUrl = await uploadImage(imageFile.value);
+   Future<void> addProduct() async {
+  if (addProductFormKey.currentState!.validate()) {
+    isLoading.value = true;
+    final user = await userRepository.fetchUserDetail();
+     // Set loading state to true
 
-        if (imageUrl == null) {
-          ELoaders.errorSnackBar(
-              title: 'Error', message: 'Please select an Image to upload');
-          return;
-        }
-
-        await productRepository.addProduct({
-          'Lessor': {
-            'ID': user.id,
-            'Image': user.profilePicture,
-            'Name': user.fullName,
-          },
-          'isAvailable': true,
-          'Title': productName.text,
-          'Description': description.text,
-          'price': price.text,
-          'CategoryId': category.value,
-          'Thumbnail': imageUrl, // The uploaded image URL
-          'createdAt': FieldValue.serverTimestamp(),
-        });
-
-        ELoaders.successSnackBar(
-            title: 'Success', message: 'Product added successfully');
-      } catch (e) {
-        ELoaders.errorSnackBar(title: 'Error', message: e.toString());
-      } finally {
-        Get.offAll(() => const LessorNavigationMenu());
-        isLoading.value = false;
+    try {
+      final imageUrl = await uploadImage(imageFile.value);
+      if (imageUrl == null) {
+        ELoaders.errorSnackBar(
+            title: 'Error', message: 'Please select an image to upload');
+        return;
       }
+
+      await productRepository.addProduct({
+        'Lessor': {
+          'ID': user.id,
+          'Image': user.profilePicture,
+          'Name': user.fullName,
+        },
+        'isAvailable': true,
+        'Title': productName.text,
+        'Description': description.text,
+        'price': price.text,
+        'CategoryId': category.value,
+        'Thumbnail': imageUrl,
+        'createdAt': FieldValue.serverTimestamp(),
+        'duration': pduration.text,
+      });
+
+      ELoaders.successSnackBar(
+          title: 'Success', message: 'Product added successfully');
+     
+    } catch (e) {
+      ELoaders.errorSnackBar(title: 'Error', message: e.toString());
+    } finally {
+      Get.offAll(() => const LessorNavigationMenu());
+      isLoading.value = false;
+      resetForm(); // Set loading state to false when done
     }
   }
+}
+
+// In ProductController
+Future<void> updateProduct(ProductModel product) async {
+  if (editProductFormKey.currentState!.validate()) {
+    isLoading.value = true;
+    final user = await userRepository.fetchUserDetail();
+    
+    try {
+      final imageUrl = await uploadImage(imageFile.value);
+      if (imageUrl == null && imageFile.value != null) {
+        ELoaders.errorSnackBar(title: 'Error', message: 'Please select an image to upload');
+        return;
+      }
+
+      // Prepare the updated product data
+      final updatedProductData = {
+        'Lessor': {
+          'ID': user.id,
+          'Image': user.profilePicture,
+          'Name': user.fullName,
+        },
+        'isAvailable': true,
+        'Title': productName.text,
+        'Description': description.text,
+        'price': price.text,
+        'CategoryId': category.value,
+        'Thumbnail': imageFile.value != null ? imageUrl : product.thumbnail, // Use new image if uploaded
+        'createdAt': FieldValue.serverTimestamp(),
+        'duration': pduration.text,
+      };
+
+      // Call the repository method to update the product
+      await productRepository.updateProduct(product.id, updatedProductData);
+
+      ELoaders.successSnackBar(title: 'Success', message: 'Product updated successfully');
+    } catch (e) {
+      ELoaders.errorSnackBar(title: 'Error', message: e.toString());
+    } finally {
+      Get.offAll(() => const LessorNavigationMenu());
+      isLoading.value = false;
+    }
+  }
+}
+
+
+
 
   Future<List<ProductModel>> fetchRandomProducts({int limit = 4}) async {
     try {
@@ -166,5 +220,15 @@ class ProductController extends GetxController {
       ELoaders.errorSnackBar(title: 'Oh Snap', message: e.toString());
       return [];
     }
+  }
+
+  void resetForm() {
+    productName.clear();
+    description.clear();
+    price.clear();
+    pduration.clear();
+    category.value = '';
+    imageFile.value = null;
+    addProductFormKey.currentState?.reset();
   }
 }

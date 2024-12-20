@@ -6,23 +6,24 @@ import 'package:get/get.dart';
 
 class ImagesController extends GetxController {
   static ImagesController get instance => Get.find();
+  
   // var
   RxString selectedProductImage = ''.obs;
 
   //get images
-  List<String> getAllProductImages(ProductModel product) {
-    //add unique image
+  Future<List<String>> getAllProductImages(ProductModel product) async {
+    // Add unique image
     Set<String> images = {};
-    //load image thumbnail
+    // Load image thumbnail
     images.add(product.thumbnail);
 
-    //select thumbnail as selected image
-    selectedProductImage.value = product.thumbnail;
-
-    //get all image
+    // Get all images (if present)
     if (product.images != null) {
       images.addAll(product.images!);
     }
+
+    // Simulate a delay to mimic fetching data
+    await Future.delayed(const Duration(seconds: 1));
 
     return images.toList();
   }

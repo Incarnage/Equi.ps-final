@@ -20,9 +20,10 @@ class LessorVerticalCard extends StatelessWidget {
   Widget build(BuildContext context) {
     // Container with side paddings, color, edges, radius, and shadows
     return GestureDetector(
-      onTap: () => Get.to(() => EditProductDetails(
-            product: product,
-          )),
+      onTap: () async {
+        // Navigate to the EditProductDetails screen asynchronously
+        await Get.to(() => EditProductDetails(product: product));
+      },
       child: Container(
         width: 180,
         padding: const EdgeInsets.all(1),

@@ -197,6 +197,14 @@ class ProductRepository extends GetxController {
     }
   }
 
+  Future<void> updateProduct(String productId, Map<String, dynamic> updatedData) async {
+  try {
+    await _db.collection('Products').doc(productId).update(updatedData);
+  } catch (e) {
+    throw 'Something went wrong. Could not update product: $e';
+  }
+}
+
   Future<void> removeProductRecord(String productId) async {
     try {
       EFullScreenLoader.openLoadingDialog(

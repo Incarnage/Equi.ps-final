@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:equips_v2/feature/shop/models/product_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -8,96 +9,85 @@ import 'package:equips_v2/utilities/validator/validate.dart';
 import 'package:equips_v2/utilities/constants/size.dart';
 import 'package:equips_v2/feature/shop/controller/product/product_controller.dart';
 
-class AddProductForm extends StatelessWidget {
+// In EditProductForm
+class EditProductForm extends StatelessWidget {
+  const EditProductForm({super.key, required this.product});
   
-
-  const AddProductForm({
-    super.key,
-    
-  });
+  final ProductModel product;
 
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(ProductController());
 
+    
+
+    // Pre-fill the form fields with product data
+    controller.productName.text = product.productTitle;
+    controller.description.text = product.description!;
+    controller.price.text = product.price.toString();
+    controller.pduration.text = product.pduration.toString();
+    controller.category.value = product.categoryId;
+
     return Form(
-      key: controller.addProductFormKey,
+      key: controller.editProductFormKey,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: TSizes.spaceInputFields),
-
           // Product Name
           TextFormField(
             controller: controller.productName,
             validator: (value) =>
                 EValidate.validateEmptyText('Product Name', value),
-            decoration: const InputDecoration(
-              labelText: "Product Name",
-              prefixIcon: Icon(Iconsax.box),
+            decoration: InputDecoration(
+              labelText: product.productTitle,
+              prefixIcon: const Icon(Iconsax.box),
             ),
           ),
-
           const SizedBox(height: TSizes.spaceInputFields),
-
           // Description
           TextFormField(
             controller: controller.description,
             validator: (value) =>
                 EValidate.validateEmptyText('Description', value),
-            decoration: const InputDecoration(
-              labelText: "Description",
-              prefixIcon: Icon(Iconsax.document),
+            decoration: InputDecoration(
+              labelText: product.description,
+              prefixIcon: const Icon(Iconsax.document),
             ),
           ),
-
           const SizedBox(height: TSizes.spaceInputFields),
-
           // Price
           TextFormField(
             controller: controller.price,
             validator: (value) =>
                 EValidate.validateEmptyText('Price', value),
             inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-            decoration: const InputDecoration(
-              labelText: "Price",
+            decoration:  InputDecoration(
+              labelText: product.price.toString(),
               prefixIcon: Icon(Iconsax.dollar_square),
             ),
           ),
-
           const SizedBox(height: TSizes.spaceInputFields),
-
           // Duration
           TextFormField(
             controller: controller.pduration,
             validator: (value) =>
                 EValidate.validateEmptyText('Duration', value),
             inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-            decoration: const InputDecoration(
-              labelText: "Duration",
+            decoration:  InputDecoration(
+              labelText: product.pduration.toString(),
               prefixIcon: Icon(Iconsax.clock),
             ),
           ),
-
           const SizedBox(height: TSizes.spaceInputFields),
-
           // Category
           Obx(() => DropdownButtonFormField<String>(
                 value: controller.category.value.isEmpty
                     ? null
                     : controller.category.value,
                 items: [
-                  'Carts',
-                  'Chairs',
-                  'Decorations',
-                  'Kitchenwares',
-                  'Lights',
-                  'Sound System',
-                  'Stage',
-                  'Tables',
-                  'Tents',
-                  'Venue',
-                  'Others'
+                  'Carts', 'Chairs', 'Decorations', 'Kitchenwares', 'Lights',
+                  'Sound System', 'Stage', 'Tables', 'Tents', 'Venue', 'Others'
                 ]
                     .map((type) => DropdownMenuItem(
                           value: type,
@@ -113,55 +103,36 @@ class AddProductForm extends StatelessWidget {
                   }
                   return null;
                 },
-                decoration: const InputDecoration(
-                  labelText: "Select product category",
+                decoration:  InputDecoration(
+                  labelText: product.categoryId,
                   prefixIcon: Icon(Iconsax.user_tag),
                 ),
               )),
-
           const SizedBox(height: TSizes.spaceInputFields),
-
           // Image Upload
           TextButton(
             onPressed: () => controller.pickImage(),
-            child: const Text(
-              "Upload product image",
-              style: TextStyle(color: Color(0xFF25291C)),
-            ),
+            child: const Text("Upload product image", style: TextStyle(color: Color(0xFF25291C))),
           ),
           Obx(() {
             if (controller.imageFile.value != null) {
-              return Image.file(
-                File(controller.imageFile.value!.path),
-                height: 100,
-              );
+              return Image.file(File(controller.imageFile.value!.path), height: 100);
+            } else if (product.thumbnail != null) {
+              return Image.network(product.thumbnail, height: 100); // Show existing image
             } else {
-              return const Text(
-                "No image selected.",
-                style: TextStyle(fontStyle: FontStyle.italic),
-              );
+              return const Text("No image selected.", style: TextStyle(fontStyle: FontStyle.italic));
             }
           }),
-
           const SizedBox(height: TSizes.spaceItems),
-
           // Submit Button
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
-              onPressed: () {
-                if (controller.addProductFormKey.currentState!.validate()) {
-                  controller.addProduct();
-                  
-                   // Reset the form
-                }
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF25291C),
-              ),
+              onPressed: () => controller.updateProduct(product),
+              style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF25291C)),
               child: controller.isLoading.value
-      ? const Text('Loading')  // Show loading spinner
-      : const Text('Add Product'),
+                  ? const Text('Loading') // Show loading spinner
+                  : const Text('Update Product'),
             ),
           ),
         ],
@@ -169,4 +140,3 @@ class AddProductForm extends StatelessWidget {
     );
   }
 }
-

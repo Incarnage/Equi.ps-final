@@ -12,14 +12,12 @@ import 'package:equips_v2/feature/shop/controller/product/product_controller.dar
 // In EditProductForm
 class EditProductForm extends StatelessWidget {
   const EditProductForm({super.key, required this.product});
-  
+
   final ProductModel product;
 
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(ProductController());
-
-    
 
     // Pre-fill the form fields with product data
     controller.productName.text = product.productTitle;
@@ -39,9 +37,9 @@ class EditProductForm extends StatelessWidget {
             controller: controller.productName,
             validator: (value) =>
                 EValidate.validateEmptyText('Product Name', value),
-            decoration: InputDecoration(
-              labelText: product.productTitle,
-              prefixIcon: const Icon(Iconsax.box),
+            decoration: const InputDecoration(
+              labelText: "Product name",
+              prefixIcon: Icon(Iconsax.box),
             ),
           ),
           const SizedBox(height: TSizes.spaceInputFields),
@@ -50,20 +48,19 @@ class EditProductForm extends StatelessWidget {
             controller: controller.description,
             validator: (value) =>
                 EValidate.validateEmptyText('Description', value),
-            decoration: InputDecoration(
-              labelText: product.description,
-              prefixIcon: const Icon(Iconsax.document),
+            decoration: const InputDecoration(
+              labelText: "Description",
+              prefixIcon: Icon(Iconsax.document),
             ),
           ),
           const SizedBox(height: TSizes.spaceInputFields),
           // Price
           TextFormField(
             controller: controller.price,
-            validator: (value) =>
-                EValidate.validateEmptyText('Price', value),
+            validator: (value) => EValidate.validateEmptyText('Price', value),
             inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-            decoration:  InputDecoration(
-              labelText: product.price.toString(),
+            decoration: const InputDecoration(
+              labelText: "Price",
               prefixIcon: Icon(Iconsax.dollar_square),
             ),
           ),
@@ -74,8 +71,8 @@ class EditProductForm extends StatelessWidget {
             validator: (value) =>
                 EValidate.validateEmptyText('Duration', value),
             inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-            decoration:  InputDecoration(
-              labelText: product.pduration.toString(),
+            decoration: const InputDecoration(
+              labelText: "Duration",
               prefixIcon: Icon(Iconsax.clock),
             ),
           ),
@@ -86,8 +83,17 @@ class EditProductForm extends StatelessWidget {
                     ? null
                     : controller.category.value,
                 items: [
-                  'Carts', 'Chairs', 'Decorations', 'Kitchenwares', 'Lights',
-                  'Sound System', 'Stage', 'Tables', 'Tents', 'Venue', 'Others'
+                  'Carts',
+                  'Chairs',
+                  'Decorations',
+                  'Kitchenwares',
+                  'Lights',
+                  'Sound System',
+                  'Stage',
+                  'Tables',
+                  'Tents',
+                  'Venue',
+                  'Others'
                 ]
                     .map((type) => DropdownMenuItem(
                           value: type,
@@ -103,8 +109,8 @@ class EditProductForm extends StatelessWidget {
                   }
                   return null;
                 },
-                decoration:  InputDecoration(
-                  labelText: product.categoryId,
+                decoration: const InputDecoration(
+                  labelText: "Please select a category",
                   prefixIcon: Icon(Iconsax.user_tag),
                 ),
               )),
@@ -112,15 +118,19 @@ class EditProductForm extends StatelessWidget {
           // Image Upload
           TextButton(
             onPressed: () => controller.pickImage(),
-            child: const Text("Upload product image", style: TextStyle(color: Color(0xFF25291C))),
+            child: const Text("Upload product image",
+                style: TextStyle(color: Color(0xFF25291C))),
           ),
           Obx(() {
             if (controller.imageFile.value != null) {
-              return Image.file(File(controller.imageFile.value!.path), height: 100);
+              return Image.file(File(controller.imageFile.value!.path),
+                  height: 100);
             } else if (product.thumbnail != null) {
-              return Image.network(product.thumbnail, height: 100); // Show existing image
+              return Image.network(product.thumbnail,
+                  height: 100); // Show existing image
             } else {
-              return const Text("No image selected.", style: TextStyle(fontStyle: FontStyle.italic));
+              return const Text("No image selected.",
+                  style: TextStyle(fontStyle: FontStyle.italic));
             }
           }),
           const SizedBox(height: TSizes.spaceItems),
@@ -129,7 +139,9 @@ class EditProductForm extends StatelessWidget {
             width: double.infinity,
             child: ElevatedButton(
               onPressed: () => controller.updateProduct(product),
-              style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF25291C)),
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF25291C),
+                  side: const BorderSide(color: Color(0xFF25291C))),
               child: controller.isLoading.value
                   ? const Text('Loading') // Show loading spinner
                   : const Text('Update Product'),

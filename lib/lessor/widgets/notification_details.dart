@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:equips_v2/common/widgets/appbar/appbar.dart';
 import 'package:equips_v2/common/widgets/custom_shapes/container/ERoundedContainer.dart';
 import 'package:equips_v2/common/widgets/custom_shapes/container/eSectionHeading.dart';
-import 'package:equips_v2/data/repository/product/product_repository.dart';
 import 'package:equips_v2/data/repository/user/user_repository.dart';
 import 'package:equips_v2/feature/shop/order/widgets/order_controller.dart';
 import 'package:equips_v2/feature/shop/order/widgets/order_model.dart';
@@ -18,7 +17,7 @@ class OrderDetails extends StatelessWidget {
   final OrderModel order;
 
   String formatDate(DateTime date) {
-    return DateFormat('MMMM-dd').format(date);
+    return DateFormat('MMMM dd').format(date);
   }
 
   @override
@@ -43,6 +42,11 @@ class OrderDetails extends StatelessWidget {
             children: [
               const Divider(),
               const SizedBox(height: TSizes.spaceItems),
+
+              const ESectionHeading(
+                title: "Proof of Payment",
+                showActionButton: false,
+              ),
 
               //gcash proof of payment
               ERoundedcontainer(
@@ -79,7 +83,7 @@ class OrderDetails extends StatelessWidget {
               const Divider(),
               const SizedBox(height: TSizes.spaceItems),
               const ESectionHeading(
-                title: "Order Information",
+                title: "Order Details",
                 showActionButton: false,
               ),
               const SizedBox(height: TSizes.spaceItems),
@@ -92,16 +96,16 @@ class OrderDetails extends StatelessWidget {
                     return Text('Error: ${snapshot.error}');
                   } else if (snapshot.hasData) {
                     return NotifInfo(
-                        title: 'Lessee Name', value: snapshot.data!);
+                        title: 'LESSEE NAME', value: snapshot.data!);
                   } else {
                     return const Text('No lessee found');
                   }
                 },
               ),
               const SizedBox(height: TSizes.spaceItems),
-              NotifInfo(title: "From", value: formatDate(order.fromDate)),
+              NotifInfo(title: "FROM", value: formatDate(order.fromDate)),
               const SizedBox(height: TSizes.spaceItems),
-              NotifInfo(title: "To", value: formatDate(order.toDate)),
+              NotifInfo(title: "TO", value: formatDate(order.toDate)),
               const SizedBox(height: TSizes.spaceItems),
               const Divider(),
               const SizedBox(height: TSizes.spaceItems),

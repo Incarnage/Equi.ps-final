@@ -61,7 +61,7 @@ class ProductDetails extends StatelessWidget {
               ),
               child: Column(
                 children: [
-                  //price
+                  // rental cost and status
                   ProductData(
                     product: product,
                   ),
@@ -86,6 +86,58 @@ class ProductDetails extends StatelessWidget {
                         fontSize: 14,
                         fontWeight: FontWeight.w800,
                       )),
+
+                  const SizedBox(
+                    height: TSizes.spaceItems,
+                  ),
+
+                  // Facebook
+                  Row(
+                    children: [
+                      //title
+                      const EProductTitleText(title: 'Facebook'),
+                      const SizedBox(width: TSizes.spaceItems),
+                      Text(
+                        product.lessor!.facebook,
+                        style: const TextStyle(fontSize: 20),
+                      ),
+                    ],
+                  ),
+
+                  const SizedBox(
+                    height: TSizes.spaceItems,
+                  ),
+
+                  // Instagram
+                  Row(
+                    children: [
+                      //title
+                      const EProductTitleText(title: 'Instagram'),
+                      const SizedBox(width: TSizes.spaceItems),
+                      Text(
+                        product.lessor!.facebook,
+                        style: const TextStyle(fontSize: 20),
+                      ),
+                    ],
+                  ),
+
+                  const SizedBox(
+                    height: TSizes.spaceItems,
+                  ),
+
+                  // Facebook
+                  Row(
+                    children: [
+                      //title
+                      const EProductTitleText(title: 'Gmail'),
+                      const SizedBox(width: TSizes.spaceItems),
+                      Text(
+                        product.lessor!.facebook,
+                        style: const TextStyle(fontSize: 20),
+                      ),
+                    ],
+                  ),
+
                   const SizedBox(
                     height: TSizes.spaceItems,
                   ),

@@ -29,7 +29,7 @@ class ProductModel {
 
   // Create Empty function for clean code
   static ProductModel empty() => ProductModel(
-    pduration: 0,
+        pduration: 0,
         id: '',
         categoryId: '',
         price: 0,
@@ -61,7 +61,7 @@ class ProductModel {
     if (document.data() == null) return ProductModel.empty();
     final data = document.data()!;
     return ProductModel(
-      pduration: double.parse((data['pduration'] ?? 0.0).toString()),
+        pduration: double.parse((data['pduration'] ?? 0.0).toString()),
         id: document.id,
         categoryId: data['CategoryId'] ?? '',
         price: double.parse((data['price'] ?? 0.0).toString()),
@@ -81,7 +81,7 @@ class ProductModel {
       QueryDocumentSnapshot<Object?> document) {
     final data = document.data() as Map<String, dynamic>;
     return ProductModel(
-      pduration: double.parse((data['pduration'] ?? 0.0).toString()),
+        pduration: double.parse((data['pduration'] ?? 0.0).toString()),
         id: document.id,
         categoryId: data['CategoryId'] ?? '',
         price: double.parse((data['price'] ?? 0.0).toString()),

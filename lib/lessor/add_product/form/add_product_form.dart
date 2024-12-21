@@ -9,11 +9,8 @@ import 'package:equips_v2/utilities/constants/size.dart';
 import 'package:equips_v2/feature/shop/controller/product/product_controller.dart';
 
 class AddProductForm extends StatelessWidget {
-  
-
   const AddProductForm({
     super.key,
-    
   });
 
   @override
@@ -56,8 +53,7 @@ class AddProductForm extends StatelessWidget {
           // Price
           TextFormField(
             controller: controller.price,
-            validator: (value) =>
-                EValidate.validateEmptyText('Price', value),
+            validator: (value) => EValidate.validateEmptyText('Price', value),
             inputFormatters: [FilteringTextInputFormatter.digitsOnly],
             decoration: const InputDecoration(
               labelText: "Price",
@@ -114,7 +110,7 @@ class AddProductForm extends StatelessWidget {
                   return null;
                 },
                 decoration: const InputDecoration(
-                  labelText: "Select product category",
+                  labelText: "Product category",
                   prefixIcon: Icon(Iconsax.user_tag),
                 ),
               )),
@@ -152,16 +148,16 @@ class AddProductForm extends StatelessWidget {
               onPressed: () {
                 if (controller.addProductFormKey.currentState!.validate()) {
                   controller.addProduct();
-                  
-                   // Reset the form
+
+                  // Reset the form
                 }
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF25291C),
-              ),
+                  backgroundColor: const Color(0xFF25291C),
+                  side: const BorderSide(color: Color(0xFF25291C))),
               child: controller.isLoading.value
-      ? const Text('Loading')  // Show loading spinner
-      : const Text('Add Product'),
+                  ? const Text('Loading') // Show loading spinner
+                  : const Text('Add Product'),
             ),
           ),
         ],
@@ -169,4 +165,3 @@ class AddProductForm extends StatelessWidget {
     );
   }
 }
-

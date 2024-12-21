@@ -32,10 +32,8 @@ class CategoryController extends GetxController {
       allCategories.assignAll(categories);
 
       // Filter featured categories
-      featuredCategories.assignAll(allCategories
-          .where((category) => category.isFeatured)
-          .take(8)
-          .toList());
+      featuredCategories.assignAll(
+          allCategories.where((category) => category.isFeatured).toList());
     } catch (e) {
       ELoaders.errorSnackBar(title: "Oh, snap!", message: e.toString());
     } finally {

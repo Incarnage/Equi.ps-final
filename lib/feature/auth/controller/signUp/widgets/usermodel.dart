@@ -12,20 +12,25 @@ class UserModel {
   String phoneNumber;
   String profilePicture;
   String validID;
+  String gmail;
+  String facebook;
+  String instagram;
 
-  UserModel({
-    required this.address,
-    required this.validID,
-    required this.gcash,
-    required this.userType,
-    required this.id,
-    required this.username,
-    required this.email,
-    required this.firstName,
-    required this.lastName,
-    required this.phoneNumber,
-    required this.profilePicture,
-  });
+  UserModel(
+      {required this.address,
+      required this.validID,
+      required this.gcash,
+      required this.userType,
+      required this.id,
+      required this.username,
+      required this.email,
+      required this.firstName,
+      required this.lastName,
+      required this.phoneNumber,
+      required this.profilePicture,
+      required this.gmail,
+      required this.facebook,
+      required this.instagram});
 
   String get fullName => '$firstName $lastName';
 
@@ -44,8 +49,8 @@ class UserModel {
 
   // Static function to create an empty user model.
   static UserModel empty() => UserModel(
-    address: "",
-    validID: "",
+      address: "",
+      validID: "",
       gcash: "",
       id: "",
       firstName: "",
@@ -54,7 +59,10 @@ class UserModel {
       email: "",
       phoneNumber: "",
       profilePicture: "",
-      userType: "");
+      userType: "",
+      gmail: "",
+      instagram: "",
+      facebook: "");
 
   // Convert model to JSON structure for storing data in Firebase.
   Map<String, dynamic> toJson() {
@@ -68,7 +76,10 @@ class UserModel {
       'Email': email,
       'PhoneNumber': phoneNumber,
       'ProfilePicture': profilePicture,
-      'UserType': userType
+      'UserType': userType,
+      'Gmail': gmail,
+      'Facebook': facebook,
+      'Instagram': instagram,
     };
   }
 
@@ -77,8 +88,8 @@ class UserModel {
       DocumentSnapshot<Map<String, dynamic>> document) {
     final data = document.data()!;
     return UserModel(
-      address: data['address']?? "",
-      validID: data['validID']?? "",
+        address: data['address'] ?? "",
+        validID: data['validID'] ?? "",
         id: document.id,
         firstName: data['FirstName'] ?? "",
         lastName: data['LastName'] ?? "",
@@ -87,6 +98,9 @@ class UserModel {
         phoneNumber: data['PhoneNumber'] ?? "",
         profilePicture: data['ProfilePicture'] ?? "",
         userType: data['UserType'] ?? "",
-        gcash: data['Gcash'] ?? "");
+        gcash: data['Gcash'] ?? "",
+        gmail: data['Gmail'] ?? "",
+        instagram: data['Instagram'] ?? "",
+        facebook: data['Facebook'] ?? "");
   }
 }

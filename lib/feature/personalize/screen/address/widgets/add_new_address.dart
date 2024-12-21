@@ -68,8 +68,12 @@ class AddNewAddressScreen extends StatelessWidget {
                   const SizedBox(height: TSizes.defaultSpace),
                   SizedBox(
                       width: double.infinity,
-                      child:
-                          ElevatedButton(onPressed: () {}, child: Text("Save")))
+                      child: ElevatedButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xFF25291C),
+                              side: const BorderSide(color: Color(0xFF25291C))),
+                          child: const Text("Save")))
                 ],
               ),
             )),

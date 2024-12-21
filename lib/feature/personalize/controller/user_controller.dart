@@ -3,6 +3,7 @@ import 'package:equips_v2/data/repository/user/user_repository.dart';
 import 'package:equips_v2/feature/auth/controller/signUp/signup_controller.dart';
 import 'package:equips_v2/feature/auth/controller/signUp/widgets/usermodel.dart';
 import 'package:equips_v2/feature/auth/screen/signin/sign_in.dart';
+import 'package:equips_v2/feature/personalize/screen/Social-Media/socmed_controller.dart';
 import 'package:equips_v2/feature/personalize/screen/profile/widgets/re_auth.dart';
 import 'package:equips_v2/utilities/constants/size.dart';
 import 'package:equips_v2/utilities/network/network_manager.dart';
@@ -64,8 +65,11 @@ class UserController extends GetxController {
 
           //map the data
           final user = UserModel(
+            gmail: SocmedController.instance.gmail.value.toString(),
+            facebook: SocmedController.instance.facebook.value.toString(),
+            instagram: SocmedController.instance.instagram.value.toString(),
             address: SignupController.instance.address.text,
-            validID: userCredentials.user!.photoURL??'',
+            validID: userCredentials.user!.photoURL ?? '',
             gcash: userCredentials.user!.photoURL ?? '',
             id: userCredentials.user!.uid,
             username: username,

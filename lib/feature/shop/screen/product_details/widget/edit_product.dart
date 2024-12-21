@@ -11,9 +11,7 @@ import 'package:equips_v2/utilities/constants/enums.dart';
 import 'package:equips_v2/utilities/constants/size.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:iconsax/iconsax.dart';
 import 'package:readmore/readmore.dart';
-
 
 class EditProductDetails extends StatelessWidget {
   const EditProductDetails({super.key, required this.product});
@@ -23,12 +21,11 @@ class EditProductDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(ImagesController());
-    
-  
-    
+
     return Scaffold(
       bottomNavigationBar: EBottomEditDeleteProduct(
-        product: product,),
+        product: product,
+      ),
       body: FutureBuilder<List<String>>(
         future: ImagesController.instance.getAllProductImages(product),
         builder: (context, snapshot) {
@@ -63,7 +60,8 @@ class EditProductDetails extends StatelessWidget {
                     children: [
                       ProductData(product: product),
                       const SizedBox(height: TSizes.spaceItems),
-                      const SectionHeading(title: 'Description', showActionButton: false),
+                      const SectionHeading(
+                          title: 'Description', showActionButton: false),
                       const SizedBox(height: TSizes.spaceItems),
                       ReadMoreText(
                         product.description ?? '',

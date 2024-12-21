@@ -13,8 +13,14 @@ class SocialMediaAccs extends StatelessWidget {
     final controller = Get.put(SocmedController());
 
     return Scaffold(
-      appBar: const TAppbar(
-        title: Text('Your Social Media Accounts'),
+      appBar: TAppbar(
+        title: Text(
+          'Your Social Details',
+          style: Theme.of(context)
+              .textTheme
+              .headlineMedium!
+              .apply(color: Colors.black),
+        ),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -24,7 +30,7 @@ class SocialMediaAccs extends StatelessWidget {
             children: [
               Text(
                 'Add other communication channels.',
-                style: Theme.of(context).textTheme.headlineMedium,
+                style: Theme.of(context).textTheme.headlineSmall,
               ),
               const SizedBox(
                 height: TSizes.spaceSections,

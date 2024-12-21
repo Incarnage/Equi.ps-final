@@ -21,10 +21,8 @@ class ProductController extends GetxController {
   RxList<ProductModel> featuredProducts = <ProductModel>[].obs;
   RxList<ProductModel> lessorProducts = <ProductModel>[].obs;
 
-
-
   late final GlobalKey<FormState> addProductFormKey;
-    late final GlobalKey<FormState> editProductFormKey;
+  late final GlobalKey<FormState> editProductFormKey;
 
   final productName =
       TextEditingController(); // Controller for first name input
@@ -40,8 +38,6 @@ class ProductController extends GetxController {
     addProductFormKey = GlobalKey<FormState>();
     editProductFormKey = GlobalKey<FormState>();
   }
-
-  
 
   @override
   void onInit() {
@@ -71,8 +67,6 @@ class ProductController extends GetxController {
     }
   }
 
-  
-
   Future<List<ProductModel>> fetchAllLessorProducts() async {
     try {
       final products = await productRepository.getAllLessorProducts();
@@ -95,7 +89,7 @@ class ProductController extends GetxController {
     return isAvailable ? 'Available' : 'Rented';
   }
 
-   Future<void> pickImage() async {
+  Future<void> pickImage() async {
     final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       imageFile.value = pickedFile;
@@ -122,94 +116,98 @@ class ProductController extends GetxController {
   }
 
   // Function to add a product
-   Future<void> addProduct() async {
-  if (addProductFormKey.currentState!.validate()) {
-    isLoading.value = true;
-    final user = await userRepository.fetchUserDetail();
-     // Set loading state to true
+  Future<void> addProduct() async {
+    if (addProductFormKey.currentState!.validate()) {
+      isLoading.value = true;
+      final user = await userRepository.fetchUserDetail();
+      // Set loading state to true
 
-    try {
-      final imageUrl = await uploadImage(imageFile.value);
-      if (imageUrl == null) {
-        ELoaders.errorSnackBar(
-            title: 'Error', message: 'Please select an image to upload');
-        return;
+      try {
+        final imageUrl = await uploadImage(imageFile.value);
+        if (imageUrl == null) {
+          ELoaders.errorSnackBar(
+              title: 'Error', message: 'Please select an image to upload');
+          return;
+        }
+
+        await productRepository.addProduct({
+          'Lessor': {
+            'ID': user.id,
+            'Image': user.profilePicture,
+            'Name': user.fullName,
+            'Location': user.address,
+            'Facebook': user.facebook,
+            'Instagram': user.instagram,
+            'Gmail': user.gmail
+          },
+          'isAvailable': true,
+          'Title': productName.text,
+          'Description': description.text,
+          'price': price.text,
+          'CategoryId': category.value,
+          'Thumbnail': imageUrl,
+          'createdAt': FieldValue.serverTimestamp(),
+          'duration': pduration.text,
+        });
+
+        ELoaders.successSnackBar(
+            title: 'Success', message: 'Product added successfully');
+      } catch (e) {
+        ELoaders.errorSnackBar(title: 'Error', message: e.toString());
+      } finally {
+        Get.offAll(() => const LessorNavigationMenu());
+        isLoading.value = false;
+        resetForm(); // Set loading state to false when done
       }
-
-      await productRepository.addProduct({
-        'Lessor': {
-          'ID': user.id,
-          'Image': user.profilePicture,
-          'Name': user.fullName,
-        },
-        'isAvailable': true,
-        'Title': productName.text,
-        'Description': description.text,
-        'price': price.text,
-        'CategoryId': category.value,
-        'Thumbnail': imageUrl,
-        'createdAt': FieldValue.serverTimestamp(),
-        'duration': pduration.text,
-      });
-
-      ELoaders.successSnackBar(
-          title: 'Success', message: 'Product added successfully');
-     
-    } catch (e) {
-      ELoaders.errorSnackBar(title: 'Error', message: e.toString());
-    } finally {
-      Get.offAll(() => const LessorNavigationMenu());
-      isLoading.value = false;
-      resetForm(); // Set loading state to false when done
     }
   }
-}
 
 // In ProductController
-Future<void> updateProduct(ProductModel product) async {
-  if (editProductFormKey.currentState!.validate()) {
-    isLoading.value = true;
-    final user = await userRepository.fetchUserDetail();
-    
-    try {
-      final imageUrl = await uploadImage(imageFile.value);
-      if (imageUrl == null && imageFile.value != null) {
-        ELoaders.errorSnackBar(title: 'Error', message: 'Please select an image to upload');
-        return;
+  Future<void> updateProduct(ProductModel product) async {
+    if (editProductFormKey.currentState!.validate()) {
+      isLoading.value = true;
+      final user = await userRepository.fetchUserDetail();
+
+      try {
+        final imageUrl = await uploadImage(imageFile.value);
+        if (imageUrl == null && imageFile.value != null) {
+          ELoaders.errorSnackBar(
+              title: 'Error', message: 'Please select an image to upload');
+          return;
+        }
+
+        // Prepare the updated product data
+        final updatedProductData = {
+          'Lessor': {
+            'ID': user.id,
+            'Image': user.profilePicture,
+            'Name': user.fullName,
+          },
+          'isAvailable': true,
+          'Title': productName.text,
+          'Description': description.text,
+          'price': price.text,
+          'CategoryId': category.value,
+          'Thumbnail': imageFile.value != null
+              ? imageUrl
+              : product.thumbnail, // Use new image if uploaded
+          'createdAt': FieldValue.serverTimestamp(),
+          'duration': pduration.text,
+        };
+
+        // Call the repository method to update the product
+        await productRepository.updateProduct(product.id, updatedProductData);
+
+        ELoaders.successSnackBar(
+            title: 'Success', message: 'Product updated successfully');
+      } catch (e) {
+        ELoaders.errorSnackBar(title: 'Error', message: e.toString());
+      } finally {
+        Get.offAll(() => const LessorNavigationMenu());
+        isLoading.value = false;
       }
-
-      // Prepare the updated product data
-      final updatedProductData = {
-        'Lessor': {
-          'ID': user.id,
-          'Image': user.profilePicture,
-          'Name': user.fullName,
-        },
-        'isAvailable': true,
-        'Title': productName.text,
-        'Description': description.text,
-        'price': price.text,
-        'CategoryId': category.value,
-        'Thumbnail': imageFile.value != null ? imageUrl : product.thumbnail, // Use new image if uploaded
-        'createdAt': FieldValue.serverTimestamp(),
-        'duration': pduration.text,
-      };
-
-      // Call the repository method to update the product
-      await productRepository.updateProduct(product.id, updatedProductData);
-
-      ELoaders.successSnackBar(title: 'Success', message: 'Product updated successfully');
-    } catch (e) {
-      ELoaders.errorSnackBar(title: 'Error', message: e.toString());
-    } finally {
-      Get.offAll(() => const LessorNavigationMenu());
-      isLoading.value = false;
     }
   }
-}
-
-
-
 
   Future<List<ProductModel>> fetchRandomProducts({int limit = 4}) async {
     try {

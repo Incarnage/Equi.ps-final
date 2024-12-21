@@ -1,4 +1,5 @@
 import 'package:equips_v2/data/repository/user/user_repository.dart';
+import 'package:equips_v2/feature/auth/controller/signUp/widgets/usermodel.dart';
 import 'package:equips_v2/feature/personalize/controller/user_controller.dart';
 import 'package:equips_v2/feature/personalize/screen/profile/profile.dart';
 import 'package:equips_v2/utilities/network/network_manager.dart';
@@ -15,6 +16,7 @@ class SocmedController extends GetxController {
   final gmail = TextEditingController();
   final socialsController = UserController.instance;
   final userRepository = Get.put(UserRepository());
+  Rx<UserModel> user = UserModel.empty().obs;
   GlobalKey<FormState> updateUserNameFormKey = GlobalKey<FormState>();
 
   @override
@@ -59,9 +61,9 @@ class SocmedController extends GetxController {
 
       //update Rx user value
 
-      socialsController.user.value.firstName = facebook.text.trim();
-      socialsController.user.value.lastName = instagram.text.trim();
-      socialsController.user.value.firstName = gmail.text.trim();
+      user.value.firstName = facebook.text.trim();
+      user.value.lastName = instagram.text.trim();
+      user.value.firstName = gmail.text.trim();
 
       //remove loader
       EFullScreenLoader.stopLoading();

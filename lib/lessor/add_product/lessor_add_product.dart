@@ -1,3 +1,4 @@
+import 'package:equips_v2/common/widgets/appbar/appbar.dart';
 import 'package:equips_v2/feature/shop/controller/product/product_controller.dart';
 import 'package:equips_v2/lessor/add_product/form/add_product_form.dart';
 import 'package:equips_v2/utilities/constants/size.dart';
@@ -15,16 +16,20 @@ class LessorAddProduct extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Add Product"),
+      appBar: TAppbar(
+        title: Text(
+          "Add Product",
+          style: Theme.of(context)
+              .textTheme
+              .headlineMedium!
+              .apply(color: Colors.black),
+        ),
       ),
       body: const SingleChildScrollView(
-        padding: EdgeInsets.only(left: TSizes.defaultSpace,right: TSizes.defaultSpace),
-        child: AddProductForm(
-             
-            ),
+        padding: EdgeInsets.only(
+            left: TSizes.defaultSpace, right: TSizes.defaultSpace),
+        child: AddProductForm(),
       ),
     );
   }
 }
-

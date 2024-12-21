@@ -9,10 +9,17 @@ class FrequentlyAskedQuestions extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(useMaterial3: true),
-      home: const Scaffold(
-        appBar: TAppbar(showBackArrow: true, title: Text("FAQs")),
-        body: ExpansionTileExample(),
-        
+      home: Scaffold(
+        appBar: TAppbar(
+            showBackArrow: true,
+            title: Text(
+              "FAQs",
+              style: Theme.of(context)
+                  .textTheme
+                  .headlineMedium!
+                  .apply(color: Colors.black),
+            )),
+        body: const ExpansionTileExample(),
       ),
     );
   }
@@ -31,12 +38,10 @@ class _ExpansionTileExampleState extends State<ExpansionTileExample> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF25291C),
+      backgroundColor: const Color(0xFF25291C),
       body: Padding(
-        
         padding: const EdgeInsets.all(TSizes.defaultSpace),
         child: SingleChildScrollView(
-          
           child: Column(
             children: <Widget>[
               const Text("Frequently Asked Questions (FAQs)",
@@ -47,7 +52,7 @@ class _ExpansionTileExampleState extends State<ExpansionTileExample> {
               const SizedBox(
                 height: TSizes.spaceItems,
               ),
-      
+
               // Q&A Message
               ExpansionTile(
                 collapsedShape: Border.all(color: Colors.white),
@@ -56,7 +61,8 @@ class _ExpansionTileExampleState extends State<ExpansionTileExample> {
                 shape: Border.all(color: Colors.white),
                 title: const Text('Message',
                     style: TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: TSizes.fontLarge)),
+                        fontWeight: FontWeight.bold,
+                        fontSize: TSizes.fontLarge)),
                 subtitle: const Text(
                     'I am a lessor, can I initiate a conversation with potential lessees?',
                     style: TextStyle(fontStyle: FontStyle.italic)),
@@ -66,11 +72,11 @@ class _ExpansionTileExampleState extends State<ExpansionTileExample> {
                           'No, you cannot initiate a conversation with potential lessees. But you are allowed to communicate with them once they inquired about your property/ies.')),
                 ],
               ),
-      
+
               const SizedBox(
                 height: TSizes.spaceItems,
               ),
-      
+
               // Q&A Payment
               ExpansionTile(
                 collapsedShape: Border.all(color: Colors.white),
@@ -79,7 +85,8 @@ class _ExpansionTileExampleState extends State<ExpansionTileExample> {
                 shape: Border.all(color: Colors.white),
                 title: const Text('Payment',
                     style: TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: TSizes.fontLarge)),
+                        fontWeight: FontWeight.bold,
+                        fontSize: TSizes.fontLarge)),
                 subtitle: const Text(
                   'Can I still rent an item without giving a down payment?',
                   style: TextStyle(fontStyle: FontStyle.italic),
@@ -90,11 +97,11 @@ class _ExpansionTileExampleState extends State<ExpansionTileExample> {
                           'No, you will not be able to rent an item without sending a payment, at least a down payment, to the lessor. This is to ensure that there will be no cancellations of the property/ies on the rental period provided.')),
                 ],
               ),
-      
+
               const SizedBox(
                 height: TSizes.spaceItems,
               ),
-      
+
               // Q&A Search
               ExpansionTile(
                 collapsedShape: Border.all(color: Colors.white),
@@ -103,7 +110,8 @@ class _ExpansionTileExampleState extends State<ExpansionTileExample> {
                 shape: Border.all(color: Colors.white),
                 title: const Text('Search',
                     style: TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: TSizes.fontLarge)),
+                        fontWeight: FontWeight.bold,
+                        fontSize: TSizes.fontLarge)),
                 subtitle: const Text(
                     'Can I filter the event properties per place?',
                     style: TextStyle(fontStyle: FontStyle.italic)),
@@ -113,7 +121,7 @@ class _ExpansionTileExampleState extends State<ExpansionTileExample> {
                           'Yes, you can filter the properties you are looking for according to cities/municipalities. To do it, go to Store page then check filter icon in the upper right corner, then click it to filter properties.')),
                 ],
               ),
-      
+
               const SizedBox(
                 height: TSizes.spaceItems,
               ),

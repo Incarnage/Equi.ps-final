@@ -40,6 +40,27 @@ class ProductData extends StatelessWidget {
             ),
           ],
         ),
+
+        const SizedBox(
+          height: TSizes.spaceItems,
+        ),
+
+        // Location
+        Row(
+          children: [
+            //title
+            const EProductTitleText(title: 'Location'),
+            const SizedBox(width: TSizes.spaceItems),
+            Text(
+              product.lessor!.address,
+              style: const TextStyle(fontSize: 20),
+            ),
+          ],
+        ),
+
+        const SizedBox(
+          height: TSizes.spaceItems,
+        ),
       ],
     );
   }

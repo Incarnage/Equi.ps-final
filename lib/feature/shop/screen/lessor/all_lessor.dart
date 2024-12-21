@@ -17,27 +17,30 @@ class AllLessors extends StatelessWidget {
   Widget build(BuildContext context) {
     final lessorController = LessorController.instance;
     return Scaffold(
-      appBar: const TAppbar(
+      appBar: TAppbar(
         title: Text(
           'Verified Lessors',
-          style: TextStyle(color: Color(0xFF25291C)),
+          style: Theme.of(context)
+              .textTheme
+              .headlineMedium!
+              .apply(color: Colors.white),
         ),
         showBackArrow: false,
       ),
-      backgroundColor: Colors.white,
+      backgroundColor: const Color(0xFF25291C),
       body: SingleChildScrollView(
-        child: Container(
-          decoration: BoxDecoration(
+        /*child: Container(
+          decoration: const BoxDecoration(
             boxShadow: [ShadowStyle.verticalProductShadow],
             borderRadius: BorderRadius.circular(TSizes.productItemHeight),
             color: Colors.white,
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(TSizes.defaultSpace),
-            child: Column(
-              children: [
-                //heading
-                /*const SectionHeading(
+          ),*/
+        child: Padding(
+          padding: const EdgeInsets.all(TSizes.defaultSpace),
+          child: Column(
+            children: [
+              //heading
+              /*const SectionHeading(
                   title: 'Verified Lessors',
                   buttonTitle: '',
                   textColor: Colors.white,
@@ -46,36 +49,35 @@ class AllLessors extends StatelessWidget {
                   height: TSizes.spaceItems,
                 ),*/
 
-                //brands
-                Obx(() {
-                  if (lessorController.isLoading.value) {
-                    return const LessorShimmer();
-                  }
+              //brands
+              Obx(() {
+                if (lessorController.isLoading.value) {
+                  return const LessorShimmer();
+                }
 
-                  if (lessorController.allLessors.isEmpty) {
-                    return const Center(
-                      child: Text('No Data Found',
-                          style: TextStyle(color: Colors.red)),
-                    );
-                  }
-                  return EGridLayout(
-                      itemCount: lessorController
-                          .allLessors.length, // number of elements / products
-                      mainAxisExtent:
-                          80, // it's like teh length downwards of each element
-                      itemBuilder: (_, index) {
-                        final lessor = lessorController.allLessors[index];
-                        return ELessorCard(
-                          onTap: () => Get.to(() => LessorProducts(
-                                lessor: lessor,
-                              )),
-                          showBorder: true,
-                          lessor: lessor,
-                        );
-                      });
-                })
-              ],
-            ),
+                if (lessorController.allLessors.isEmpty) {
+                  return const Center(
+                    child: Text('No Data Found',
+                        style: TextStyle(color: Colors.red)),
+                  );
+                }
+                return EGridLayout(
+                    itemCount: lessorController
+                        .allLessors.length, // number of elements / products
+                    mainAxisExtent:
+                        80, // it's like teh length downwards of each element
+                    itemBuilder: (_, index) {
+                      final lessor = lessorController.allLessors[index];
+                      return ELessorCard(
+                        onTap: () => Get.to(() => LessorProducts(
+                              lessor: lessor,
+                            )),
+                        showBorder: true,
+                        lessor: lessor,
+                      );
+                    });
+              })
+            ],
           ),
         ),
       ),

@@ -13,7 +13,7 @@ class OrderCard extends StatelessWidget {
   const OrderCard({required this.order, super.key});
 
   String formatDate(DateTime date) {
-    return DateFormat('MMMM/dd').format(date);
+    return DateFormat('MMMM dd').format(date);
   }
 
   @override
@@ -23,6 +23,7 @@ class OrderCard extends StatelessWidget {
         Get.to(OrderDetails(order: order));
       },
       child: Card(
+        color: const Color(0xFF25291C),
         elevation: 4,
         margin: const EdgeInsets.symmetric(vertical: TSizes.small),
         child: Padding(
@@ -52,16 +53,23 @@ class OrderCard extends StatelessWidget {
                       children: [
                         Text(
                           product.productTitle, // Display the product name
-                          style: Theme.of(context).textTheme.headlineMedium,
+                          style: const TextStyle(
+                              color: Colors.white, fontSize: TSizes.fontLarge),
                         ),
                         const SizedBox(height: TSizes.spaceItems / 2),
                         Text(
-                          "From: ${formatDate(order.fromDate)}",
-                          style: Theme.of(context).textTheme.titleSmall,
+                          "FROM: ${formatDate(order.fromDate)}",
+                          style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: TSizes.fontSmall,
+                              fontWeight: FontWeight.normal),
                         ),
                         Text(
-                          "To: ${formatDate(order.toDate)}",
-                          style: Theme.of(context).textTheme.titleSmall,
+                          "T0: ${formatDate(order.toDate)}",
+                          style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: TSizes.fontSmall,
+                              fontWeight: FontWeight.normal),
                         ),
                       ],
                     );
@@ -72,7 +80,9 @@ class OrderCard extends StatelessWidget {
               // Status Icon
               Icon(
                 order.status == "Pending" ? Icons.pending : Icons.check_circle,
-                color: order.status == "Pending" ? Colors.orange : Colors.green,
+                color: order.status == "Pending"
+                    ? const Color(0xFFFFD233)
+                    : Colors.green,
               ),
             ],
           ),

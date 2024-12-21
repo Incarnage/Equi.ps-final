@@ -6,9 +6,7 @@ class LessorModel {
   String name;
   bool? isFeatured;
   String address;
-  String facebook;
-  String instagram;
-  String gmail;
+  
 
   LessorModel(
       {required this.id,
@@ -16,9 +14,7 @@ class LessorModel {
       this.isFeatured,
       required this.image,
       required this.address,
-      required this.facebook,
-      required this.instagram,
-      required this.gmail});
+      });
 
   // Empty Helper Function
   static LessorModel empty() => LessorModel(
@@ -26,9 +22,7 @@ class LessorModel {
       name: '',
       image: '',
       address: '',
-      facebook: '',
-      instagram: '',
-      gmail: '');
+      );
 
   // Convert model to Json structure so that you can store data in Firebase
   toJson() {
@@ -38,9 +32,7 @@ class LessorModel {
       'IsFeatured': isFeatured,
       'Image': image,
       'Location': address,
-      'Facebook': facebook,
-      'Instagram': instagram,
-      'Gmail': gmail
+     
     };
   }
 
@@ -54,9 +46,7 @@ class LessorModel {
         isFeatured: data['IsFeatured'] ?? false,
         image: data['Image'] ?? '',
         address: data['Location'] ?? '',
-        facebook: data['Facebook'] ?? '',
-        instagram: data['Instagram'] ?? '',
-        gmail: data['Gmail'] ?? '');
+        );
   }
 
   factory LessorModel.fromSnapshot(
@@ -70,9 +60,7 @@ class LessorModel {
           isFeatured: data['IsFeatured'] ?? false,
           image: data['Image'] ?? '',
           address: data['Location'] ?? '',
-          facebook: data['Facebook'] ?? '',
-          instagram: data['Instagram'] ?? '',
-          gmail: data['Gmail'] ?? '');
+          );
     } else {
       return LessorModel.empty();
     }

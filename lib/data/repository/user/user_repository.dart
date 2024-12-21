@@ -70,6 +70,24 @@ class UserRepository extends GetxController {
     }
   }
 
+  Future<Map<String, String>> getLessorSocMed(String lessorId) async {
+  DocumentSnapshot docSnapshot = await FirebaseFirestore.instance
+      .collection('Users')
+      .doc(lessorId)
+      .get();
+
+  if (docSnapshot.exists) {
+    return {
+      'Facebook': docSnapshot['Facebook'] ?? 'Not available',
+      'Instagram': docSnapshot['Instagram'] ?? 'Not available',
+      'Gmail': docSnapshot['Gmail'] ?? 'Not available',
+    };
+  } else {
+    throw Exception("Lessor not found");
+  }
+}
+
+
   
 
   //update firestore

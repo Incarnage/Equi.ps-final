@@ -1,7 +1,6 @@
 import 'package:equips_v2/common/widgets/appbar/appbar.dart';
 import 'package:equips_v2/common/widgets/appbar/tabbar.dart';
 import 'package:equips_v2/common/widgets/custom_shapes/container/eSectionHeading.dart';
-
 import 'package:equips_v2/common/widgets/layouts/gridLayout.dart';
 import 'package:equips_v2/common/widgets/brands/lessor_card.dart';
 import 'package:equips_v2/common/widgets/shimmer/lessor_shimmer.dart';
@@ -21,8 +20,17 @@ class Store extends StatelessWidget {
   Widget build(BuildContext context) {
     final lessorController = Get.put(LessorController());
     final categories = CategoryController.instance.featuredCategories;
+
+    // Sort categories alphabetically, and place "Other" last
+    final sortedCategories = categories
+      ..sort((a, b) {
+        if (a.name == "Others") return 1; // Place "Other" last
+        if (b.name == "Others") return -1;
+        return a.name.compareTo(b.name); // Alphabetical sorting
+      });
+
     return DefaultTabController(
-      length: categories.length,
+      length: sortedCategories.length,
       child: Scaffold(
         appBar: TAppbar(
           title: Text(
@@ -92,7 +100,7 @@ class Store extends StatelessWidget {
                     ),
                   ),
                   bottom: ETabBar(
-                      tabs: categories
+                      tabs: sortedCategories
                           .map((category) => Tab(
                                 child: Text(category.name),
                               ))
@@ -101,7 +109,7 @@ class Store extends StatelessWidget {
               ];
             },
             body: TabBarView(
-                children: categories
+                children: sortedCategories
                     .map((category) => ECatergoryTab(category: category))
                     .toList())),
       ),

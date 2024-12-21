@@ -16,8 +16,11 @@ class EBookmark extends StatelessWidget {
       () => ECircularIcons(
         backgroundColor: Colors.white,
         icon: controller.isBookmarked(productId)
-            ? Iconsax.bookmark1
+            ? Icons.bookmark
             : Iconsax.bookmark,
+        size: 24,
+        width: 50,
+        height: 50,
         onPressed: () => controller.toggleBookmark(productId),
       ),
     );

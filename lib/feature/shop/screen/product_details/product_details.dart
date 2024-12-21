@@ -1,6 +1,8 @@
 import 'package:equips_v2/common/widgets/text/brandTitle_with_verifiedIcon.dart';
 import 'package:equips_v2/common/widgets/text/productTitle_text.dart';
 import 'package:equips_v2/common/widgets/text/section_heading.dart';
+import 'package:equips_v2/data/repository/user/user_repository.dart';
+import 'package:equips_v2/feature/auth/controller/signUp/widgets/usermodel.dart';
 
 import 'package:equips_v2/feature/shop/models/product_model.dart';
 import 'package:equips_v2/feature/shop/screen/product_details/widget/bottom_add_cart.dart';
@@ -15,68 +17,83 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:readmore/readmore.dart';
 
-class ProductDetails extends StatelessWidget {
+import 'package:flutter/material.dart';
+import 'package:equips_v2/data/repository/user/user_repository.dart';
+
+class ProductDetails extends StatefulWidget {
   const ProductDetails({super.key, required this.product});
 
   final ProductModel product;
+
+  @override
+  _ProductDetailsState createState() => _ProductDetailsState();
+}
+
+class _ProductDetailsState extends State<ProductDetails> {
+  Map<String, String>? socialMedia;
+  bool isLoading = true;
+  String errorMessage = '';
+
+  @override
+  void initState() {
+    super.initState();
+    fetchLessorSocialMedia();
+  }
+
+  Future<void> fetchLessorSocialMedia() async {
+    try {
+      final data = await UserRepository().getLessorSocMed(widget.product.lessor!.id);
+      setState(() {
+        socialMedia = data;
+        isLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        errorMessage = e.toString();
+        isLoading = false;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: product.isAvailable == true
+      bottomNavigationBar: widget.product.isAvailable == true
           ? EBottomeAddToCart(
-              product: product,
+              product: widget.product,
             )
           : const Unavailable(),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            //image slider
+            // Image slider
             ImageSlider(
-              product: product,
+              product: widget.product,
             ),
-
             const Divider(),
             const SizedBox(height: TSizes.spaceItems),
 
-            // name of product
-            EProductTitleText(title: product.productTitle, smallSize: true),
-            // Store Name
+            // Name of product
+            EProductTitleText(
+              title: widget.product.productTitle,
+              smallSize: true,
+            ),
+
+            // Store Name and Verified Icon
             brandTitleWithVerifiedIcon(
-              title: product.lessor!.name,
+              title: widget.product.lessor!.name,
               brandTextSize: TextSizes.medium,
             ),
 
             const SizedBox(height: TSizes.spaceItems),
-
             const Divider(),
-            const SizedBox(
-              height: TSizes.spaceItems,
-            ),
-            //product details
-            Padding(
-              padding: const EdgeInsets.only(
-                right: TSizes.defaultSpace,
-                left: TSizes.defaultSpace,
-                bottom: TSizes.defaultSpace,
-              ),
-              child: Column(
-                children: [
-                  // rental cost and status
-                  ProductData(
-                    product: product,
-                  ),
-
-                  const SizedBox(
-                    height: TSizes.spaceItems,
-                  ),
-
-                  //desc
-                  const SectionHeading(
+            const SizedBox(height: TSizes.spaceItems),
+            const SectionHeading(
                     title: 'Description',
                     showActionButton: false,
                   ),
 
-                  ReadMoreText(product.description ?? '',
+                  ReadMoreText(widget.product.description ?? '',
                       style: const TextStyle(fontWeight: FontWeight.normal),
                       trimLines: 2,
                       trimMode: TrimMode.Line,
@@ -86,95 +103,84 @@ class ProductDetails extends StatelessWidget {
                         fontSize: 14,
                         fontWeight: FontWeight.w800,
                       )),
-
                   const SizedBox(
                     height: TSizes.spaceItems,
                   ),
+            const Divider(),
+            const SizedBox(height: TSizes.spaceItems),
 
-                  // Facebook
-                  Row(
-                    children: [
-                      //title
-                      const EProductTitleText(title: 'Facebook'),
-                      const SizedBox(width: TSizes.spaceItems),
-                      Text(
-                        product.lessor!.facebook,
-                        style: const TextStyle(fontSize: 20),
-                      ),
-                    ],
-                  ),
+            // Social Media Section
+            if (isLoading)
+              const CircularProgressIndicator()
+            else if (errorMessage.isNotEmpty)
+              Text('Error: $errorMessage')
+            else if (socialMedia != null)
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: TSizes.defaultSpace),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        const EProductTitleText(title: 'Facebook'),
+                        const SizedBox(width: TSizes.spaceItems),
+                        Text(
+                          socialMedia!['Facebook']!,
+                          style: const TextStyle(fontSize: 20),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: TSizes.spaceItems),
+                    Row(
+                      children: [
+                        const EProductTitleText(title: 'Instagram'),
+                        const SizedBox(width: TSizes.spaceItems),
+                        Text(
+                          socialMedia!['Instagram']!,
+                          style: const TextStyle(fontSize: 20),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: TSizes.spaceItems),
+                    Row(
+                      children: [
+                        const EProductTitleText(title: 'Gmail'),
+                        const SizedBox(width: TSizes.spaceItems),
+                        Text(
+                          socialMedia!['Gmail']!,
+                          style: const TextStyle(fontSize: 20),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              )
+            else
+              const Text('No social media information available'),
 
-                  const SizedBox(
-                    height: TSizes.spaceItems,
-                  ),
+            const Divider(),
+            const SizedBox(height: TSizes.spaceItems),
 
-                  // Instagram
-                  Row(
-                    children: [
-                      //title
-                      const EProductTitleText(title: 'Instagram'),
-                      const SizedBox(width: TSizes.spaceItems),
-                      Text(
-                        product.lessor!.facebook,
-                        style: const TextStyle(fontSize: 20),
-                      ),
-                    ],
+            // Reviews
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                SectionHeading(
+                  title: 'Reviews (100)',
+                  onPressed: () {},
+                  showActionButton: false,
+                ),
+                IconButton(
+                  onPressed: () =>
+                      Get.to(() => const ProductReviewScreen()),
+                  icon: const Icon(
+                    Iconsax.arrow_right_3,
+                    size: 18,
                   ),
-
-                  const SizedBox(
-                    height: TSizes.spaceItems,
-                  ),
-
-                  // Facebook
-                  Row(
-                    children: [
-                      //title
-                      const EProductTitleText(title: 'Gmail'),
-                      const SizedBox(width: TSizes.spaceItems),
-                      Text(
-                        product.lessor!.facebook,
-                        style: const TextStyle(fontSize: 20),
-                      ),
-                    ],
-                  ),
-
-                  const SizedBox(
-                    height: TSizes.spaceItems,
-                  ),
-
-                  //rating
-                  // const RatingAndShare(),
-
-                  //reviews
-                  const Divider(),
-                  const SizedBox(
-                    height: TSizes.spaceItems,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      SectionHeading(
-                        title: 'Reviews (100)',
-                        onPressed: () {},
-                        showActionButton: false,
-                      ),
-                      IconButton(
-                          onPressed: () =>
-                              Get.to(() => const ProductReviewScreen()),
-                          icon: const Icon(
-                            Iconsax.arrow_right_3,
-                            size: 18,
-                          ))
-                    ],
-                  ),
-                  const SizedBox(
-                    height: TSizes.spaceItems,
-                  ),
-
-                  //checkout
-                ],
-              ),
-            )
+                ),
+              ],
+            ),
           ],
         ),
       ),

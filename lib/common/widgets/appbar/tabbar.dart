@@ -13,9 +13,9 @@ class ETabBar extends StatelessWidget implements PreferredSizeWidget {
       child: TabBar(
         tabs: tabs,
         isScrollable: true,
-        indicatorColor: Colors.blueAccent,
-        labelColor: Colors.blueAccent,
-        unselectedLabelColor: Colors.grey,
+        indicatorColor: Color(0xFF25291C),
+        labelColor: Color(0xFF25291C),
+        unselectedLabelColor: const Color.fromARGB(255, 173, 173, 173),
       ),
     );
   }

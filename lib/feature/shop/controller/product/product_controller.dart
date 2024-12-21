@@ -135,10 +135,6 @@ class ProductController extends GetxController {
             'ID': user.id,
             'Image': user.profilePicture,
             'Name': user.fullName,
-            'Location': user.address,
-            'Facebook': user.facebook,
-            'Instagram': user.instagram,
-            'Gmail': user.gmail
           },
           'isAvailable': true,
           'Title': productName.text,

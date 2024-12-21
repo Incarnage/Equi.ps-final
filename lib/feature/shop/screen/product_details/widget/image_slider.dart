@@ -117,7 +117,7 @@ class ImageSlider extends StatelessWidget {
                   showBackArrow: true,
                   
                   actions: [
-                    if(user.value.userType=='lessee')
+                    if(user.value.userType=='Lessee')
                     EBookmark(productId: product.id)],
                 ),
               ],

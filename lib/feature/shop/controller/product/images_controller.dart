@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 
 class ImagesController extends GetxController {
   static ImagesController get instance => Get.find();
-  
+
   // var
   RxString selectedProductImage = ''.obs;
 
@@ -32,30 +32,35 @@ class ImagesController extends GetxController {
     Get.to(
         fullscreenDialog: true,
         () => Dialog.fullscreen(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: TSizes.defaultSpace * 2,
-                        horizontal: TSizes.defaultSpace),
-                    child: CachedNetworkImage(imageUrl: image),
-                  ),
-                  const SizedBox(
-                    height: TSizes.spaceSections,
-                  ),
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: SizedBox(
-                      width: 150,
-                      child: OutlinedButton(
-                          onPressed: () => Get.back(),
-                          child: const Text('Close')),
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: TSizes.defaultSpace * 2,
+                          horizontal: TSizes.defaultSpace),
+                      child: CachedNetworkImage(imageUrl: image),
                     ),
-                  )
-                ],
+                    const SizedBox(
+                      height: TSizes.spaceItems,
+                    ),
+                    Align(
+                      alignment: Alignment.topCenter,
+                      child: SizedBox(
+                        width: 150,
+                        child: OutlinedButton(
+                            style: OutlinedButton.styleFrom(
+                                side:
+                                    const BorderSide(color: Color(0xFF25291C))),
+                            onPressed: () => Get.back(),
+                            child: const Text('Close')),
+                      ),
+                    )
+                  ],
+                ),
               ),
             ));
   }

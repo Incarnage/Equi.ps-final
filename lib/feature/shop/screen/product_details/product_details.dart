@@ -42,7 +42,8 @@ class _ProductDetailsState extends State<ProductDetails> {
 
   Future<void> fetchLessorSocialMedia() async {
     try {
-      final data = await UserRepository().getLessorSocMed(widget.product.lessor!.id);
+      final data =
+          await UserRepository().getLessorSocMed(widget.product.lessor!.id);
       setState(() {
         socialMedia = data;
         isLoading = false;
@@ -87,25 +88,35 @@ class _ProductDetailsState extends State<ProductDetails> {
 
             const SizedBox(height: TSizes.spaceItems),
             const Divider(),
-            const SizedBox(height: TSizes.spaceItems),
-            const SectionHeading(
-                    title: 'Description',
-                    showActionButton: false,
-                  ),
+            // Product Data
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: TSizes.defaultSpace),
+              child: ProductData(product: widget.product),
+            ),
 
-                  ReadMoreText(widget.product.description ?? '',
-                      style: const TextStyle(fontWeight: FontWeight.normal),
-                      trimLines: 2,
-                      trimMode: TrimMode.Line,
-                      trimCollapsedText: 'Show more',
-                      trimExpandedText: 'Less',
-                      moreStyle: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w800,
-                      )),
-                  const SizedBox(
-                    height: TSizes.spaceItems,
-                  ),
+            // Descr
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: TSizes.defaultSpace),
+              child: SectionHeading(
+                title: 'Description',
+                showActionButton: false,
+              ),
+            ),
+
+            ReadMoreText(widget.product.description ?? '',
+                style: const TextStyle(fontWeight: FontWeight.normal),
+                trimLines: 2,
+                trimMode: TrimMode.Line,
+                trimCollapsedText: 'Show more',
+                trimExpandedText: 'Less',
+                moreStyle: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w800,
+                )),
+            const SizedBox(
+              height: TSizes.spaceItems,
+            ),
             const Divider(),
             const SizedBox(height: TSizes.spaceItems),
 
@@ -116,11 +127,24 @@ class _ProductDetailsState extends State<ProductDetails> {
               Text('Error: $errorMessage')
             else if (socialMedia != null)
               Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: TSizes.defaultSpace),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: TSizes.defaultSpace),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    // Location
+                    Row(
+                      children: [
+                        // location
+                        const EProductTitleText(title: 'Location'),
+                        const SizedBox(width: TSizes.spaceItems),
+                        Text(
+                          socialMedia!["address"]!,
+                          style: const TextStyle(fontSize: 20),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: TSizes.spaceItems),
                     Row(
                       children: [
                         const EProductTitleText(title: 'Facebook'),
@@ -172,8 +196,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                   showActionButton: false,
                 ),
                 IconButton(
-                  onPressed: () =>
-                      Get.to(() => const ProductReviewScreen()),
+                  onPressed: () => Get.to(() => const ProductReviewScreen()),
                   icon: const Icon(
                     Iconsax.arrow_right_3,
                     size: 18,

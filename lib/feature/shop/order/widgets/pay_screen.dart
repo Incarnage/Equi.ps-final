@@ -11,6 +11,7 @@ import 'package:equips_v2/feature/shop/models/product_model.dart';
 import 'package:equips_v2/feature/shop/order/widgets/order_controller.dart';
 import 'package:equips_v2/feature/shop/order/widgets/order_date_picker.dart';
 import 'package:equips_v2/feature/shop/order/widgets/order_info.dart';
+import 'package:equips_v2/feature/shop/order/widgets/time_picker.dart';
 import 'package:equips_v2/utilities/constants/size.dart';
 import 'package:equips_v2/utilities/popups/loaders.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +29,6 @@ class PayScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     Get.put(OrderController());
     final controller = UserController.instance;
     final ordercontroller = OrderController.instance;
@@ -103,40 +103,42 @@ class PayScreen extends StatelessWidget {
                           title: "Until",
                         ),
                         const SizedBox(height: TSizes.spaceItems),
+                        // const TimePicker(),
                         const Divider(),
                         const SizedBox(height: TSizes.spaceItems),
                         Obx(() {
-  final networkImage = lessorGcashPhoto.value;
-  final image = (networkImage.isNotEmpty)
-      ? networkImage
-      : 'assets/pic/profile-icon.png';
+                          final networkImage = lessorGcashPhoto.value;
+                          final image = (networkImage.isNotEmpty)
+                              ? networkImage
+                              : 'assets/pic/profile-icon.png';
 
-  return controller.imageUploading.value
-      ? const ShimmerEffect(
-          width: 80,
-          height: 80,
-          radius: 80,
-        )
-      : GestureDetector(
-          onTap: () {
-            if (networkImage.isNotEmpty) {
-              ImagesController.instance.showEnlargedImage(networkImage);
-            } else {
-              ELoaders.errorSnackBar(
-                title: 'Error',
-                message: 'No image available to enlarge',
-              );
-            }
-          },
-          child: ECircularImage(
-            image: image,
-            width: 500,
-            height: 400,
-            isNetworkImage: networkImage.isNotEmpty,
-          ),
-        );
-})
-,
+                          return controller.imageUploading.value
+                              ? const ShimmerEffect(
+                                  width: 80,
+                                  height: 80,
+                                  radius: 80,
+                                )
+                              : GestureDetector(
+                                  onTap: () {
+                                    if (networkImage.isNotEmpty) {
+                                      ImagesController.instance
+                                          .showEnlargedImage(networkImage);
+                                    } else {
+                                      ELoaders.errorSnackBar(
+                                        title: 'Error',
+                                        message:
+                                            'No image available to enlarge',
+                                      );
+                                    }
+                                  },
+                                  child: ECircularImage(
+                                    image: image,
+                                    width: 500,
+                                    height: 400,
+                                    isNetworkImage: networkImage.isNotEmpty,
+                                  ),
+                                );
+                        }),
                         SizedBox(
                           width: double.infinity,
                           child: Center(

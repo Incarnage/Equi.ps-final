@@ -20,6 +20,15 @@ class OrderDetails extends StatelessWidget {
     return DateFormat('MMMM dd').format(date);
   }
 
+   String formatTime(String time) {
+    try {
+      DateTime dateTime = DateFormat('HH:mm').parse(time);
+      return DateFormat('hh:mm a').format(dateTime);  // Format to 12-hour format with AM/PM
+    } catch (e) {
+      return time; // Return original time in case of error
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final userRepository = UserRepository.instance;
@@ -96,16 +105,16 @@ class OrderDetails extends StatelessWidget {
                     return Text('Error: ${snapshot.error}');
                   } else if (snapshot.hasData) {
                     return NotifInfo(
-                        title: 'LESSEE NAME', value: snapshot.data!);
+                        title: 'Lesee Name', value: snapshot.data!);
                   } else {
                     return const Text('No lessee found');
                   }
                 },
               ),
               const SizedBox(height: TSizes.spaceItems),
-              NotifInfo(title: "FROM", value: formatDate(order.fromDate)),
+              NotifInfo(title: "FROM", value: formatDate(order.fromDate), type: 'date',time: formatTime(order.fromTime),),
               const SizedBox(height: TSizes.spaceItems),
-              NotifInfo(title: "TO", value: formatDate(order.toDate)),
+              NotifInfo(title: "TO", value: formatDate(order.toDate), type: 'date', time: formatTime(order.toTime),),
               const SizedBox(height: TSizes.spaceItems),
               const Divider(),
               const SizedBox(height: TSizes.spaceItems),

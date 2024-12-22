@@ -4,6 +4,7 @@ import 'package:equips_v2/common/widgets/custom_shapes/container/header_containe
 import 'package:equips_v2/common/widgets/layouts/list_tile/settingsMenu_tile.dart';
 import 'package:equips_v2/common/widgets/layouts/list_tile/userProfile_tile.dart';
 import 'package:equips_v2/data/repository/authenticate_repository.dart';
+import 'package:equips_v2/feature/personalize/controller/user_controller.dart';
 import 'package:equips_v2/feature/personalize/screen/FAQs/faqs.dart';
 import 'package:equips_v2/feature/personalize/screen/Social-Media/social_media_accs.dart';
 import 'package:equips_v2/feature/personalize/screen/address/widgets/address.dart';
@@ -28,6 +29,7 @@ class SettingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = UserController.instance;
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -70,6 +72,7 @@ class SettingScreen extends StatelessWidget {
                   const SizedBox(height: TSizes.spaceItems),
 
                   // Social Media Links
+                  if(controller.user.value.userType == "Lessor")
                   ESettingMenuTile(
                     icon: Iconsax.people,
                     title: "Social Media Accounts",
@@ -86,16 +89,17 @@ class SettingScreen extends StatelessWidget {
                     onTap: () => Get.to(() => const UserAddressScreen()),
                   ),
 
-                  // Shopping Cart
-                  ESettingMenuTile(
-                    icon: Iconsax.shopping_cart,
-                    title: "My Cart",
-                    subtitle:
-                        "Add or remove properties and proceed with checkout",
-                    onTap: () => Get.to(() => const CartScreen()),
-                  ),
+                  // // Shopping Cart
+                  // ESettingMenuTile(
+                  //   icon: Iconsax.shopping_cart,
+                  //   title: "My Cart",
+                  //   subtitle:
+                  //       "Add or remove properties and proceed with checkout",
+                  //   onTap: () => Get.to(() => const CartScreen()),
+                  // ),
 
                   // My Orders
+                  if(controller.user.value.userType == "Lessee")
                   ESettingMenuTile(
                       icon: Iconsax.bag_tick,
                       title: "My Orders",
@@ -103,6 +107,7 @@ class SettingScreen extends StatelessWidget {
                           "View In-Progress and Completed Rental Requests",
                       onTap: () => Get.to(() => const OrderScreen())),
 
+  if(controller.user.value.userType == "Lessor")
                   // Bank
                   const ESettingMenuTile(
                     icon: Iconsax.bank,

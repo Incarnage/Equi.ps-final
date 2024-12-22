@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 
 class OrderModel {
   String? id;
@@ -8,10 +9,13 @@ class OrderModel {
   String paymentImageUrl; // URL or path of the payment proof image
   DateTime fromDate; // Rental start date
   DateTime toDate;
-  String status; // Rental end date
+  String status;
+   String fromTime;
+   String toTime; // Rental end date
 
-  OrderModel(
+  OrderModel( 
       {this.id,
+required this.fromTime, required this.toTime, 
       required this.lesseeId,
       required this.lessorId,
       required this.productId,
@@ -28,7 +32,9 @@ class OrderModel {
       paymentImageUrl: "",
       fromDate: DateTime.now(),
       toDate: DateTime.now(),
-      status: "");
+      status: "",
+      fromTime: "",
+      toTime: "");
   // Method to convert OrderModel to a Map (for saving to Firestore or a similar database)
   Map<String, dynamic> toJson() {
     return {
@@ -38,7 +44,9 @@ class OrderModel {
       'payment': paymentImageUrl,
       'fromDate': fromDate.toIso8601String(),
       'toDate': toDate.toIso8601String(),
-      'status': status
+      'status': status,
+      'fromTime': fromTime,
+      'toTime': toTime
     };
   }
 
@@ -56,6 +64,8 @@ class OrderModel {
         paymentImageUrl: data['payment'] ?? '',
         fromDate: DateTime.parse(data['fromDate'] ?? ''),
         toDate: DateTime.parse(data['toDate']),
-        status: data['status'] ?? '');
+        status: data['status'] ?? '',
+        toTime: data['toTime'] ?? '',
+        fromTime: data['fromTime'] ?? '');  
   }
 }

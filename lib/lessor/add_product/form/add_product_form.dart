@@ -71,7 +71,7 @@ class AddProductForm extends StatelessWidget {
                 EValidate.validateEmptyText('Duration', value),
             inputFormatters: [FilteringTextInputFormatter.digitsOnly],
             decoration: const InputDecoration(
-              labelText: "Duration",
+              labelText: "Duration (in hours)",
               prefixIcon: Icon(Iconsax.clock),
             ),
           ),

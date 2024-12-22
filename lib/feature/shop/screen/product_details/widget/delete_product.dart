@@ -1,6 +1,6 @@
 import 'package:equips_v2/data/repository/product/product_repository.dart';
 import 'package:equips_v2/feature/shop/models/product_model.dart';
-import 'package:equips_v2/feature/shop/screen/product_details/widget/edit_product.dart';
+import 'package:equips_v2/feature/shop/screen/product_details/widget/edit_product_details_scree.dart';
 import 'package:equips_v2/lessor/edit_product/edit_product.dart';
 import 'package:equips_v2/utilities/constants/size.dart';
 import 'package:flutter/material.dart';

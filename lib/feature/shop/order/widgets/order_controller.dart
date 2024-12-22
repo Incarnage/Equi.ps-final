@@ -23,6 +23,8 @@ class OrderController extends GetxController {
 
   final fromDate = TextEditingController();
   final toDate = TextEditingController();
+  final fromTime = TextEditingController();
+  final toTime = TextEditingController();
   final isLoading = false.obs;
   final orderRepository = OrderRepository.instance;
 
@@ -65,10 +67,15 @@ class OrderController extends GetxController {
 
       DateTime? fromdate;
       DateTime? todate;
+      TimeOfDay? fromtime;
+      TimeOfDay? totime;
 
       try {
         fromdate = DateFormat('yyyy-MM-dd').parse(fromDate.text.trim());
         todate = DateFormat('yyyy-MM-dd').parse(toDate.text.trim());
+
+       fromtime = _parseTime(fromTime.text);
+      totime = _parseTime(toTime.text);
       } catch (e) {
         ELoaders.errorSnackBar(
             title: "Invalid Date Format",
@@ -76,10 +83,17 @@ class OrderController extends GetxController {
         return;
       }
 
-      if (todate.isBefore(fromdate)) {
+     
+
+
+      if (todate.isBefore(fromdate) ||
+          (todate.isAtSameMomentAs(fromdate) &&
+              (totime!.hour < fromtime!.hour ||
+                  (totime.hour == fromtime.hour &&
+                      totime.minute <= fromtime.minute)))) {
         ELoaders.errorSnackBar(
-            title: "Invalid Date Range",
-            message: "The end date must be after the start date.");
+            title: "Invalid Date/Time Range",
+            message: "The end date and time must be after the start.");
         return;
       }
 
@@ -96,7 +110,10 @@ class OrderController extends GetxController {
           productId: product.id,
           paymentImageUrl: uploadImage,
           fromDate: fromdate,
-          toDate: todate);
+          toDate: todate,
+          fromTime: "${fromtime!.hour}:${fromtime.minute}",
+          toTime:"${totime!.hour}:${totime.minute}",
+          );
 
       final orderRepository = Get.put(OrderRepository());
       await orderRepository.saveOrderRecord(newOrder);
@@ -115,6 +132,16 @@ class OrderController extends GetxController {
       Get.off(() => const OrderSucess());
     }
   }
+
+  TimeOfDay _parseTime(String time) {
+  try {
+    // Parse the 12-hour format time (hh:mm a)
+    final parsedTime = DateFormat('hh:mm a').parse(time);
+    return TimeOfDay(hour: parsedTime.hour, minute: parsedTime.minute);
+  } catch (e) {
+    throw FormatException("Invalid time format");
+  }
+}
 
   Future<void> fetchAllLessorOrders() async {
     try {

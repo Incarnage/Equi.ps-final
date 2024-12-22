@@ -3,12 +3,16 @@ import 'package:flutter/material.dart';
 
 class NotifInfo extends StatelessWidget {
   const NotifInfo({
+    this.time,
+    this.type,
     super.key,
     required this.title,
     required this.value,
   });
 
   final String title, value;
+  final String ?type;
+  final String ?time;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -25,9 +29,18 @@ class NotifInfo extends StatelessWidget {
           ),
           Expanded(
             flex: 5,
-            child: Text(value,
-                style: Theme.of(context).textTheme.bodyMedium,
-                overflow: TextOverflow.ellipsis),
+            child: Row(
+              children: [
+                Text(value,
+                    style: Theme.of(context).textTheme.bodyMedium,
+                    overflow: TextOverflow.ellipsis),
+                    const SizedBox(width: TSizes.spaceItems),
+                    if(type == 'date')
+                    Text(time ?? '',
+                    style: Theme.of(context).textTheme.bodyMedium,
+                    overflow: TextOverflow.ellipsis)
+              ],
+            ),
           ),
         ],
       ),

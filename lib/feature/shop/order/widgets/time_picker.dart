@@ -2,14 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:numberpicker/numberpicker.dart';
 
 class TimePicker extends StatefulWidget {
-  const TimePicker({super.key});
+  final Function(String time) onTimeSelected;
+
+  const TimePicker({Key? key, required this.onTimeSelected}) : super(key: key);
+
 
   @override
-  State<TimePicker> createState() => _NumberPageState();
+  State<TimePicker> createState() => _TimePickerState();
 }
 
-class _NumberPageState extends State<TimePicker> {
-  var hour = 0;
+class _TimePickerState extends State<TimePicker> {
+  var hour = 1;
   var minute = 0;
   var timeFormat = "AM";
 
@@ -22,129 +25,73 @@ class _NumberPageState extends State<TimePicker> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-                "Pick Your Time! ${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, "0")} ${timeFormat}",
-                style:
-                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-            const SizedBox(
-              height: 20,
+              "Pick Your Time! ${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')} $timeFormat",
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
             ),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              decoration: BoxDecoration(
-                  color: Colors.black87,
-                  borderRadius: BorderRadius.circular(10)),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  NumberPicker(
-                    minValue: 0,
-                    maxValue: 12,
-                    value: hour,
-                    zeroPad: true,
-                    infiniteLoop: true,
-                    itemWidth: 80,
-                    itemHeight: 60,
-                    onChanged: (value) {
-                      setState(() {
-                        hour = value;
-                      });
-                    },
-                    textStyle:
-                        const TextStyle(color: Colors.grey, fontSize: 20),
-                    selectedTextStyle:
-                        const TextStyle(color: Colors.white, fontSize: 30),
-                    decoration: const BoxDecoration(
-                      border: Border(
-                          top: BorderSide(
-                            color: Colors.white,
-                          ),
-                          bottom: BorderSide(color: Colors.white)),
-                    ),
-                  ),
-                  NumberPicker(
-                    minValue: 0,
-                    maxValue: 59,
-                    value: minute,
-                    zeroPad: true,
-                    infiniteLoop: true,
-                    itemWidth: 80,
-                    itemHeight: 60,
-                    onChanged: (value) {
-                      setState(() {
-                        minute = value;
-                      });
-                    },
-                    textStyle:
-                        const TextStyle(color: Colors.grey, fontSize: 20),
-                    selectedTextStyle:
-                        const TextStyle(color: Colors.white, fontSize: 30),
-                    decoration: const BoxDecoration(
-                      border: Border(
-                          top: BorderSide(
-                            color: Colors.white,
-                          ),
-                          bottom: BorderSide(color: Colors.white)),
-                    ),
-                  ),
-                  Column(
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            timeFormat = "AM";
-                          });
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 10),
-                          decoration: BoxDecoration(
-                              color: timeFormat == "AM"
-                                  ? Colors.grey.shade800
-                                  : Colors.grey.shade700,
-                              border: Border.all(
-                                color: timeFormat == "AM"
-                                    ? Colors.grey
-                                    : Colors.grey.shade700,
-                              )),
-                          child: const Text(
-                            "AM",
-                            style: TextStyle(color: Colors.white, fontSize: 25),
-                          ),
+            const SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                // Hour Picker
+                NumberPicker(
+                  minValue: 1,
+                  maxValue: 12,
+                  value: hour,
+                  onChanged: (value) => setState(() => hour = value),
+                  zeroPad: true,
+                ),
+                // Minute Picker
+                NumberPicker(
+                  minValue: 0,
+                  maxValue: 59,
+                  value: minute,
+                  onChanged: (value) => setState(() => minute = value),
+                  zeroPad: true,
+                ),
+                // AM/PM Selector
+                Column(
+                  children: [
+                    GestureDetector(
+                      onTap: () => setState(() => timeFormat = "AM"),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 10),
+                        decoration: BoxDecoration(
+                          color: timeFormat == "AM"
+                              ? Colors.grey.shade800
+                              : Colors.grey.shade700,
                         ),
+                        child: const Text("AM", style: TextStyle(color: Colors.white)),
                       ),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            timeFormat = "PM";
-                          });
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 10),
-                          decoration: BoxDecoration(
-                            color: timeFormat == "PM"
-                                ? Colors.grey.shade800
-                                : Colors.grey.shade700,
-                            border: Border.all(
-                              color: timeFormat == "PM"
-                                  ? Colors.grey
-                                  : Colors.grey.shade700,
-                            ),
-                          ),
-                          child: const Text(
-                            "PM",
-                            style: TextStyle(color: Colors.white, fontSize: 25),
-                          ),
+                    ),
+                    const SizedBox(height: 10),
+                    GestureDetector(
+                      onTap: () => setState(() => timeFormat = "PM"),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 10),
+                        decoration: BoxDecoration(
+                          color: timeFormat == "PM"
+                              ? Colors.grey.shade800
+                              : Colors.grey.shade700,
                         ),
-                      )
-                    ],
-                  )
-                ],
-              ),
-            )
+                        child: const Text("PM", style: TextStyle(color: Colors.white)),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                final selectedTime =
+                    "${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')} $timeFormat";
+                widget.onTimeSelected(selectedTime);
+                Navigator.pop(context);
+              },
+              child: const Text("Confirm Time"),
+            ),
           ],
         ),
       ),

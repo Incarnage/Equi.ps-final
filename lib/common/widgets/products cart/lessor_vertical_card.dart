@@ -4,7 +4,7 @@ import 'package:equips_v2/common/widgets/custom_shapes/container/ERoundedContain
 import 'package:equips_v2/common/widgets/text/brandTitle_with_verifiedIcon.dart';
 import 'package:equips_v2/common/widgets/text/productTitle_text.dart';
 import 'package:equips_v2/feature/shop/models/product_model.dart';
-import 'package:equips_v2/feature/shop/screen/product_details/widget/edit_product.dart';
+import 'package:equips_v2/feature/shop/screen/product_details/widget/edit_product_details_scree.dart';
 
 import 'package:equips_v2/utilities/constants/size.dart';
 import 'package:flutter/material.dart';

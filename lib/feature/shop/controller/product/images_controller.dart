@@ -17,6 +17,9 @@ class ImagesController extends GetxController {
     // Load image thumbnail
     images.add(product.thumbnail);
 
+    // Set the selectedProductImage to the product's thumbnail
+    selectedProductImage.value = product.thumbnail;
+
     // Get all images (if present)
     if (product.images != null) {
       images.addAll(product.images!);

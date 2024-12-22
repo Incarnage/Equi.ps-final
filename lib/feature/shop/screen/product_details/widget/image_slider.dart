@@ -43,10 +43,7 @@ class ImageSlider extends StatelessWidget {
         final validImages = images.where((image) => _isValidUrl(image)).toList();
 
         // If no images available, use an empty string
-        if (validImages.isNotEmpty && controller.selectedProductImage.value.isEmpty) {
-          // Set the first image as the selected image initially
-          controller.selectedProductImage.value = validImages[0];
-        }
+       
 
         return CurvedEdge(
           child: Container(

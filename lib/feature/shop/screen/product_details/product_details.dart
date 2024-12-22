@@ -1,3 +1,4 @@
+import 'package:equips_v2/common/widgets/custom_shapes/container/ERoundedContainer.dart';
 import 'package:equips_v2/common/widgets/text/brandTitle_with_verifiedIcon.dart';
 import 'package:equips_v2/common/widgets/text/productTitle_text.dart';
 import 'package:equips_v2/common/widgets/text/section_heading.dart';
@@ -71,23 +72,36 @@ class _ProductDetailsState extends State<ProductDetails> {
             ImageSlider(
               product: widget.product,
             ),
-            const Divider(),
-            const SizedBox(height: TSizes.spaceItems),
 
-            // Name of product
-            EProductTitleText(
-              title: widget.product.productTitle,
-              smallSize: true,
+            // title
+            ERoundedcontainer(
+              backgroundColor: const Color(0xFF25291C),
+              child: Padding(
+                padding: const EdgeInsets.only(
+                    left: 120, right: 110, top: 15, bottom: 15),
+                child: Column(
+                  children: [
+                    // Name of product
+                    EProductTitleText(
+                      title: widget.product.productTitle,
+                      smallSize: true,
+                      textColor: Colors.white,
+                    ),
+
+                    // Store Name and Verified Icon
+                    brandTitleWithVerifiedIcon(
+                      title: widget.product.lessor!.name,
+                      brandTextSize: TextSizes.medium,
+                      textColor: Colors.white,
+                    ),
+                  ],
+                ),
+              ),
             ),
 
-            // Store Name and Verified Icon
-            brandTitleWithVerifiedIcon(
-              title: widget.product.lessor!.name,
-              brandTextSize: TextSizes.medium,
+            const SizedBox(
+              height: TSizes.spaceItems,
             ),
-
-            const SizedBox(height: TSizes.spaceItems),
-            const Divider(),
             // Product Data
             Padding(
               padding:
@@ -114,13 +128,15 @@ class _ProductDetailsState extends State<ProductDetails> {
                   fontSize: 14,
                   fontWeight: FontWeight.w800,
                 )),
-            const SizedBox(
-              height: TSizes.spaceItems,
+
+            const SizedBox(height: TSizes.spaceItems),
+            Container(
+              width: 450,
+              height: 3,
+              color: const Color.fromARGB(255, 238, 237, 237),
             ),
-            const Divider(),
             const SizedBox(height: TSizes.spaceItems),
 
-            // Social Media Section
             if (isLoading)
               const CircularProgressIndicator()
             else if (errorMessage.isNotEmpty)
@@ -177,33 +193,45 @@ class _ProductDetailsState extends State<ProductDetails> {
                         ),
                       ],
                     ),
+                    const SizedBox(
+                      height: TSizes.spaceItems,
+                    ),
                   ],
                 ),
               )
             else
               const Text('No social media information available'),
 
-            const Divider(),
             const SizedBox(height: TSizes.spaceItems),
+            Container(
+              width: 450,
+              height: 3,
+              color: const Color.fromARGB(255, 238, 237, 237),
+            ),
 
             // Reviews
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                SectionHeading(
-                  title: 'Reviews (100)',
-                  onPressed: () {},
-                  showActionButton: false,
-                ),
-                IconButton(
-                  onPressed: () => Get.to(() => const ProductReviewScreen()),
-                  icon: const Icon(
-                    Iconsax.arrow_right_3,
-                    size: 18,
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: TSizes.defaultSpace),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SectionHeading(
+                    title: 'See Reviews',
+                    onPressed: () {},
+                    showActionButton: false,
                   ),
-                ),
-              ],
+                  IconButton(
+                    onPressed: () => Get.to(() => const ProductReviewScreen()),
+                    icon: const Icon(
+                      Iconsax.arrow_right_3,
+                      size: 18,
+                    ),
+                  ),
+                ],
+              ),
             ),
+            const SizedBox(height: TSizes.spaceItems),
           ],
         ),
       ),

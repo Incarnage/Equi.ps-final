@@ -45,6 +45,7 @@ class AddProductForm extends StatelessWidget {
             decoration: const InputDecoration(
               labelText: "Description",
               prefixIcon: Icon(Iconsax.document),
+              contentPadding: EdgeInsets.only(left: 50),
             ),
           ),
 

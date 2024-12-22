@@ -4,6 +4,7 @@ class EProductTitleText extends StatelessWidget {
   const EProductTitleText({
     super.key,
     required this.title,
+    this.textColor,
     this.smallSize = false,
     this.maxLines = 2,
     this.textAlign = TextAlign.left,
@@ -13,6 +14,9 @@ class EProductTitleText extends StatelessWidget {
   final bool smallSize;
   final int maxLines;
   final TextAlign? textAlign;
+
+  final Color? textColor;
+
   @override
   Widget build(BuildContext context) {
     return Text(

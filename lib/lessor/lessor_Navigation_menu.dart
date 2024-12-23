@@ -33,7 +33,7 @@ class LessorNavigationMenu extends StatelessWidget {
             NavigationDestination(icon: Icon(Iconsax.shop), label: 'Products'),
             NavigationDestination(icon: Icon(Iconsax.message), label: 'Chat'),
             NavigationDestination(
-                icon: Icon(Iconsax.notification), label: 'Notifications'),
+                icon: Icon(Iconsax.notification), label: 'Requests'),
             NavigationDestination(icon: Icon(Iconsax.user), label: 'Profile'),
           ],
         ),

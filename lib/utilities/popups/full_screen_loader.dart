@@ -18,7 +18,7 @@ class EFullScreenLoader {
               child: Column(
                 children: [
                   const SizedBox(height: 250), // adjust spacing as needed
-                  EAnimatedLoaderWidget(text: text, animation: animation)
+                  EAnimatedLoaderWidget(text: text, animation: 'assets/pic/equips-json.json'),
                 ],
               ),
             )));

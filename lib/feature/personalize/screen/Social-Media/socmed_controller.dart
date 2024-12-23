@@ -27,8 +27,9 @@ class SocmedController extends GetxController {
 
   //get user record
   Future<void> initializeName() async {
-    facebook.text = socialsController.user.value.firstName;
-    instagram.text = socialsController.user.value.lastName;
+    facebook.text = socialsController.user.value.facebook;
+    instagram.text = socialsController.user.value.instagram;
+    gmail.text = socialsController.user.value.gmail;
   }
 
   Future<void> updateUserName() async {
@@ -61,9 +62,9 @@ class SocmedController extends GetxController {
 
       //update Rx user value
 
-      user.value.firstName = facebook.text.trim();
-      user.value.lastName = instagram.text.trim();
-      user.value.firstName = gmail.text.trim();
+      user.value.facebook = facebook.text.trim();
+      user.value.instagram = instagram.text.trim();
+      user.value.gmail = gmail.text.trim();
 
       //remove loader
       EFullScreenLoader.stopLoading();

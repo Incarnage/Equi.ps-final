@@ -14,6 +14,7 @@ class SocialMediaAccs extends StatelessWidget {
 
     return Scaffold(
       appBar: TAppbar(
+        showBackArrow: true,
         title: Text(
           'Your Social Details',
           style: Theme.of(context)

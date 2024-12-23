@@ -1,40 +1,111 @@
 import 'package:equips_v2/common/widgets/appbar/appbar.dart';
-import 'package:equips_v2/feature/personalize/screen/address/widgets/add_new_address.dart';
-import 'package:equips_v2/feature/personalize/screen/address/widgets/single_address.dart';
+import 'package:equips_v2/feature/personalize/controller/user_controller.dart';
+import 'package:equips_v2/feature/personalize/screen/address/widgets/address_controller.dart';
+
 import 'package:equips_v2/utilities/constants/size.dart';
+import 'package:equips_v2/utilities/validator/validate.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
 class UserAddressScreen extends StatelessWidget {
-  const UserAddressScreen({Key? key}) : super(key: key);
+  const UserAddressScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(AddressController());
+    
+
     return Scaffold(
-      // Add button
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: const Color(0xFF25291C),
-        onPressed: () => Get.to(() => const AddNewAddressScreen()),
-        child: const Icon(
-          Iconsax.add,
-          color: Colors.white,
+      appBar: TAppbar(
+        showBackArrow: true,
+        title: Text(
+          'Your Address',
+          style: Theme.of(context)
+              .textTheme
+              .headlineMedium!
+              .apply(color: Colors.black),
         ),
       ),
-      appBar: TAppbar(
-        showBackArrow: false,
-        title:
-            Text("Addresses", style: Theme.of(context).textTheme.headlineSmall),
-      ),
-
-      body: const SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.all(TSizes.defaultSpace),
+          padding: const EdgeInsets.all(TSizes.defaultSpace),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // selected address determines the highlighted box
-              ESingleAddress(selectedAddress: false),
-              ESingleAddress(selectedAddress: true),
+              Form(
+                key: controller.updateUserAddressFormKey,
+                child: Column(
+                  children: [
+                   
+                    const SizedBox(height: TSizes.spaceInputFields),
+              
+                    // Username
+                   
+              
+                    //address
+                    TextFormField(
+                      controller: controller.streetController,
+                      validator: (value) =>
+                          EValidate.validateEmptyText('Street', value),
+                      decoration: const InputDecoration(
+                        labelText: "Street",
+                        prefixIcon: Icon(Iconsax.home),
+                      ),
+                    ),
+                    const SizedBox(height: TSizes.spaceInputFields),
+                    Row(children: [
+                      Expanded(
+                        child: TextFormField(
+                        controller: controller.cityController,
+                        validator: (value) => EValidate.validateEmptyText('City', value),
+                        decoration: const InputDecoration(
+                          labelText: "City",
+                          prefixIcon: Icon(Iconsax.location),
+                        ),
+                                      ),
+                      ),
+                         const SizedBox(width: TSizes.spaceInputFields),        
+                    Expanded(
+                      child: TextFormField(
+                        controller: controller.provinceController,
+                        validator: (value) =>
+                            EValidate.validateEmptyText('Province', value),
+                        decoration: const InputDecoration(
+                          labelText: "Province",
+                          prefixIcon: Icon(Iconsax.map),
+                        ),
+                      ),
+                    ),
+                    ],),
+                    const SizedBox(height: TSizes.spaceInputFields),
+              
+                    // cp number
+                   
+                   
+                   
+                    
+              
+                    // Sign Up Button
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          
+                          controller.address.text =
+                              "${controller.streetController.text}, ${controller.cityController.text}, ${controller.provinceController.text}";
+                          controller.updateUserAddress();
+                        },
+                        style: ElevatedButton.styleFrom(
+                          side: const BorderSide(color: Color(0xFF25291C)),
+                          backgroundColor: const Color(0xFF25291C),
+                        ),
+                        child: const Text('Update Address'),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
         ),

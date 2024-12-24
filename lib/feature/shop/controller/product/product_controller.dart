@@ -20,6 +20,7 @@ class ProductController extends GetxController {
   final userRepository = UserRepository();
   RxList<ProductModel> featuredProducts = <ProductModel>[].obs;
   RxList<ProductModel> lessorProducts = <ProductModel>[].obs;
+  RxList<XFile> imageFiles = <XFile>[].obs;
 
   late final GlobalKey<FormState> addProductFormKey;
   late final GlobalKey<FormState> editProductFormKey;
@@ -90,29 +91,31 @@ class ProductController extends GetxController {
   }
 
   Future<void> pickImage() async {
-    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
-    if (pickedFile != null) {
-      imageFile.value = pickedFile;
-    } else {
-      ELoaders.errorSnackBar(title: 'Error', message: 'No image selected');
+    final pickedFiles = await _picker.pickMultiImage();
+    if(pickedFiles != null && pickedFiles.length + imageFiles.length > 5){
+      ELoaders.errorSnackBar(title: "Limit Exceeded", message: "You can only upload a maximum of 5 images");
+    }
+    else if (pickedFiles != null) {
+      imageFiles.addAll(pickedFiles);
     }
   }
 
   // Function to upload the selected image to Firebase Storage
-  Future<String?> uploadImage(XFile? imageFile) async {
-    if (imageFile == null) return null;
-
+  Future<List<String>> uploadImages(List<XFile> imageFiles) async {
+    List<String> downloadUrls = [];
     try {
-      final storageRef = FirebaseStorage.instance
-          .ref()
-          .child('product_images/${imageFile.name}');
-      final uploadTask = await storageRef.putFile(File(imageFile.path));
-      final downloadUrl = await uploadTask.ref.getDownloadURL();
-      return downloadUrl;
+      for (var file in imageFiles) {
+        final storageRef = FirebaseStorage.instance
+            .ref()
+            .child('product_images/${file.name}');
+        final uploadTask = await storageRef.putFile(File(file.path));
+        final downloadUrl = await uploadTask.ref.getDownloadURL();
+        downloadUrls.add(downloadUrl);
+      }
     } catch (e) {
       ELoaders.errorSnackBar(title: 'Upload Error', message: e.toString());
-      return null;
     }
+    return downloadUrls;
   }
 
   // Function to add a product
@@ -123,12 +126,13 @@ class ProductController extends GetxController {
       // Set loading state to true
 
       try {
-        final imageUrl = await uploadImage(imageFile.value);
-        if (imageUrl == null) {
+        
+        if (imageFiles.isEmpty) {
           ELoaders.errorSnackBar(
               title: 'Error', message: 'Please select an image to upload');
           return;
         }
+        final imageURLs= await uploadImages(imageFiles);
 
         await productRepository.addProduct({
           'Lessor': {
@@ -141,7 +145,7 @@ class ProductController extends GetxController {
           'Description': description.text,
           'price': price.text,
           'CategoryId': category.value,
-          'Thumbnail': imageUrl,
+          'Images': imageURLs,
           'createdAt': FieldValue.serverTimestamp(),
           'duration': pduration.text,
         });
@@ -165,7 +169,7 @@ class ProductController extends GetxController {
       final user = await userRepository.fetchUserDetail();
 
       try {
-        final imageUrl = await uploadImage(imageFile.value);
+        List<String> imageUrl = product.images;
         if (imageUrl == null && imageFile.value != null) {
           ELoaders.errorSnackBar(
               title: 'Error', message: 'Please select an image to upload');
@@ -184,9 +188,9 @@ class ProductController extends GetxController {
           'Description': description.text,
           'price': price.text,
           'CategoryId': category.value,
-          'Thumbnail': imageFile.value != null
+          'Images': imageFile.value != null
               ? imageUrl
-              : product.thumbnail, // Use new image if uploaded
+              : product.images, // Use new image if uploaded
           'createdAt': FieldValue.serverTimestamp(),
           'duration': pduration.text,
         };

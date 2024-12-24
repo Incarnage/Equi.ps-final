@@ -122,23 +122,29 @@ class AddProductForm extends StatelessWidget {
           TextButton(
             onPressed: () => controller.pickImage(),
             child: const Text(
-              "Upload product image",
+              "Upload product image (max 5)",
               style: TextStyle(color: Color(0xFF25291C)),
             ),
           ),
           Obx(() {
-            if (controller.imageFile.value != null) {
-              return Image.file(
-                File(controller.imageFile.value!.path),
+  if (controller.imageFiles.isNotEmpty) {
+    return Wrap(
+      spacing: 10,
+      children: controller.imageFiles
+          .map((file) => Image.file(
+                File(file.path),
                 height: 100,
-              );
-            } else {
-              return const Text(
-                "No image selected.",
-                style: TextStyle(fontStyle: FontStyle.italic),
-              );
-            }
-          }),
+                width: 100,
+              ))
+          .toList(),
+    );
+  } else {
+    return const Text(
+      "No images selected.",
+      style: TextStyle(fontStyle: FontStyle.italic),
+    );
+  }
+}),
 
           const SizedBox(height: TSizes.spaceItems),
 

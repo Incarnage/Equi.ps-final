@@ -3,6 +3,7 @@ import 'package:equips_v2/common/widgets/appbar/appbar.dart';
 import 'package:equips_v2/common/widgets/custom_shapes/container/ERoundedContainer.dart';
 import 'package:equips_v2/common/widgets/custom_shapes/container/eSectionHeading.dart';
 import 'package:equips_v2/data/repository/user/user_repository.dart';
+import 'package:equips_v2/feature/personalize/controller/user_controller.dart';
 import 'package:equips_v2/feature/shop/order/widgets/order_controller.dart';
 import 'package:equips_v2/feature/shop/order/widgets/order_model.dart';
 import 'package:equips_v2/lessor/widgets/notif_detail_widget/notif_info.dart';
@@ -118,7 +119,35 @@ class OrderDetails extends StatelessWidget {
               const SizedBox(height: TSizes.spaceItems),
               const Divider(),
               const SizedBox(height: TSizes.spaceItems),
+              if(UserController.instance.user.value.userType == "Lessee")
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  
+                  
+                  if (order.status == "Pending")
+                    Expanded(
+                      child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              side: const BorderSide(color: Color(0xFF25291C)),
+                              backgroundColor: const Color(0xFF25291C)),
+                          onPressed: () => Get.back(),
+                          child: const Text('Close')),
+                    )
+                  else if (order.status == "Confirmed")
+                    Expanded(
+                      child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              side: const BorderSide(color: Color(0xFF25291C)),
+                              backgroundColor: const Color(0xFF25291C)),
+                          onPressed: () =>
+                              orderController.returnedProduct(order),
+                          child: const Text('Rate Product')),
+                    )
+                ],
+              ),
 
+              if(UserController.instance.user.value.userType == "Lessor")
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [

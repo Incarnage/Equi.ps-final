@@ -84,8 +84,8 @@ class SettingScreen extends StatelessWidget {
                   // Address
                   ESettingMenuTile(
                     icon: Iconsax.safe_home,
-                    title: "My Addresses",
-                    subtitle: "Home and Office Addresses",
+                    title: "My Address",
+                    subtitle: "Home or Office Address",
                     onTap: () => Get.to(() => const UserAddressScreen()),
                   ),
 
@@ -115,12 +115,8 @@ class SettingScreen extends StatelessWidget {
                     subtitle: "Update your Account Details",
                   ),
 
-                  // Notification
-                  const ESettingMenuTile(
-                    icon: Iconsax.notification,
-                    title: "Notifications",
-                    subtitle: "Check updates for your rental requests!",
-                  ),
+                  
+                  
 
                   // Support
                   ESectionHeading(

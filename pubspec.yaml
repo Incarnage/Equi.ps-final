@@ -52,7 +52,6 @@ flutter:
 
   assets:
     - assets/logo/
-    - assets/icon/
     - assets/pic/
 
   fonts:

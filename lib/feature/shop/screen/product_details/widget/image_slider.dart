@@ -17,40 +17,34 @@ class ImageSlider extends StatelessWidget {
   });
 
   final ProductModel product;
-  
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(ImagesController());
+    final ImagesController controller = Get.put(ImagesController());
     final user = Get.find<UserController>().user;
 
     return FutureBuilder<List<String>>(
       future: controller.getAllProductImages(product),
       builder: (context, snapshot) {
-        // Handle loading state
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
         }
 
-        // Handle error state
         if (snapshot.hasError) {
           return Center(child: Text('Error: ${snapshot.error}'));
         }
 
         final images = snapshot.data ?? [];
-
-        // Filter out invalid URLs
-        final validImages = images.where((image) => _isValidUrl(image)).toList();
-
-        // If no images available, use an empty string
-       
+        if (images.isEmpty) {
+          return const Center(child: Text('No images available'));
+        }
 
         return CurvedEdge(
           child: Container(
             color: Colors.white,
             child: Stack(
               children: [
-                // Large image
+                // Main image display
                 SizedBox(
                   height: 400,
                   child: Padding(
@@ -63,20 +57,17 @@ class ImageSlider extends StatelessWidget {
                           child: selectedImage.isNotEmpty && _isValidUrl(selectedImage)
                               ? CachedNetworkImage(
                                   imageUrl: selectedImage,
-                                  progressIndicatorBuilder: (_, __, downloadProgress) =>
-                                      CircularProgressIndicator(
-                                    value: downloadProgress.progress,
-                                    color: Colors.green,
-                                  ),
+                                  placeholder: (_, __) => const CircularProgressIndicator(),
+                                  errorWidget: (_, __, ___) => const Icon(Icons.error),
                                 )
-                              : const Icon(Icons.error), // Fallback in case of invalid URL
+                              : const Icon(Icons.error),
                         );
                       }),
                     ),
                   ),
                 ),
 
-                // Image slider
+                // Thumbnail slider
                 Positioned(
                   right: 0,
                   bottom: 30,
@@ -87,24 +78,24 @@ class ImageSlider extends StatelessWidget {
                       shrinkWrap: true,
                       scrollDirection: Axis.horizontal,
                       physics: const AlwaysScrollableScrollPhysics(),
-                      separatorBuilder: (_, __) => const SizedBox(
-                        width: TSizes.spaceItems,
-                      ),
-                      itemCount: validImages.length,
-                      itemBuilder: (_, index) => Obx(() {
-                        final imageSelected =
-                            controller.selectedProductImage.value == validImages[index];
-                        return ERoundedImage(
-                          width: 80,
-                          isNetworkImage: true,
-                          onPressed: () => controller.selectedProductImage.value = validImages[index],
-                          border: Border.all(
-                            color: imageSelected ? const Color(0xFF25291C) : Colors.transparent,
-                          ),
-                          padding: const EdgeInsets.all(TSizes.small),
-                          imageUrl: validImages[index],
-                        );
-                      }),
+                      separatorBuilder: (_, __) => const SizedBox(width: TSizes.spaceItems),
+                      itemCount: images.length,
+                      itemBuilder: (_, index) {
+                        return Obx(() {
+                          final imageSelected =
+                              controller.selectedProductImage.value == images[index];
+                          return ERoundedImage(
+                            width: 80,
+                            isNetworkImage: true,
+                            onPressed: () => controller.selectedProductImage.value = images[index],
+                            border: Border.all(
+                              color: imageSelected ? const Color(0xFF25291C) : Colors.transparent,
+                            ),
+                            padding: const EdgeInsets.all(TSizes.small),
+                            imageUrl: images[index],
+                          );
+                        });
+                      },
                     ),
                   ),
                 ),
@@ -112,10 +103,10 @@ class ImageSlider extends StatelessWidget {
                 // App bar
                 TAppbar(
                   showBackArrow: true,
-                  
                   actions: [
-                    if(user.value.userType=='Lessee')
-                    EBookmark(productId: product.id)],
+                    if (user.value.userType == 'Lessee')
+                      EBookmark(productId: product.id),
+                  ],
                 ),
               ],
             ),
@@ -125,7 +116,6 @@ class ImageSlider extends StatelessWidget {
     );
   }
 
-  // Utility function to validate image URLs
   bool _isValidUrl(String url) {
     return Uri.tryParse(url)?.hasScheme == true;
   }

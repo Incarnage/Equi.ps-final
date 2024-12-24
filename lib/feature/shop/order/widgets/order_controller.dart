@@ -162,6 +162,25 @@ class OrderController extends GetxController {
     }
   }
 
+  Future<void> fetchAllLesseeOrders() async {
+    try {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        isLoading.value = true;
+      });
+
+      final order = await orderRepository.getLesseesOrders();
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        orders.assignAll(order);
+        isLoading.value = false;
+      });
+    } catch (e) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        isLoading.value = false;
+        ELoaders.errorSnackBar(title: 'Oh Snap', message: e.toString());
+      });
+    }
+  }
+
   Future<void> confirmOrder(OrderModel order) async {
     try {
       EFullScreenLoader.openLoadingDialog(

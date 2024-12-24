@@ -48,6 +48,23 @@ class OrderRepository extends GetxController {
     }
   }
 
+  Future<List<OrderModel>> getLesseesOrders() async {
+    try {
+      final user = await userRepository.fetchUserDetail();
+      final snapshot = await _db
+          .collection('Orders')
+          .where('lesseeId', isEqualTo: user.id)
+          .get();
+      return snapshot.docs.map((e) => OrderModel.fromSnapshot(e)).toList();
+    } on FirebaseException catch (e) {
+      throw EFirebaseException(e.code).message;
+    } on PlatformException catch (e) {
+      throw EPlatformException(e.code).message;
+    } catch (e) {
+      throw 'Something went wrong. Please try again';
+    }
+  }
+
   Future<ProductModel?> getProductNamebyId(String productId) async {
     try {
       final product = await _db.collection('Products').doc(productId).get();

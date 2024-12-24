@@ -15,15 +15,14 @@ class ImagesController extends GetxController {
     // Add unique image
     Set<String> images = {};
     // Load image thumbnail
-    images.add(product.thumbnail);
+    if (product.images != null) {
+      images.addAll(product.images!);
+    }
 
     // Set the selectedProductImage to the product's thumbnail
     selectedProductImage.value = product.thumbnail;
 
     // Get all images (if present)
-    if (product.images != null) {
-      images.addAll(product.images!);
-    }
 
     // Simulate a delay to mimic fetching data
     await Future.delayed(const Duration(seconds: 1));

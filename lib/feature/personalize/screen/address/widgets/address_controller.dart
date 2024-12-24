@@ -2,6 +2,8 @@ import 'package:equips_v2/data/repository/user/user_repository.dart';
 import 'package:equips_v2/feature/auth/controller/signUp/widgets/usermodel.dart';
 import 'package:equips_v2/feature/personalize/controller/user_controller.dart';
 import 'package:equips_v2/feature/personalize/screen/profile/profile.dart';
+import 'package:equips_v2/feature/personalize/screen/settings/settings.dart';
+import 'package:equips_v2/navigation_menu.dart';
 import 'package:equips_v2/utilities/network/network_manager.dart';
 import 'package:equips_v2/utilities/popups/full_screen_loader.dart';
 import 'package:equips_v2/utilities/popups/loaders.dart';
@@ -16,7 +18,7 @@ class AddressController extends GetxController {
     final provinceController = TextEditingController();
     final address = TextEditingController();
 
-  final addressController = UserController.instance;
+ 
   final userRepository = Get.put(UserRepository());
   Rx<UserModel> user = UserModel.empty().obs;
   GlobalKey<FormState> updateUserAddressFormKey = GlobalKey<FormState>();
@@ -31,12 +33,13 @@ class AddressController extends GetxController {
  Future<void> initializeAddress() async {
   try {
     // Get the current user object
-    UserModel currentUser = addressController.user.value;
+   var currentUser = await userRepository.fetchUserDetail();
+   
 
     // Check if the address field exists and is not null
     String? concatenatedAddress = currentUser.address;
 
-    if (concatenatedAddress != null) {
+    
       // Split the address into components
       List<String> addressParts = concatenatedAddress.split(',').map((e) => e.trim()).toList();
 
@@ -44,7 +47,7 @@ class AddressController extends GetxController {
       streetController.text = addressParts.isNotEmpty ? addressParts[0] : '';
       cityController.text = addressParts.length > 1 ? addressParts[1] : '';
       provinceController.text = addressParts.length > 2 ? addressParts[2] : '';
-    }
+    
   } catch (e) {
     // Handle errors gracefully
     ELoaders.errorSnackBar(
@@ -91,7 +94,7 @@ class AddressController extends GetxController {
       ELoaders.successSnackBar(
           title: 'SAVED!', message: 'Your details have been stored.');
 
-      Get.off(() => const ProfileScreen());
+      Get.off(() =>  const NavigationMenu());
     } catch (e) {
       EFullScreenLoader.stopLoading();
       ELoaders.errorSnackBar(title: "Oh Snap", message: e.toString());

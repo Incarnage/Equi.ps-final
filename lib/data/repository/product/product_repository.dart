@@ -69,7 +69,7 @@ class ProductRepository extends GetxController {
     try {
       final querysnapshot = await query.get();
       final List<ProductModel> productList = querysnapshot.docs
-          .map((doc) => ProductModel.fromQuerySnapshot(doc))
+          .map((doc) => ProductModel.fromSnapshot(doc as DocumentSnapshot<Map<String, dynamic>>))
           .toList();
       return productList;
     } on FirebaseException catch (e) {

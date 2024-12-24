@@ -51,7 +51,7 @@ class NavigationController extends GetxController {
 
   final screens = [
     const LessorHomeScreen(),
-    const LessorAddProduct(),
+     LessorAddProduct(),
      ChatNavigationLessor(),  
     const LessorNotificationScreen(),
     const SettingScreen(),

@@ -10,11 +10,13 @@ class LessorAddProduct extends StatelessWidget {
 
   void handleProductSubmission(ProductController controller) {
     // Submit product logic
+    controller.addProduct();
     Get.snackbar("Success", "Product added successfully!");
   }
 
   @override
   Widget build(BuildContext context) {
+    Get.lazyPut(() => ProductController());
     return Scaffold(
       appBar: TAppbar(
         title: Text(
@@ -25,8 +27,8 @@ class LessorAddProduct extends StatelessWidget {
               .apply(color: Colors.black),
         ),
       ),
-      body: const SingleChildScrollView(
-        padding: EdgeInsets.only(
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.only(
             left: TSizes.defaultSpace, right: TSizes.defaultSpace),
         child: AddProductForm(),
       ),

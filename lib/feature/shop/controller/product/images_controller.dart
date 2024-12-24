@@ -10,7 +10,7 @@ class ImagesController extends GetxController {
   // var
   RxString selectedProductImage = ''.obs;
 
-  //get images
+  // Get all images
   Future<List<String>> getAllProductImages(ProductModel product) async {
     // Add unique image
     Set<String> images = {};
@@ -19,10 +19,11 @@ class ImagesController extends GetxController {
       images.addAll(product.images!);
     }
 
-    // Set the selectedProductImage to the product's thumbnail
-    selectedProductImage.value = product.thumbnail;
-
-    // Get all images (if present)
+    // Use post frame callback to update after the current build cycle
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      // Set the selectedProductImage after the current build cycle
+      selectedProductImage.value = product.thumbnail;
+    });
 
     // Simulate a delay to mimic fetching data
     await Future.delayed(const Duration(seconds: 1));
@@ -32,38 +33,38 @@ class ImagesController extends GetxController {
 
   void showEnlargedImage(String image) {
     Get.to(
-        fullscreenDialog: true,
-        () => Dialog.fullscreen(
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: TSizes.defaultSpace * 2,
-                          horizontal: TSizes.defaultSpace),
-                      child: CachedNetworkImage(imageUrl: image),
-                    ),
-                    const SizedBox(
-                      height: TSizes.spaceItems,
-                    ),
-                    Align(
-                      alignment: Alignment.topCenter,
-                      child: SizedBox(
-                        width: 150,
-                        child: OutlinedButton(
-                            style: OutlinedButton.styleFrom(
-                                side:
-                                    const BorderSide(color: Color(0xFF25291C))),
-                            onPressed: () => Get.back(),
-                            child: const Text('Close')),
-                      ),
-                    )
-                  ],
-                ),
+      fullscreenDialog: true,
+      () => Dialog.fullscreen(
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                    vertical: TSizes.defaultSpace * 2,
+                    horizontal: TSizes.defaultSpace),
+                child: CachedNetworkImage(imageUrl: image),
               ),
-            ));
+              const SizedBox(
+                height: TSizes.spaceItems,
+              ),
+              Align(
+                alignment: Alignment.topCenter,
+                child: SizedBox(
+                  width: 150,
+                  child: OutlinedButton(
+                      style: OutlinedButton.styleFrom(
+                          side: const BorderSide(color: Color(0xFF25291C))),
+                      onPressed: () => Get.back(),
+                      child: const Text('Close')),
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

@@ -21,10 +21,10 @@ class OrderDetails extends StatelessWidget {
     return DateFormat('MMMM dd').format(date);
   }
 
-   String formatTime(String time) {
+  String formatTime(String time) {
     try {
       DateTime dateTime = DateFormat('HH:mm').parse(time);
-      return DateFormat('hh:mm a').format(dateTime);  // Format to 12-hour format with AM/PM
+      return DateFormat('hh:mm a').format(dateTime); // Format to 12-hour format with AM/PM
     } catch (e) {
       return time; // Return original time in case of error
     }
@@ -35,16 +35,20 @@ class OrderDetails extends StatelessWidget {
     final userRepository = UserRepository.instance;
     final orderController = OrderController.instance;
 
+    // Initialize reactive order status
+    final status = order.status.obs;
+
     return Scaffold(
       appBar: TAppbar(
-          showBackArrow: false,
-          title: Text(
-            "Order Information",
-            style: Theme.of(context)
-                .textTheme
-                .headlineMedium!
-                .apply(color: Colors.black),
-          )),
+        showBackArrow: false,
+        title: Text(
+          "Order Information",
+          style: Theme.of(context)
+              .textTheme
+              .headlineMedium!
+              .apply(color: Colors.black),
+        ),
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(TSizes.defaultSpace),
@@ -52,13 +56,12 @@ class OrderDetails extends StatelessWidget {
             children: [
               const Divider(),
               const SizedBox(height: TSizes.spaceItems),
-
               const ESectionHeading(
                 title: "Proof of Payment",
                 showActionButton: false,
               ),
 
-              //gcash proof of payment
+              // GCash proof of payment
               ERoundedcontainer(
                 width: 180,
                 height: 135,
@@ -73,9 +76,8 @@ class OrderDetails extends StatelessWidget {
                           placeholder: (context, url) => const Center(
                             child: CircularProgressIndicator(),
                           ),
-                          errorWidget: (context, url, error) => const Center(
-                            child: Icon(Icons.error),
-                          ),
+                          errorWidget: (context, url, error) =>
+                              const Center(child: Icon(Icons.error)),
                           imageBuilder: (context, imageProvider) => ClipRRect(
                             borderRadius: BorderRadius.circular(16.0),
                             child: Image(
@@ -105,85 +107,116 @@ class OrderDetails extends StatelessWidget {
                   } else if (snapshot.hasError) {
                     return Text('Error: ${snapshot.error}');
                   } else if (snapshot.hasData) {
-                    return NotifInfo(
-                        title: 'Lesee Name', value: snapshot.data!);
+                    return NotifInfo(title: 'Lessee Name', value: snapshot.data!);
                   } else {
                     return const Text('No lessee found');
                   }
                 },
               ),
               const SizedBox(height: TSizes.spaceItems),
-              NotifInfo(title: "FROM", value: formatDate(order.fromDate), type: 'date',time: formatTime(order.fromTime),),
+              NotifInfo(
+                title: "FROM",
+                value: formatDate(order.fromDate),
+                type: 'date',
+                time: formatTime(order.fromTime),
+              ),
               const SizedBox(height: TSizes.spaceItems),
-              NotifInfo(title: "TO", value: formatDate(order.toDate), type: 'date', time: formatTime(order.toTime),),
+              NotifInfo(
+                title: "TO",
+                value: formatDate(order.toDate),
+                type: 'date',
+                time: formatTime(order.toTime),
+              ),
               const SizedBox(height: TSizes.spaceItems),
               const Divider(),
               const SizedBox(height: TSizes.spaceItems),
-              if(UserController.instance.user.value.userType == "Lessee")
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  
-                  
-                  if (order.status == "Pending")
-                    Expanded(
-                      child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              side: const BorderSide(color: Color(0xFF25291C)),
-                              backgroundColor: const Color(0xFF25291C)),
-                          onPressed: () => Get.back(),
-                          child: const Text('Close')),
-                    )
-                  else if (order.status == "Confirmed")
-                    Expanded(
-                      child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              side: const BorderSide(color: Color(0xFF25291C)),
-                              backgroundColor: const Color(0xFF25291C)),
-                          onPressed: () =>
-                              orderController.returnedProduct(order),
-                          child: const Text('Rate Product')),
-                    )
-                ],
-              ),
 
-              if(UserController.instance.user.value.userType == "Lessor")
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Expanded(
-                    child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            side: const BorderSide(color: Color(0xFF25291C)),
-                            backgroundColor: Colors.white),
-                        onPressed: () => Get.back(),
-                        child: const Text(
-                          'Close',
-                          style: TextStyle(color: Color(0xFF25291C)),
-                        )),
-                  ),
-                  const SizedBox(width: TSizes.spaceItems),
-                  if (order.status == "Pending")
-                    Expanded(
-                      child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              side: const BorderSide(color: Color(0xFF25291C)),
-                              backgroundColor: const Color(0xFF25291C)),
-                          onPressed: () => orderController.confirmOrder(order),
-                          child: const Text('Confirm')),
-                    )
-                  else
-                    Expanded(
-                      child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              side: const BorderSide(color: Color(0xFF25291C)),
-                              backgroundColor: const Color(0xFF25291C)),
-                          onPressed: () =>
-                              orderController.returnedProduct(order),
-                          child: const Text('Product Returned')),
-                    )
-                ],
+              // Buttons for Lessee and Lessor
+              Obx(() {
+  return Column(
+    children: [
+      if (UserController.instance.user.value.userType == "Lessee")
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            if (status.value == "Pending")
+              Expanded(
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      side: const BorderSide(color: Color(0xFF25291C)),
+                      backgroundColor: const Color(0xFF25291C)),
+                  onPressed: () => Get.back(),
+                  child: const Text('Close'),
+                ),
               )
+            else if (status.value == "Confirmed")
+              Expanded(
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      side: const BorderSide(color: Color(0xFF25291C)),
+                      backgroundColor: const Color(0xFF25291C)),
+                  onPressed: () {
+                    orderController.returnedProduct(order);
+                    status.value = "Returned";
+                  },
+                  child: const Text('Rate Product'),
+                ),
+              ),
+          ],
+        ),
+      if (UserController.instance.user.value.userType == "Lessor")
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Expanded(
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    side: const BorderSide(color: Color(0xFF25291C)),
+                    backgroundColor: Colors.white),
+                onPressed: () => Get.back(),
+                child: const Text(
+                  'Close',
+                  style: TextStyle(color: Color(0xFF25291C)),
+                ),
+              ),
+            ),
+            const SizedBox(width: TSizes.spaceItems),
+            if (status.value == "Pending")
+              Expanded(
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      side: const BorderSide(color: Color(0xFF25291C)),
+                      backgroundColor: const Color(0xFF25291C)),
+                  onPressed: () {
+                    orderController.confirmOrder(order);
+                    status.value = "Confirmed";
+                     orderController.fetchAllLessorOrders();
+                    Get.back();
+                  },
+                  child: const Text('Confirm'),
+                ),
+              )
+            else if (status.value == "Confirmed")
+              Expanded(
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      side: const BorderSide(color: Color(0xFF25291C)),
+                      backgroundColor: const Color(0xFF25291C)),
+                  onPressed: () {
+                    orderController.returnedProduct(order);
+                    status.value = "Returned";
+                    orderController.fetchAllLessorOrders();
+                    Get.back();
+                  },
+                  child: const Text('Product Returned'),
+                ),
+              ),
+          ],
+        )
+    ],
+  );
+}),
+
             ],
           ),
         ),
@@ -197,8 +230,6 @@ class OrderDetails extends StatelessWidget {
       () => Dialog.fullscreen(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(
@@ -206,9 +237,7 @@ class OrderDetails extends StatelessWidget {
                   horizontal: TSizes.defaultSpace),
               child: CachedNetworkImage(imageUrl: image),
             ),
-            const SizedBox(
-              height: TSizes.spaceSections,
-            ),
+            const SizedBox(height: TSizes.spaceSections),
             Align(
               alignment: Alignment.bottomCenter,
               child: SizedBox(

@@ -53,6 +53,10 @@ class SuccessScreen extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+      side: const BorderSide(color: Color(0xFF25291C)),
+      backgroundColor: const Color(0xFF25291C),
+    ),
                     onPressed: onPressed, child: const Text('Continue')),
               ),
             ],

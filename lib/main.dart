@@ -1,6 +1,7 @@
 import 'package:equips_v2/app.dart';
 import 'package:equips_v2/common/widgets/products%20cart/bookmark/bookmark_controller.dart';
 import 'package:equips_v2/data/repository/authenticate_repository.dart';
+import 'package:equips_v2/feature/shop/controller/product/product_controller.dart';
 import 'package:equips_v2/firebase_options.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -25,7 +26,7 @@ Future<void> main() async {
   ).then((FirebaseApp value) => Get.put(AuthenticateRepository()));
 
   Get.lazyPut<BookmarkController>(() => BookmarkController());
-
+ Get.lazyPut(() => ProductController());
   // Load all the material design / themes / localizations / bindings
   runApp(const App());
 }

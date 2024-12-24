@@ -80,6 +80,7 @@ class UserController extends GetxController {
             phoneNumber: userCredentials.user!.phoneNumber ?? '',
             profilePicture: userCredentials.user!.photoURL ?? '',
             userType: SignupController.instance.userType.value ?? '',
+            gcashNumber: SignupController.instance.gcashNumber.text ?? '',
           );
         }
         await userRepository.saveUserRecord(user as UserModel);

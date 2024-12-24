@@ -24,9 +24,7 @@ class NetworkManager extends GetxController {
   // Update the connection status based on changes in connectivity and show a relevant popup for no internet connection
   Future<void> _updateConnectionStatus(ConnectivityResult result) async {
     _connectionStatus.value == result;
-    if (_connectionStatus.value == ConnectivityResult.none) {
-      ELoaders.customToast(message: "No internet connection");
-    }
+    
   }
 
   // Check the internet connection status

@@ -42,23 +42,30 @@ class VerifyEmailScreen extends StatelessWidget {
               //title
 
               Text(
-                'Verify your email address!',
-                style: Theme.of(context).textTheme.headlineMedium,
+                'Thank you for signing up!',
+                style: Theme.of(context).textTheme.headlineLarge,
                 textAlign: TextAlign.center,
+              ),
+              const SizedBox(
+                height: TSizes.spaceItems,
               ),
               const SizedBox(
                 height: TSizes.spaceItems,
               ),
               Text(
                 email ?? '',
-                style: Theme.of(context).textTheme.labelLarge,
+                style: TextStyle(
+                  color: Color(0xFF25291C),
+                  fontSize: 18,
+                  fontStyle: FontStyle.italic
+                ),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(
                 height: TSizes.spaceItems,
               ),
               Text(
-                "verify email",
+                "Please check your email inbox for the verification link.",
                 style: Theme.of(context).textTheme.labelLarge,
                 textAlign: TextAlign.center,
               ),
@@ -71,18 +78,17 @@ class VerifyEmailScreen extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                    onPressed: () => controller.checkEmailVerificationStatus(),
-                    child: const Text('Continue')),
+                  style: ElevatedButton.styleFrom(
+      side: const BorderSide(color: Color(0xFF25291C)),
+      backgroundColor: const Color(0xFF25291C),
+    ),
+                    onPressed: () => () => controller.sendEmailVerification(),
+                    child: const Text('Resend Verification Email')),
               ),
               const SizedBox(
                 height: TSizes.spaceItems,
               ),
-              SizedBox(
-                width: double.infinity,
-                child: TextButton(
-                    onPressed: () => controller.sendEmailVerification(),
-                    child: const Text('Resend')),
-              ),
+            
             ],
           ),
         ),

@@ -15,6 +15,7 @@ class UserModel {
   String gmail;
   String facebook;
   String instagram;
+  String gcashNumber;
 
   UserModel(
       {required this.address,
@@ -30,7 +31,8 @@ class UserModel {
       required this.profilePicture,
       required this.gmail,
       required this.facebook,
-      required this.instagram});
+      required this.instagram,
+      required this.gcashNumber});
 
   String get fullName => '$firstName $lastName';
 
@@ -62,7 +64,8 @@ class UserModel {
       userType: "",
       gmail: "",
       instagram: "",
-      facebook: "");
+      facebook: "",
+      gcashNumber: "");
 
   // Convert model to JSON structure for storing data in Firebase.
   Map<String, dynamic> toJson() {
@@ -80,6 +83,7 @@ class UserModel {
       'Gmail': gmail,
       'Facebook': facebook,
       'Instagram': instagram,
+      'GcashNumber': gcashNumber
     };
   }
 
@@ -101,6 +105,7 @@ class UserModel {
         gcash: data['Gcash'] ?? "",
         gmail: data['Gmail'] ?? "",
         instagram: data['Instagram'] ?? "",
-        facebook: data['Facebook'] ?? "");
+        facebook: data['Facebook'] ?? "",
+        gcashNumber: data['GcashNumber'] ?? "");
   }
 }

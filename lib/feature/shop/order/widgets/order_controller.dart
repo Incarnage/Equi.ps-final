@@ -204,12 +204,16 @@ class OrderController extends GetxController {
       ELoaders.errorSnackBar(title: "Oh Snap!", message: e.toString());
     } finally {
       EFullScreenLoader.stopLoading();
-      Get.off(() => const LessorNavigationMenu());
+      Get.back();
     }
   }
 
   Future<void> returnedProduct(OrderModel order) async {
     try {
+EFullScreenLoader.openLoadingDialog(
+          "Confirming your order", "assets/pic/loading.json");
+        final success =
+          await orderRepository.updateOrderStatus(order.id!, 'Returned');
       // Update order status in Firestore
       await orderRepository.updateProductStatus(
         order.productId,
@@ -217,11 +221,12 @@ class OrderController extends GetxController {
 
       ELoaders.successSnackBar(
           title: 'Success', message: 'Product has been returned');
+          
     } catch (e) {
       ELoaders.errorSnackBar(title: "Oh Snap!", message: e.toString());
     } finally {
       EFullScreenLoader.stopLoading();
-      Get.off(() => const LessorNavigationMenu());
+      Get.back();
     }
   }
 }

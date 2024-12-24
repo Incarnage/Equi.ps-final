@@ -36,8 +36,8 @@ class VerifyEmailController extends GetxController {
       if (user?.emailVerified ?? false) {
         timer.cancel();
         Get.off(() => SuccessScreen(
-              title: 'Account Created',
-              subtitle: 'Thanks',
+              title: 'Your account is verified',
+              subtitle: 'You can now login',
               onPressed: () => AuthenticateRepository.instance.screenRedirect(),
             ));
       }
@@ -45,14 +45,5 @@ class VerifyEmailController extends GetxController {
   }
 
   //check if email verified
-  checkEmailVerificationStatus() async {
-    final currentUser = FirebaseAuth.instance.currentUser;
-    if (currentUser != null && currentUser.emailVerified) {
-      Get.off(() => SuccessScreen(
-            title: 'Account Created',
-            subtitle: 'Thanks',
-            onPressed: () => AuthenticateRepository.instance.screenRedirect(),
-          ));
-    }
-  }
+ 
 }

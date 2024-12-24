@@ -57,7 +57,7 @@ class LessorHomeScreen extends StatelessWidget {
                         showAction: true,
                         actionText: 'Let\'s add some',
                         onActionPressed: () =>
-                            Get.to(() => const LessorAddProduct()),
+                            Get.to(() =>  LessorAddProduct()),
                       );
 
                       const loader = EVerticalProductShimmer(itemCount: 6);

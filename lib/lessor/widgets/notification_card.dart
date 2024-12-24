@@ -8,9 +8,9 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class OrderCard extends StatelessWidget {
-  final OrderModel order;
+  final Rx<OrderModel> order;
 
-  const OrderCard({required this.order, super.key});
+  OrderCard({required OrderModel order, super.key}) : order = order.obs;
 
   String formatDate(DateTime date) {
     return DateFormat('MMMM dd').format(date);
@@ -20,9 +20,10 @@ class OrderCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.to(OrderDetails(order: order));
+        Get.to(() => OrderDetails(order: order.value));
       },
-      child: Card(
+      child: Obx((){
+        return Card(
         color: const Color(0xFF25291C),
         elevation: 4,
         margin: const EdgeInsets.symmetric(vertical: TSizes.small),
@@ -37,7 +38,7 @@ class OrderCard extends StatelessWidget {
               Expanded(
                 child: FutureBuilder<ProductModel?>(
                   future: OrderRepository.instance
-                      .getProductNamebyId(order.productId),
+                      .getProductNamebyId(order.value.productId),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Text('Loading...');
@@ -58,14 +59,14 @@ class OrderCard extends StatelessWidget {
                         ),
                         const SizedBox(height: TSizes.spaceItems / 2),
                         Text(
-                          "FROM: ${formatDate(order.fromDate)}",
+                          "FROM: ${formatDate(order.value.fromDate)}",
                           style: const TextStyle(
                               color: Colors.white,
                               fontSize: TSizes.fontSmall,
                               fontWeight: FontWeight.normal),
                         ),
                         Text(
-                          "T0: ${formatDate(order.toDate)}",
+                          "TO: ${formatDate(order.value.toDate)}",
                           style: const TextStyle(
                               color: Colors.white,
                               fontSize: TSizes.fontSmall,
@@ -78,16 +79,21 @@ class OrderCard extends StatelessWidget {
               ),
 
               // Status Icon
-              Icon(
-                order.status == "Pending" ? Icons.pending : Icons.check_circle,
-                color: order.status == "Pending"
-                    ? const Color(0xFFFFD233)
-                    : Colors.green,
-              ),
+              Obx(() {
+                return Icon(
+                  order.value.status == "Pending"
+                      ? Icons.pending
+                      : Icons.check_circle,
+                  color: order.value.status == "Pending"
+                      ? const Color(0xFFFFD233)
+                      : Colors.green,
+                );
+              }),
             ],
           ),
         ),
-      ),
+      );
+      })
     );
   }
 }

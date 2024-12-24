@@ -30,6 +30,7 @@ class PayScreen extends StatelessWidget {
   final RxString selectedtoTime = "Select Time".obs;
 
   final RxString lessorGcashPhoto = "".obs;
+  final RxString lessorGcashNumber = "".obs;
   Rx<double> totalDuration = 0.0.obs;
   Rx<double> finalPrice = 0.0.obs;
   Rx<double> partialPrice = 0.0.obs;
@@ -70,37 +71,44 @@ class PayScreen extends StatelessWidget {
                     topRight: Radius.circular(TSizes.cardRaidusLarge))),
             child: SizedBox(
                 width: double.infinity,
-                child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        side: const BorderSide(color: Color(0xFF25291C)),
-                        backgroundColor: const Color(0xFF25291C)),
-                    onPressed: () {
-  // Validate the order form key
-  if (ordercontroller.orderFormKey.currentState!.validate()) {
-    // Check if 'From Time', 'To Time', and proof of payment are provided
-    if (ordercontroller.fromTime.text.isEmpty || ordercontroller.toTime.text.isEmpty) {
-      ELoaders.errorSnackBar(
-        title: "Invalid Time Selection",
-        message: 'Please select both start and end times.',
-      );
-    } else if (ordercontroller.imageFile.value == null) {
-      ELoaders.errorSnackBar(
-        title: "Proof of Payment Missing",
-        message: 'Please upload proof of payment.',
-      );
-    } else {
-      // If all required fields are filled, proceed with the payment
-      ordercontroller.pay(product);
-    }
-  } else {
-    // If form validation fails, show a generic error
-    ELoaders.errorSnackBar(
-      title: "Oh Snap!",
-      message: 'Please fill all required fields.',
-    );
-  }
-},
-                    child: const Text('Pay'))),
+                child: Obx(() {
+                // Only show Pay button if Gcash information is available
+                return lessorGcashPhoto.value.isNotEmpty
+                    ? ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            side: const BorderSide(color: Color(0xFF25291C)),
+                            backgroundColor: const Color(0xFF25291C)),
+                        onPressed: () {
+                          // Validate the order form key
+                          if (ordercontroller.orderFormKey.currentState!.validate()) {
+                            // Check if 'From Time', 'To Time', and proof of payment are provided
+                            if (ordercontroller.fromTime.text.isEmpty || ordercontroller.toTime.text.isEmpty) {
+                              ELoaders.errorSnackBar(
+                                title: "Invalid Time Selection",
+                                message: 'Please select both start and end times.',
+                              );
+                            } else if (ordercontroller.imageFile.value == null) {
+                              ELoaders.errorSnackBar(
+                                title: "Proof of Payment Missing",
+                                message: 'Please upload proof of payment.',
+                              );
+                            } else {
+                              // If all required fields are filled, proceed with the payment
+                              ordercontroller.pay(product);
+                            }
+                          } else {
+                            // If form validation fails, show a generic error
+                            ELoaders.errorSnackBar(
+                              title: "Oh Snap!",
+                              message: 'Please fill all required fields.',
+                            );
+                          }
+                        },
+                        child: const Text('Pay'),
+                      )
+                    : const SizedBox.shrink(); // Hide the Pay button if no Gcash info
+              }),
+            ),
           ),
           appBar: const TAppbar(showBackArrow: true, title: Text("Payment")),
 
@@ -199,8 +207,8 @@ class PayScreen extends StatelessWidget {
                               },
                               child: ECircularImage(
                                 image: image,
-                                width: 500,
-                                height: 400,
+                                width: 300,
+                                height: 300,
                                 isNetworkImage: networkImage.isNotEmpty,
                               ),
                             );
@@ -210,6 +218,16 @@ class PayScreen extends StatelessWidget {
                       child: Center(
                         child: Text(
                           product.lessor!.name,
+                          style:
+                              const TextStyle(fontSize: TSizes.fontLarge),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: double.infinity,
+                      child: Center(
+                        child: Text(
+                          lessorGcashNumber.value,
                           style:
                               const TextStyle(fontSize: TSizes.fontLarge),
                         ),
@@ -304,6 +322,9 @@ class PayScreen extends StatelessWidget {
       if (lessorDoc.exists) {
         final lessorData = lessorDoc.data();
         lessorGcashPhoto.value = lessorData?['Gcash'] ?? '';
+         lessorGcashNumber.value = lessorData?['GcashNumber'] ?? '';
+         
+        
       } else {
         ELoaders.errorSnackBar(title: 'Error', message: 'Lessor not found');
       }

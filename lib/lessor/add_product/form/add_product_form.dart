@@ -7,6 +7,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:equips_v2/utilities/validator/validate.dart';
 import 'package:equips_v2/utilities/constants/size.dart';
 import 'package:equips_v2/feature/shop/controller/product/product_controller.dart';
+import 'package:equips_v2/utilities/popups/loaders.dart';
 
 class AddProductForm extends StatelessWidget {
   const AddProductForm({
@@ -15,7 +16,7 @@ class AddProductForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(ProductController());
+    final ProductController controller = Get.find<ProductController>();
 
     return Form(
       key: controller.addProductFormKey,
@@ -78,6 +79,42 @@ class AddProductForm extends StatelessWidget {
 
           const SizedBox(height: TSizes.spaceInputFields),
 
+          // Delivery Options (Checkboxes)
+          Obx(() => Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text('Delivery Option (Select one or both)'),
+              Row(
+                children: [
+                  Checkbox(
+                    value: controller.deliveryOption.contains('Pick Up'),
+                    onChanged: (isSelected) {
+                      if (isSelected!) {
+                        controller.deliveryOption.add('Pick Up');
+                      } else {
+                        controller.deliveryOption.remove('Pick Up');
+                      }
+                    },
+                  ),
+                  const Text('Pick Up'),
+                  Checkbox(
+                    value: controller.deliveryOption.contains('Deliver'),
+                    onChanged: (isSelected) {
+                      if (isSelected!) {
+                        controller.deliveryOption.add('Deliver');
+                      } else {
+                        controller.deliveryOption.remove('Deliver');
+                      }
+                    },
+                  ),
+                  const Text('Deliver'),
+                ],
+              ),
+            ],
+          )),
+
+          const SizedBox(height: TSizes.spaceInputFields),
+
           // Category
           Obx(() => DropdownButtonFormField<String>(
                 value: controller.category.value.isEmpty
@@ -127,24 +164,24 @@ class AddProductForm extends StatelessWidget {
             ),
           ),
           Obx(() {
-  if (controller.imageFiles.isNotEmpty) {
-    return Wrap(
-      spacing: 10,
-      children: controller.imageFiles
-          .map((file) => Image.file(
-                File(file.path),
-                height: 100,
-                width: 100,
-              ))
-          .toList(),
-    );
-  } else {
-    return const Text(
-      "No images selected.",
-      style: TextStyle(fontStyle: FontStyle.italic),
-    );
-  }
-}),
+            if (controller.imageFiles.isNotEmpty) {
+              return Wrap(
+                spacing: 10,
+                children: controller.imageFiles
+                    .map((file) => Image.file(
+                          File(file.path),
+                          height: 100,
+                          width: 100,
+                        ))
+                    .toList(),
+              );
+            } else {
+              return const Text(
+                "No images selected.",
+                style: TextStyle(fontStyle: FontStyle.italic),
+              );
+            }
+          }),
 
           const SizedBox(height: TSizes.spaceItems),
 
@@ -154,9 +191,16 @@ class AddProductForm extends StatelessWidget {
             child: ElevatedButton(
               onPressed: () {
                 if (controller.addProductFormKey.currentState!.validate()) {
-                  controller.addProduct();
-
-                  // Reset the form
+                  if (controller.deliveryOption.isEmpty) {
+                    // Show error if no delivery option is selected
+                    ELoaders.errorSnackBar(
+                      title: 'Validation Error',
+                      message: 'Please select at least one delivery option',
+                    );
+                  } else {
+                    // Proceed with product addition
+                    controller.addProduct();
+                  }
                 }
               },
               style: ElevatedButton.styleFrom(

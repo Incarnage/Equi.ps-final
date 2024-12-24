@@ -30,6 +30,7 @@ class ProductController extends GetxController {
   final description = TextEditingController();
   final price = TextEditingController();
   final pduration = TextEditingController();
+  RxList<String> deliveryOption = <String>[].obs;
   final category = ''.obs;
 
   Rx<XFile?> imageFile = Rx<XFile?>(null);
@@ -148,6 +149,7 @@ class ProductController extends GetxController {
           'Images': imageURLs,
           'createdAt': FieldValue.serverTimestamp(),
           'duration': pduration.text,
+          'DeliveryOption': deliveryOption,
         });
 
         ELoaders.successSnackBar(
@@ -227,6 +229,7 @@ class ProductController extends GetxController {
     pduration.clear();
     category.value = '';
     imageFile.value = null;
+    deliveryOption.clear();
     addProductFormKey.currentState?.reset();
   }
 }

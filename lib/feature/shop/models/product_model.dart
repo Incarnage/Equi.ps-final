@@ -13,6 +13,7 @@ class ProductModel {
   bool? isFeatured;
   String thumbnail;
   double pduration;
+  List<String> delivertOption;
 
   ProductModel({
     required this.categoryId,
@@ -25,6 +26,7 @@ class ProductModel {
     this.description,
     this.isFeatured,
     required this.pduration,
+    required this.delivertOption,
   }) : thumbnail = images.isNotEmpty ? images.first : '';
 
   // Create Empty function for clean code
@@ -36,6 +38,7 @@ class ProductModel {
         productTitle: '',
         images: [],
         isAvailable: true,
+        delivertOption: []
       );
 
   Map<String, dynamic> toJson() {
@@ -49,6 +52,7 @@ class ProductModel {
       'Lessor': lessor?.toJson(),
       'Description': description,
       'IsFeatured': isFeatured,
+      'DeliveryOption': delivertOption,
     };
   }
 
@@ -69,6 +73,9 @@ class ProductModel {
           : null,
       description: data['Description'] ?? '',
       isFeatured: data['IsFeatured'] ?? false,
+      delivertOption: data['DeliveryOption'] != null
+          ? List<String>.from(data['DeliveryOption'])
+          : [], 
     );
   }
 }

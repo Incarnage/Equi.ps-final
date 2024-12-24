@@ -210,6 +210,8 @@ class ProductRepository extends GetxController {
       EFullScreenLoader.openLoadingDialog(
           "We are processing your information...", "assets/pic/loading.json");
       await _db.collection("Products").doc(productId).delete();
+
+      await Future.delayed(const Duration(seconds: 2));
     } on FirebaseException catch (e) {
       throw EFirebaseException(e.code).message;
     } on FormatException catch (_) {

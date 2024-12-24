@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:equips_v2/feature/shop/models/product_model.dart';
+import 'package:equips_v2/utilities/popups/loaders.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -25,6 +26,7 @@ class EditProductForm extends StatelessWidget {
     controller.price.text = product.price.toString();
     controller.pduration.text = product.pduration.toString();
     controller.category.value = product.categoryId;
+    controller.deliveryOption.value = product.delivertOption?? [];
 
     return Form(
       key: controller.editProductFormKey,
@@ -115,6 +117,52 @@ class EditProductForm extends StatelessWidget {
                 ),
               )),
           const SizedBox(height: TSizes.spaceInputFields),
+          
+          // Delivery Options (Checkboxes)
+          Obx(() => Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text('Delivery Option'),
+              Row(
+                children: [
+                  Checkbox(
+                    value: controller.deliveryOption.contains('Pick Up'),
+                    onChanged: (isSelected) {
+                      if (isSelected!) {
+                        controller.deliveryOption.add('Pick Up');
+                      } else {
+                        controller.deliveryOption.remove('Pick Up');
+                      }
+                    },
+                  ),
+                  const Text('Pick Up'),
+                  Checkbox(
+                    value: controller.deliveryOption.contains('Deliver'),
+                    onChanged: (isSelected) {
+                      if (isSelected!) {
+                        controller.deliveryOption.add('Deliver');
+                      } else {
+                        controller.deliveryOption.remove('Deliver');
+                      }
+                    },
+                  ),
+                  const Text('Deliver'),
+                ],
+              ),
+              // Validator for checkboxes
+              Obx(() {
+                return controller.deliveryOption.isEmpty
+                    ? const Text(
+                        'Please select at least one delivery option',
+                        style: TextStyle(color: Colors.red, fontSize: 12),
+                      )
+                    : Container(); // Hide error when options are selected
+              }),
+            ],
+          )),
+
+          const SizedBox(height: TSizes.spaceInputFields),
+
           // Image Upload
           TextButton(
             onPressed: () => controller.pickImage(),
@@ -134,11 +182,26 @@ class EditProductForm extends StatelessWidget {
             }
           }),
           const SizedBox(height: TSizes.spaceItems),
+          
           // Submit Button
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
-              onPressed: () => controller.updateProduct(product),
+              onPressed: () {
+                // Validate the form and check if delivery options are selected
+                if (controller.editProductFormKey.currentState!.validate()) {
+                  if (controller.deliveryOption.isEmpty) {
+                    // Show error if no delivery option is selected
+                    ELoaders.errorSnackBar(
+                      title: 'Validation Error',
+                      message: 'Please select at least one delivery option',
+                    );
+                  } else {
+                    // Proceed with updating the product
+                    controller.updateProduct(product);
+                  }
+                }
+              },
               style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF25291C),
                   side: const BorderSide(color: Color(0xFF25291C))),

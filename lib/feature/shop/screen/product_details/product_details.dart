@@ -11,6 +11,8 @@ import 'package:equips_v2/feature/shop/screen/product_details/widget/image_slide
 import 'package:equips_v2/feature/shop/screen/product_details/widget/product_data.dart';
 import 'package:equips_v2/feature/shop/screen/product_details/widget/unavailable.dart';
 import 'package:equips_v2/feature/shop/screen/product_reviews/productReviews.dart';
+
+
 import 'package:equips_v2/utilities/constants/enums.dart';
 import 'package:equips_v2/utilities/constants/size.dart';
 import 'package:flutter/material.dart';
@@ -222,7 +224,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                     showActionButton: false,
                   ),
                   IconButton(
-                    onPressed: () => Get.to(() => const ProductReviewScreen()),
+                    onPressed: () => Get.to(() => ProductReviewScreen(product: widget.product)),
                     icon: const Icon(
                       Iconsax.arrow_right_3,
                       size: 18,

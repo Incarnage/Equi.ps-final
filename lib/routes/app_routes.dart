@@ -8,7 +8,7 @@ import 'package:equips_v2/feature/personalize/screen/settings/settings.dart';
 import 'package:equips_v2/feature/shop/screen/cart/cart.dart';
 import 'package:equips_v2/feature/shop/screen/checkout/checkout.dart';
 import 'package:equips_v2/feature/shop/screen/order/order.dart';
-import 'package:equips_v2/feature/shop/screen/product_reviews/productReviews.dart';
+
 import 'package:equips_v2/feature/shop/screen/store/store.dart';
 import 'package:equips_v2/routes/routes.dart';
 import 'package:get/get.dart';
@@ -18,8 +18,7 @@ class AppRoutes {
     GetPage(name: ERoutes.home, page: () => const HomeScreen()),
     GetPage(name: ERoutes.store, page: () => const Store()),
     GetPage(name: ERoutes.settings, page: () => const SettingScreen()),
-    GetPage(
-        name: ERoutes.productReviews, page: () => const ProductReviewScreen()),
+    
     GetPage(name: ERoutes.order, page: () => const OrderScreen()),
     GetPage(name: ERoutes.checkout, page: () => const CheckoutScreen()),
     GetPage(name: ERoutes.cart, page: () => const CartScreen()),

@@ -6,6 +6,7 @@ import 'package:equips_v2/data/repository/user/user_repository.dart';
 import 'package:equips_v2/feature/personalize/controller/user_controller.dart';
 import 'package:equips_v2/feature/shop/order/widgets/order_controller.dart';
 import 'package:equips_v2/feature/shop/order/widgets/order_model.dart';
+import 'package:equips_v2/feature/shop/screen/product_reviews/review_lessors_product.dart';
 import 'package:equips_v2/lessor/widgets/notif_detail_widget/notif_info.dart';
 import 'package:equips_v2/utilities/constants/size.dart';
 import 'package:flutter/material.dart';
@@ -139,7 +140,7 @@ class OrderDetails extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            if (status.value == "Pending")
+            if (status.value == "Pending" || status.value == "Confirmed" || status.value == "Reviewed")
               Expanded(
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
@@ -148,16 +149,17 @@ class OrderDetails extends StatelessWidget {
                   onPressed: () => Get.back(),
                   child: const Text('Close'),
                 ),
-              )
-            else if (status.value == "Confirmed")
+              ) 
+            else if (status.value == "Returned")
               Expanded(
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                       side: const BorderSide(color: Color(0xFF25291C)),
                       backgroundColor: const Color(0xFF25291C)),
-                  onPressed: () {
-                    orderController.returnedProduct(order);
-                    status.value = "Returned";
+                  onPressed: (){
+                    
+                
+                    Get.to(()=> RateLessorProduct(order: order));
                   },
                   child: const Text('Rate Product'),
                 ),

@@ -13,7 +13,7 @@ class ERatingBarIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RatingBarIndicator(
-        rating: 3.5,
+        rating: rating,
         itemSize: 20,
         unratedColor: Colors.grey,
         itemBuilder: (_, __) => Icon(Iconsax.star1, color: Colors.black));

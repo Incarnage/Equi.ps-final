@@ -22,7 +22,7 @@ class OrderScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: TAppbar(
-        
+        showBackArrow: true,
         title: Text(
           'Rental History',
           style: Theme.of(context)

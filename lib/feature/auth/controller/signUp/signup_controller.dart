@@ -188,7 +188,7 @@ class SignupController extends GetxController {
       firstName: firstName.text.trim(),
       lastName: lastName.text.trim(),
       phoneNumber: phoneNumber.text.trim(),
-      profilePicture: '', // Add the profile picture URL if available
+      profilePicture: 'https://firebasestorage.googleapis.com/v0/b/equips-d40b3.appspot.com/o/pictures%2Fprofile-icon.png?alt=media&token=8b804b8d-a5cf-40a1-b4b9-9901416a5bdd', // Add the profile picture URL if available
       userType: userType.value,
       gcashNumber: gcashNumber.text.trim(), // If empty, it won't be stored
     );

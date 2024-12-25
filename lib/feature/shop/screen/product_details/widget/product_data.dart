@@ -20,7 +20,8 @@ class ProductData extends StatelessWidget {
         Row(
           children: [
             //title
-            const EProductTitleText(title: 'Rental Cost'),
+            const EProductTitleText(
+                title: 'Rental Cost', textColor: Colors.black),
             const SizedBox(width: TSizes.spaceItems),
             ProductPriceText(
               isLarge: true,
@@ -32,17 +33,13 @@ class ProductData extends StatelessWidget {
         //stock
         Row(
           children: [
-            const EProductTitleText(title: 'Status'),
+            const EProductTitleText(title: 'Status', textColor: Colors.black),
             const SizedBox(width: TSizes.spaceItems),
             Text(
               controller.getStock(product.isAvailable),
               style: Theme.of(context).textTheme.titleMedium,
             ),
           ],
-        ),
-
-        const SizedBox(
-          height: TSizes.spaceItems,
         ),
       ],
     );

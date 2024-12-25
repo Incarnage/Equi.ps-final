@@ -81,37 +81,37 @@ class AddProductForm extends StatelessWidget {
 
           // Delivery Options (Checkboxes)
           Obx(() => Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text('Delivery Option (Select one or both)'),
-              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Checkbox(
-                    value: controller.deliveryOption.contains('Pick Up'),
-                    onChanged: (isSelected) {
-                      if (isSelected!) {
-                        controller.deliveryOption.add('Pick Up');
-                      } else {
-                        controller.deliveryOption.remove('Pick Up');
-                      }
-                    },
+                  const Text('Delivery Option (Select one or both)'),
+                  Row(
+                    children: [
+                      Checkbox(
+                        value: controller.deliveryOption.contains('Pick Up'),
+                        onChanged: (isSelected) {
+                          if (isSelected!) {
+                            controller.deliveryOption.add('Pick Up');
+                          } else {
+                            controller.deliveryOption.remove('Pick Up');
+                          }
+                        },
+                      ),
+                      const Text('Pick Up'),
+                      Checkbox(
+                        value: controller.deliveryOption.contains('Deliver'),
+                        onChanged: (isSelected) {
+                          if (isSelected!) {
+                            controller.deliveryOption.add('Deliver');
+                          } else {
+                            controller.deliveryOption.remove('Deliver');
+                          }
+                        },
+                      ),
+                      const Text('Deliver'),
+                    ],
                   ),
-                  const Text('Pick Up'),
-                  Checkbox(
-                    value: controller.deliveryOption.contains('Deliver'),
-                    onChanged: (isSelected) {
-                      if (isSelected!) {
-                        controller.deliveryOption.add('Deliver');
-                      } else {
-                        controller.deliveryOption.remove('Deliver');
-                      }
-                    },
-                  ),
-                  const Text('Deliver'),
                 ],
-              ),
-            ],
-          )),
+              )),
 
           const SizedBox(height: TSizes.spaceInputFields),
 

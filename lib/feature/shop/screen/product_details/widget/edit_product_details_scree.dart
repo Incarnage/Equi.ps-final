@@ -44,7 +44,10 @@ class EditProductDetails extends StatelessWidget {
                 ImageSlider(product: product),
                 const Divider(),
                 const SizedBox(height: TSizes.spaceItems),
-                EProductTitleText(title: product.productTitle, smallSize: true),
+                EProductTitleText(
+                  title: product.productTitle,
+                  smallSize: true,
+                ),
                 brandTitleWithVerifiedIcon(
                   title: product.lessor!.name,
                   brandTextSize: TextSizes.medium,

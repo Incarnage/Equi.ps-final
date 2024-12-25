@@ -60,7 +60,9 @@ class LessorVerticalCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   EProductTitleText(
-                      title: product.productTitle, smallSize: true),
+                    title: product.productTitle,
+                    smallSize: true,
+                  ),
                   const SizedBox(height: TSizes.spaceItems / 2),
                   brandTitleWithVerifiedIcon(
                     title: product.lessor != null ? product.lessor!.name : '',

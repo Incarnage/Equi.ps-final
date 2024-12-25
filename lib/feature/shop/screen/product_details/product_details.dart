@@ -12,7 +12,6 @@ import 'package:equips_v2/feature/shop/screen/product_details/widget/product_dat
 import 'package:equips_v2/feature/shop/screen/product_details/widget/unavailable.dart';
 import 'package:equips_v2/feature/shop/screen/product_reviews/productReviews.dart';
 
-
 import 'package:equips_v2/utilities/constants/enums.dart';
 import 'package:equips_v2/utilities/constants/size.dart';
 import 'package:flutter/material.dart';
@@ -102,7 +101,7 @@ class _ProductDetailsState extends State<ProductDetails> {
             ),
 
             const SizedBox(
-              height: TSizes.spaceItems,
+              height: TSizes.spaceSections,
             ),
             // Product Data
             Padding(
@@ -110,6 +109,25 @@ class _ProductDetailsState extends State<ProductDetails> {
                   const EdgeInsets.symmetric(horizontal: TSizes.defaultSpace),
               child: ProductData(product: widget.product),
             ),
+
+            // Location
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: TSizes.defaultSpace),
+              child: Row(
+                children: [
+                  // location
+                  const EProductTitleText(title: 'Location'),
+                  const SizedBox(width: TSizes.spaceItems),
+                  Text(
+                    socialMedia!["address"]!,
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                ],
+              ),
+            ),
+
+            const SizedBox(height: TSizes.spaceItems),
 
             // Descr
             const Padding(
@@ -133,7 +151,7 @@ class _ProductDetailsState extends State<ProductDetails> {
 
             const SizedBox(height: TSizes.spaceItems),
             Container(
-              width: 450,
+              width: 335,
               height: 3,
               color: const Color.fromARGB(255, 238, 237, 237),
             ),
@@ -150,18 +168,6 @@ class _ProductDetailsState extends State<ProductDetails> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Location
-                    Row(
-                      children: [
-                        // location
-                        const EProductTitleText(title: 'Location'),
-                        const SizedBox(width: TSizes.spaceItems),
-                        Text(
-                          socialMedia!["address"]!,
-                          style: const TextStyle(fontSize: 20),
-                        ),
-                      ],
-                    ),
                     const SizedBox(height: TSizes.spaceItems),
                     Row(
                       children: [
@@ -206,10 +212,11 @@ class _ProductDetailsState extends State<ProductDetails> {
 
             const SizedBox(height: TSizes.spaceItems),
             Container(
-              width: 450,
+              width: 333,
               height: 3,
               color: const Color.fromARGB(255, 238, 237, 237),
             ),
+            const SizedBox(height: TSizes.spaceItems),
 
             // Reviews
             Padding(
@@ -224,7 +231,8 @@ class _ProductDetailsState extends State<ProductDetails> {
                     showActionButton: false,
                   ),
                   IconButton(
-                    onPressed: () => Get.to(() => ProductReviewScreen(product: widget.product)),
+                    onPressed: () => Get.to(
+                        () => ProductReviewScreen(product: widget.product)),
                     icon: const Icon(
                       Iconsax.arrow_right_3,
                       size: 18,

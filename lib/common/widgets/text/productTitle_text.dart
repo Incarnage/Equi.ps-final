@@ -15,7 +15,7 @@ class EProductTitleText extends StatelessWidget {
   final int maxLines;
   final TextAlign? textAlign;
 
-  final Color? textColor;
+  final dynamic textColor;
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +27,8 @@ class EProductTitleText extends StatelessWidget {
       overflow: TextOverflow.ellipsis,
       maxLines: maxLines,
       textAlign: textAlign,
+
+      // textColor: textColor,
     );
   }
 }

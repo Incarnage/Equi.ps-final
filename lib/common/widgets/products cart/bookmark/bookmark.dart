@@ -14,10 +14,11 @@ class EBookmark extends StatelessWidget {
     final controller = Get.put(BookmarkController());
     return Obx(
       () => ECircularIcons(
-        backgroundColor: Colors.white,
+        backgroundColor: const Color(0xFF25291C),
         icon: controller.isBookmarked(productId)
             ? Icons.bookmark
             : Iconsax.bookmark,
+        color: Colors.white,
         size: 24,
         width: 50,
         height: 50,

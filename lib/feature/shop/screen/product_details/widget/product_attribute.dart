@@ -17,7 +17,7 @@ class ProductAttribute extends StatelessWidget {
         ERoundedcontainer(
           padding: const EdgeInsets.all(TSizes.medium),
           backgroundColor:
-              Color.fromARGB(255, 110, 118, 91), // Color(0xFF25291C),
+              const Color.fromARGB(255, 110, 118, 91), // Color(0xFF25291C),
           child: Column(
             children: [
               Row(
@@ -36,9 +36,9 @@ class ProductAttribute extends StatelessWidget {
                       Row(
                         children: [
                           const EProductTitleText(
-                            title: 'Price : ',
-                            smallSize: true,
-                          ),
+                              title: 'Price : ',
+                              smallSize: true,
+                              textColor: Colors.black),
                           const SizedBox(
                             width: TSizes.spaceItems,
                           ),
@@ -62,6 +62,7 @@ class ProductAttribute extends StatelessWidget {
                       Row(
                         children: [
                           const EProductTitleText(
+                            textColor: Colors.black,
                             title: 'Stock : ',
                             smallSize: true,
                           ),

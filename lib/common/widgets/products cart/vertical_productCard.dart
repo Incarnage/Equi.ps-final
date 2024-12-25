@@ -61,7 +61,9 @@ class VerticalProductCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   EProductTitleText(
-                      title: product.productTitle, smallSize: true),
+                    title: product.productTitle,
+                    smallSize: true,
+                  ),
                   const SizedBox(height: TSizes.spaceItems / 2),
                   brandTitleWithVerifiedIcon(
                     title: product.lessor != null ? product.lessor!.name : '',
@@ -93,9 +95,9 @@ class VerticalProductCard extends StatelessWidget {
                   ),
                 ),
                 // Add to cart
-                Container(
+                /*Container(
                   decoration: const BoxDecoration(
-                      color: Colors.black,
+                      color: const Color(0xFF25291C),
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(TSizes.cardRaidusMedium),
                         bottomRight: Radius.circular(TSizes.productImageRadius),
@@ -105,7 +107,7 @@ class VerticalProductCard extends StatelessWidget {
                       height: TSizes.iconLarge * 1.0,
                       child: Center(
                           child: Icon(Iconsax.add, color: Colors.white))),
-                ),
+                ),*/
               ],
             )
           ],

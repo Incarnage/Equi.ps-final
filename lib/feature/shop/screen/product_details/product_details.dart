@@ -83,10 +83,12 @@ class _ProductDetailsState extends State<ProductDetails> {
                 child: Column(
                   children: [
                     // Name of product
-                    EProductTitleText(
-                      title: widget.product.productTitle,
-                      smallSize: true,
-                      textColor: Colors.white,
+                    Text(
+                      widget.product.productTitle,
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleMedium
+                          ?.copyWith(color: Colors.white),
                     ),
 
                     // Store Name and Verified Icon
@@ -120,7 +122,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                   const EProductTitleText(title: 'Location'),
                   const SizedBox(width: TSizes.spaceItems),
                   Text(
-                    socialMedia!["address"]!,
+                    socialMedia?["address"] ?? 'No address available',
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                 ],

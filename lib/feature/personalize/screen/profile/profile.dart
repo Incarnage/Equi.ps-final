@@ -81,6 +81,7 @@ class ProfileScreen extends StatelessWidget {
               profileMenu(
                   title: "Name",
                   value: controller.user.value.fullName,
+                  icon: Iconsax.arrow_right_1,
                   onPressed: () => Get.to(() => const Changename())),
               profileMenu(
                   title: "Username",
@@ -101,7 +102,6 @@ class ProfileScreen extends StatelessWidget {
               profileMenu(
                   title: "User ID",
                   value: controller.user.value.id,
-                  icon: Iconsax.copy,
                   onPressed: () {}),
               profileMenu(
                   title: "Email",
@@ -110,11 +110,6 @@ class ProfileScreen extends StatelessWidget {
               profileMenu(
                   title: "Phone Number",
                   value: controller.user.value.phoneNumber,
-                  onPressed: () {}),
-              profileMenu(title: "Gender", value: "Male", onPressed: () {}),
-              profileMenu(
-                  title: "Date of Birth",
-                  value: "23rd Jan, 2003",
                   onPressed: () {}),
 
               const Divider(),

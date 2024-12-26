@@ -25,7 +25,8 @@ class OrderDetails extends StatelessWidget {
   String formatTime(String time) {
     try {
       DateTime dateTime = DateFormat('HH:mm').parse(time);
-      return DateFormat('hh:mm a').format(dateTime); // Format to 12-hour format with AM/PM
+      return DateFormat('hh:mm a')
+          .format(dateTime); // Format to 12-hour format with AM/PM
     } catch (e) {
       return time; // Return original time in case of error
     }
@@ -108,7 +109,8 @@ class OrderDetails extends StatelessWidget {
                   } else if (snapshot.hasError) {
                     return Text('Error: ${snapshot.error}');
                   } else if (snapshot.hasData) {
-                    return NotifInfo(title: 'Lessee Name', value: snapshot.data!);
+                    return NotifInfo(
+                        title: 'Lessee Name', value: snapshot.data!);
                   } else {
                     return const Text('No lessee found');
                   }
@@ -134,91 +136,97 @@ class OrderDetails extends StatelessWidget {
 
               // Buttons for Lessee and Lessor
               Obx(() {
-  return Column(
-    children: [
-      if (UserController.instance.user.value.userType == "Lessee")
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            if (status.value == "Pending" || status.value == "Confirmed" || status.value == "Reviewed")
-              Expanded(
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      side: const BorderSide(color: Color(0xFF25291C)),
-                      backgroundColor: const Color(0xFF25291C)),
-                  onPressed: () => Get.back(),
-                  child: const Text('Close'),
-                ),
-              ) 
-            else if (status.value == "Returned")
-              Expanded(
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      side: const BorderSide(color: Color(0xFF25291C)),
-                      backgroundColor: const Color(0xFF25291C)),
-                  onPressed: (){
-                    
-                
-                    Get.to(()=> RateLessorProduct(order: order));
-                  },
-                  child: const Text('Rate Product'),
-                ),
-              ),
-          ],
-        ),
-      if (UserController.instance.user.value.userType == "Lessor")
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Expanded(
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    side: const BorderSide(color: Color(0xFF25291C)),
-                    backgroundColor: Colors.white),
-                onPressed: () => Get.back(),
-                child: const Text(
-                  'Close',
-                  style: TextStyle(color: Color(0xFF25291C)),
-                ),
-              ),
-            ),
-            const SizedBox(width: TSizes.spaceItems),
-            if (status.value == "Pending")
-              Expanded(
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      side: const BorderSide(color: Color(0xFF25291C)),
-                      backgroundColor: const Color(0xFF25291C)),
-                  onPressed: () {
-                    orderController.confirmOrder(order);
-                    status.value = "Confirmed";
-                     orderController.fetchAllLessorOrders();
-                    Get.back();
-                  },
-                  child: const Text('Confirm'),
-                ),
-              )
-            else if (status.value == "Confirmed")
-              Expanded(
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      side: const BorderSide(color: Color(0xFF25291C)),
-                      backgroundColor: const Color(0xFF25291C)),
-                  onPressed: () {
-                    orderController.returnedProduct(order);
-                    status.value = "Returned";
-                    orderController.fetchAllLessorOrders();
-                    Get.back();
-                  },
-                  child: const Text('Product Returned'),
-                ),
-              ),
-          ],
-        )
-    ],
-  );
-}),
-
+                return Column(
+                  children: [
+                    if (UserController.instance.user.value.userType == "Lessee")
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          if (status.value == "Pending" ||
+                              status.value == "Confirmed" ||
+                              status.value == "Reviewed")
+                            Expanded(
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    side: const BorderSide(
+                                        color: Color(0xFF25291C)),
+                                    backgroundColor: const Color(0xFF25291C)),
+                                onPressed: () => Get.back(),
+                                child: const Text('Close'),
+                              ),
+                            )
+                          else if (status.value == "Returned")
+                            Expanded(
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    side: const BorderSide(
+                                        color: Color(0xFF25291C)),
+                                    backgroundColor: const Color(0xFF25291C)),
+                                onPressed: () {
+                                  orderController.reviewedProduct(order);
+                                  status.value = "Reviewed";
+                                  Get.to(() => RateLessorProduct(order: order));
+                                },
+                                child: const Text('Rate Product'),
+                              ),
+                            ),
+                        ],
+                      ),
+                    if (UserController.instance.user.value.userType == "Lessor")
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Expanded(
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  side: const BorderSide(
+                                      color: Color(0xFF25291C)),
+                                  backgroundColor: Colors.white),
+                              onPressed: () => Get.back(),
+                              child: const Text(
+                                'Close',
+                                style: TextStyle(color: Color(0xFF25291C)),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: TSizes.spaceItems),
+                          if (status.value == "Pending")
+                            Expanded(
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    side: const BorderSide(
+                                        color: Color(0xFF25291C)),
+                                    backgroundColor: const Color(0xFF25291C)),
+                                onPressed: () {
+                                  orderController.confirmOrder(order);
+                                  status.value = "Confirmed";
+                                  orderController.fetchAllLessorOrders();
+                                  Get.back();
+                                },
+                                child: const Text('Confirm'),
+                              ),
+                            )
+                          else if (status.value == "Confirmed")
+                            Expanded(
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    side: const BorderSide(
+                                        color: Color(0xFF25291C)),
+                                    backgroundColor: const Color(0xFF25291C)),
+                                onPressed: () {
+                                  orderController.returnedProduct(order);
+                                  status.value = "Returned";
+                                  orderController.fetchAllLessorOrders();
+                                  Get.back();
+                                },
+                                child: const Text('Product Returned'),
+                              ),
+                            ),
+                        ],
+                      )
+                  ],
+                );
+              }),
             ],
           ),
         ),

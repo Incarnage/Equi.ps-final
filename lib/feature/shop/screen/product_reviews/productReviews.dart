@@ -10,7 +10,8 @@ import 'package:flutter/material.dart';
 class ProductReviewScreen extends StatefulWidget {
   final ProductModel product;
 
-  const ProductReviewScreen({Key? key, required this.product}) : super(key: key);
+  const ProductReviewScreen({Key? key, required this.product})
+      : super(key: key);
 
   @override
   _ProductReviewScreenState createState() => _ProductReviewScreenState();
@@ -26,7 +27,8 @@ class _ProductReviewScreenState extends State<ProductReviewScreen> {
     reviewsFuture = fetchProductReviews(widget.product.id);
   }
 
-  Future<List<Map<String, dynamic>>> fetchProductReviews(String productId) async {
+  Future<List<Map<String, dynamic>>> fetchProductReviews(
+      String productId) async {
     try {
       final querySnapshot = await FirebaseFirestore.instance
           .collection('reviews')
@@ -41,7 +43,8 @@ class _ProductReviewScreenState extends State<ProductReviewScreen> {
   }
 
   // Calculate rating distribution (how many reviews for each rating)
-  Map<int, int> calculateRatingDistribution(List<Map<String, dynamic>> reviews) {
+  Map<int, int> calculateRatingDistribution(
+      List<Map<String, dynamic>> reviews) {
     Map<int, int> distribution = {1: 0, 2: 0, 3: 0, 4: 0, 5: 0};
     for (var review in reviews) {
       int rating = (review['rating'] ?? 0).toInt();
@@ -70,16 +73,16 @@ class _ProductReviewScreenState extends State<ProductReviewScreen> {
                 style: TextStyle(fontSize: 16),
               ),
               const SizedBox(height: TSizes.defaultSpace),
-
-              // Placeholder for overall ratings
-              FutureBuilder<List<Map<String, dynamic>>>( 
+              FutureBuilder<List<Map<String, dynamic>>>(
                 future: reviewsFuture,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(child: CircularProgressIndicator());
                   }
 
-                  if (snapshot.hasError || !snapshot.hasData || snapshot.data!.isEmpty) {
+                  if (snapshot.hasError ||
+                      !snapshot.hasData ||
+                      snapshot.data!.isEmpty) {
                     return const Text(
                       "No reviews available for this product.",
                       style: TextStyle(fontSize: 16),
@@ -87,25 +90,38 @@ class _ProductReviewScreenState extends State<ProductReviewScreen> {
                   }
 
                   reviews = snapshot.data!;
-                  Map<int, int> ratingDistribution = calculateRatingDistribution(reviews);
-                  double averageRating = reviews.fold(0.0, (sum, review) => sum + (review['rating']?.toDouble() ?? 0)) / reviews.length;
+                  Map<int, int> ratingDistribution =
+                      calculateRatingDistribution(reviews);
+                  double averageRating = reviews.fold(
+                          0.0,
+                          (sum, review) =>
+                              sum + (review['rating']?.toDouble() ?? 0)) /
+                      reviews.length;
 
                   return Column(
                     children: [
+                      const Divider(),
+                      const SizedBox(
+                        height: TSizes.spaceItems,
+                      ),
                       OverallProductRatings(
                         averageRating: averageRating,
                         ratingDistribution: ratingDistribution,
                       ),
-                      // Fetch and display user reviews
+                      const SizedBox(
+                        height: TSizes.spaceItems,
+                      ),
                       Column(
-                        children: reviews.map((review) {
-                          return UserReviewCard(
-                            userName: review['senderName'] ?? 'Anonymous',
-                            rating: review['rating']?.toDouble() ?? 0.0,
-                            reviewDate: review['timestamp'],
-                            userComment: review['message'] ?? '',
-                          );
-                        }).toList(),
+                        children: reviews.map(
+                          (review) {
+                            return UserReviewCard(
+                              userName: review['senderName'] ?? 'Anonymous',
+                              rating: review['rating']?.toDouble() ?? 0.0,
+                              reviewDate: review['timestamp'],
+                              userComment: review['message'] ?? '',
+                            );
+                          },
+                        ).toList(),
                       ),
                     ],
                   );

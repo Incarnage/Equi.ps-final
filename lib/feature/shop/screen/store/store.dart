@@ -102,7 +102,11 @@ class Store extends StatelessWidget {
                   bottom: ETabBar(
                       tabs: sortedCategories
                           .map((category) => Tab(
-                                child: Text(category.name),
+                                child: Text(
+                                  category.name,
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold),
+                                ),
                               ))
                           .toList()),
                 )

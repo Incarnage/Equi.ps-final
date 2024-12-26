@@ -3,15 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
 class profileMenu extends StatelessWidget {
-  const profileMenu({
-    super.key,
-    required this.onPressed,
-    required this.title,
-    required this.value,
-    this.icon = Iconsax.arrow_right_34,
-  });
+  const profileMenu(
+      {super.key,
+      required this.onPressed,
+      required this.title,
+      required this.value,
+      this.icon});
 
-  final IconData icon;
+  final IconData? icon;
   final VoidCallback onPressed;
   final String title, value;
 

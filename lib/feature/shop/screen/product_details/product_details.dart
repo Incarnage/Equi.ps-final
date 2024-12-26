@@ -140,18 +140,22 @@ class _ProductDetailsState extends State<ProductDetails> {
               ),
             ),
 
-            ReadMoreText(widget.product.description ?? '',
-                style: const TextStyle(fontWeight: FontWeight.normal),
-                trimLines: 2,
-                trimMode: TrimMode.Line,
-                trimCollapsedText: 'Show more',
-                trimExpandedText: 'Less',
-                moreStyle: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w800,
-                )),
+            Container(
+              margin:
+                  const EdgeInsets.symmetric(horizontal: TSizes.defaultSpace),
+              child: ReadMoreText(widget.product.description ?? '',
+                  style: const TextStyle(fontWeight: FontWeight.normal),
+                  trimLines: 2,
+                  trimMode: TrimMode.Line,
+                  trimCollapsedText: 'Show more',
+                  trimExpandedText: 'Less',
+                  moreStyle: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w800,
+                  )),
+            ),
 
-            const SizedBox(height: TSizes.spaceItems),
+            const SizedBox(height: TSizes.spaceSections),
             Container(
               width: 335,
               height: 3,

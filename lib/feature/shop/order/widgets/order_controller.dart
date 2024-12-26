@@ -74,17 +74,14 @@ class OrderController extends GetxController {
         fromdate = DateFormat('yyyy-MM-dd').parse(fromDate.text.trim());
         todate = DateFormat('yyyy-MM-dd').parse(toDate.text.trim());
 
-       fromtime = _parseTime(fromTime.text);
-      totime = _parseTime(toTime.text);
+        fromtime = _parseTime(fromTime.text);
+        totime = _parseTime(toTime.text);
       } catch (e) {
         ELoaders.errorSnackBar(
             title: "Invalid Date Format",
             message: "Please enter dates in the correct format.");
         return;
       }
-
-     
-
 
       if (todate.isBefore(fromdate) ||
           (todate.isAtSameMomentAs(fromdate) &&
@@ -104,16 +101,16 @@ class OrderController extends GetxController {
 
       // Save order data in the Firebase Firestore
       final newOrder = OrderModel(
-          status: "Pending",
-          lessorId: product.lessor!.id,
-          lesseeId: FirebaseAuth.instance.currentUser!.uid,
-          productId: product.id,
-          paymentImageUrl: uploadImage,
-          fromDate: fromdate,
-          toDate: todate,
-          fromTime: "${fromtime!.hour}:${fromtime.minute}",
-          toTime:"${totime!.hour}:${totime.minute}",
-          );
+        status: "Pending",
+        lessorId: product.lessor!.id,
+        lesseeId: FirebaseAuth.instance.currentUser!.uid,
+        productId: product.id,
+        paymentImageUrl: uploadImage,
+        fromDate: fromdate,
+        toDate: todate,
+        fromTime: "${fromtime!.hour}:${fromtime.minute}",
+        toTime: "${totime!.hour}:${totime.minute}",
+      );
 
       final orderRepository = Get.put(OrderRepository());
       await orderRepository.saveOrderRecord(newOrder);
@@ -134,14 +131,14 @@ class OrderController extends GetxController {
   }
 
   TimeOfDay _parseTime(String time) {
-  try {
-    // Parse the 12-hour format time (hh:mm a)
-    final parsedTime = DateFormat('hh:mm a').parse(time);
-    return TimeOfDay(hour: parsedTime.hour, minute: parsedTime.minute);
-  } catch (e) {
-    throw FormatException("Invalid time format");
+    try {
+      // Parse the 12-hour format time (hh:mm a)
+      final parsedTime = DateFormat('hh:mm a').parse(time);
+      return TimeOfDay(hour: parsedTime.hour, minute: parsedTime.minute);
+    } catch (e) {
+      throw FormatException("Invalid time format");
+    }
   }
-}
 
   Future<void> fetchAllLessorOrders() async {
     try {
@@ -210,9 +207,9 @@ class OrderController extends GetxController {
 
   Future<void> returnedProduct(OrderModel order) async {
     try {
-EFullScreenLoader.openLoadingDialog(
+      EFullScreenLoader.openLoadingDialog(
           "Confirming your order", "assets/pic/loading.json");
-        final success =
+      final success =
           await orderRepository.updateOrderStatus(order.id!, 'Returned');
       // Update order status in Firestore
       await orderRepository.updateProductStatus(
@@ -221,12 +218,21 @@ EFullScreenLoader.openLoadingDialog(
 
       ELoaders.successSnackBar(
           title: 'Success', message: 'Product has been returned');
-          
     } catch (e) {
       ELoaders.errorSnackBar(title: "Oh Snap!", message: e.toString());
     } finally {
       EFullScreenLoader.stopLoading();
       Get.back();
+    }
+  }
+
+  Future<void> reviewedProduct(OrderModel order) async {
+    try {
+      final success =
+          await orderRepository.updateOrderStatus(order.id!, 'Reviewed');
+      // Update order status in Firestore
+    } catch (e) {
+      ELoaders.errorSnackBar(title: "Oh Snap!", message: e.toString());
     }
   }
 }

@@ -1,15 +1,8 @@
-import 'package:equips_v2/common/images/e_circular_image.dart';
-import 'package:equips_v2/common/widgets/appbar/appbar.dart';
-import 'package:equips_v2/common/widgets/custom_shapes/container/eSectionHeading.dart';
-import 'package:equips_v2/feature/auth/screen/home/widget/shimmer.dart';
 import 'package:equips_v2/feature/personalize/controller/user_controller.dart';
-import 'package:equips_v2/feature/personalize/screen/profile/widgets/profileMenu.dart';
-import 'package:equips_v2/feature/personalize/screen/profile/widgets/changename.dart';
 import 'package:equips_v2/navigation_menu.dart';
 import 'package:equips_v2/utilities/constants/size.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:iconsax/iconsax.dart';
 
 class OrderSucess extends StatelessWidget {
   const OrderSucess({super.key});

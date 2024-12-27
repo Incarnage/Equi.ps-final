@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:equips_v2/common/widgets/custom_shapes/container/ERoundedContainer.dart';
 import 'package:equips_v2/common/widgets/products/ratings/rating_indicator.dart';
 import 'package:equips_v2/utilities/constants/size.dart';
 import 'package:flutter/material.dart';
@@ -24,11 +23,11 @@ class UserReviewCard extends StatelessWidget {
     return Column(
       children: [
         Container(
-          padding: EdgeInsets.all(10),
+          padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
-              color: Colors.pink,
+              color: const Color(0xFF25291C),
               borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: Colors.black)),
+              border: Border.all(color: const Color(0xFF25291C))),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -39,13 +38,13 @@ class UserReviewCard extends StatelessWidget {
                     children: [
                       Text(
                         userName,
-                        style: Theme.of(context).textTheme.bodyMedium,
+                        style: const TextStyle(color: Colors.white),
                       ),
                     ],
                   ),
                 ],
               ),
-              Divider(),
+              const Divider(),
 
               // Rating and Date of Review
               Row(
@@ -54,7 +53,7 @@ class UserReviewCard extends StatelessWidget {
                   const SizedBox(width: TSizes.spaceItems),
                   Text(
                     "${reviewDate.toDate().month}/${reviewDate.toDate().day}/${reviewDate.toDate().year.toString().substring(2)}",
-                    style: Theme.of(context).textTheme.bodyMedium,
+                    style: const TextStyle(color: Colors.white),
                   ),
                 ],
               ),
@@ -65,7 +64,7 @@ class UserReviewCard extends StatelessWidget {
               ReadMoreText(
                 userComment,
                 style: const TextStyle(
-                  color: Colors.black,
+                  color: Colors.white,
                   fontSize: 12,
                   fontWeight: FontWeight.w300,
                 ),
@@ -76,12 +75,12 @@ class UserReviewCard extends StatelessWidget {
                 moreStyle: const TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
-                  color: Color(0xFF25291C),
+                  color: Colors.white,
                 ),
                 lessStyle: const TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
-                  color: Color(0xFF25291C),
+                  color: Colors.white,
                 ),
               ),
 
@@ -89,7 +88,7 @@ class UserReviewCard extends StatelessWidget {
             ],
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: TSizes.spaceItems,
         )
       ],

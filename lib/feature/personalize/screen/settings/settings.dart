@@ -9,7 +9,6 @@ import 'package:equips_v2/feature/personalize/screen/FAQs/faqs.dart';
 import 'package:equips_v2/feature/personalize/screen/Social-Media/social_media_accs.dart';
 import 'package:equips_v2/feature/personalize/screen/address/widgets/address.dart';
 import 'package:equips_v2/feature/personalize/screen/profile/profile.dart';
-import 'package:equips_v2/feature/shop/screen/cart/cart.dart';
 import 'package:equips_v2/feature/shop/screen/order/order.dart';
 import 'package:equips_v2/utilities/constants/size.dart';
 import 'package:flutter/material.dart';
@@ -72,14 +71,14 @@ class SettingScreen extends StatelessWidget {
                   const SizedBox(height: TSizes.spaceItems),
 
                   // Social Media Links
-                  if(controller.user.value.userType == "Lessor")
-                  ESettingMenuTile(
-                    icon: Iconsax.people,
-                    title: "Social Media Accounts",
-                    subtitle:
-                        "Add your social media details for other communication channels.",
-                    onTap: () => Get.to(() => const SocialMediaAccs()),
-                  ),
+                  if (controller.user.value.userType == "Lessor")
+                    ESettingMenuTile(
+                      icon: Iconsax.people,
+                      title: "Social Media Accounts",
+                      subtitle:
+                          "Add your social media details for other communication channels.",
+                      onTap: () => Get.to(() => const SocialMediaAccs()),
+                    ),
 
                   // Address
                   ESettingMenuTile(
@@ -99,24 +98,21 @@ class SettingScreen extends StatelessWidget {
                   // ),
 
                   // My Orders
-                  if(controller.user.value.userType == "Lessee")
-                  ESettingMenuTile(
-                      icon: Iconsax.bag_tick,
-                      title: "My Orders",
-                      subtitle:
-                          "View In-Progress and Completed Rental Requests",
-                      onTap: () => Get.to(() => const OrderScreen())),
+                  if (controller.user.value.userType == "Lessee")
+                    ESettingMenuTile(
+                        icon: Iconsax.bag_tick,
+                        title: "My Orders",
+                        subtitle:
+                            "View In-Progress and Completed Rental Requests",
+                        onTap: () => Get.to(() => const OrderScreen())),
 
-  if(controller.user.value.userType == "Lessor")
-                  // Bank
-                  const ESettingMenuTile(
-                    icon: Iconsax.bank,
-                    title: "GCash Details",
-                    subtitle: "Update your Account Details",
-                  ),
-
-                  
-                  
+                  if (controller.user.value.userType == "Lessor")
+                    // Bank
+                    const ESettingMenuTile(
+                      icon: Iconsax.bank,
+                      title: "GCash Details",
+                      subtitle: "Update your Account Details",
+                    ),
 
                   // Support
                   ESectionHeading(
@@ -132,7 +128,7 @@ class SettingScreen extends StatelessWidget {
                     title: "Equi.ps Guide",
                     subtitle:
                         "Learn more about the app through the Frequently Asked Questions (FAQs) and quick tutorials.",
-                    onTap: () => Get.to(() => FrequentlyAskedQuestions()),
+                    onTap: () => Get.to(() => const FrequentlyAskedQuestions()),
                   ),
 
                   // Report

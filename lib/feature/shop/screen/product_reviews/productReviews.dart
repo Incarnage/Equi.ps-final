@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equips_v2/common/widgets/appbar/appbar.dart';
-import 'package:equips_v2/common/widgets/products/ratings/rating_indicator.dart';
 import 'package:equips_v2/feature/shop/models/product_model.dart';
 import 'package:equips_v2/feature/shop/screen/product_reviews/widgets/rating_progress_indicator.dart';
 import 'package:equips_v2/feature/shop/screen/product_reviews/widgets/user_review_card.dart';

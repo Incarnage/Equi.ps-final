@@ -11,7 +11,6 @@ import 'package:equips_v2/feature/shop/models/product_model.dart';
 import 'package:equips_v2/feature/shop/order/widgets/order_controller.dart';
 import 'package:equips_v2/feature/shop/order/widgets/order_date_picker.dart';
 import 'package:equips_v2/feature/shop/order/widgets/order_info.dart';
-import 'package:equips_v2/feature/shop/order/widgets/time_picker.dart';
 
 import 'package:equips_v2/utilities/constants/size.dart';
 import 'package:equips_v2/utilities/popups/loaders.dart';
@@ -38,11 +37,11 @@ class PayScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Get.put(OrderController());
-    
+
     final controller = UserController.instance;
     final ordercontroller = OrderController.instance;
     fetchLessorGcashPhoto(product.lessor!.id);
-    
+
     // Update duration when dates or times are changed
     ordercontroller.fromDate.addListener(() {
       updateTotalDuration(ordercontroller);
@@ -70,8 +69,8 @@ class PayScreen extends StatelessWidget {
                     topLeft: Radius.circular(TSizes.cardRaidusLarge),
                     topRight: Radius.circular(TSizes.cardRaidusLarge))),
             child: SizedBox(
-                width: double.infinity,
-                child: Obx(() {
+              width: double.infinity,
+              child: Obx(() {
                 // Only show Pay button if Gcash information is available
                 return lessorGcashPhoto.value.isNotEmpty
                     ? ElevatedButton(
@@ -80,14 +79,18 @@ class PayScreen extends StatelessWidget {
                             backgroundColor: const Color(0xFF25291C)),
                         onPressed: () {
                           // Validate the order form key
-                          if (ordercontroller.orderFormKey.currentState!.validate()) {
+                          if (ordercontroller.orderFormKey.currentState!
+                              .validate()) {
                             // Check if 'From Time', 'To Time', and proof of payment are provided
-                            if (ordercontroller.fromTime.text.isEmpty || ordercontroller.toTime.text.isEmpty) {
+                            if (ordercontroller.fromTime.text.isEmpty ||
+                                ordercontroller.toTime.text.isEmpty) {
                               ELoaders.errorSnackBar(
                                 title: "Invalid Time Selection",
-                                message: 'Please select both start and end times.',
+                                message:
+                                    'Please select both start and end times.',
                               );
-                            } else if (ordercontroller.imageFile.value == null) {
+                            } else if (ordercontroller.imageFile.value ==
+                                null) {
                               ELoaders.errorSnackBar(
                                 title: "Proof of Payment Missing",
                                 message: 'Please upload proof of payment.',
@@ -106,7 +109,8 @@ class PayScreen extends StatelessWidget {
                         },
                         child: const Text('Pay'),
                       )
-                    : const SizedBox.shrink(); // Hide the Pay button if no Gcash info
+                    : const SizedBox
+                        .shrink(); // Hide the Pay button if no Gcash info
               }),
             ),
           ),
@@ -123,9 +127,9 @@ class PayScreen extends StatelessWidget {
                     child: Column(
                       children: [
                         const ESectionHeading(
-                            title: "Rental Date",
-                            showActionButton: false,
-                           ),
+                          title: "Rental Date",
+                          showActionButton: false,
+                        ),
                         const SizedBox(height: TSizes.spaceItems),
                         SelectDate(
                           validator: (value) {
@@ -150,165 +154,164 @@ class PayScreen extends StatelessWidget {
                         ),
                         const SizedBox(height: TSizes.spaceItems),
                         const ESectionHeading(
-                            title: "Selected Time",
-                            showActionButton: false,
-                           ),
-                       const SizedBox(height: TSizes.spaceItems),
-                       SelectTime(
-                        title: "From Time",
-                        controller: ordercontroller.fromTime,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please select a start time';
-                          }
-                          return null;
-                        },
-                      ),
-                      const SizedBox(height: TSizes.spaceItems),
-
-
-                      // Time Picker for To Time
-                      SelectTime(
-                        title: "To Time",
-                        controller: ordercontroller.toTime,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please select an end time';
-                          }
-                          return null;
-                        },
-                      ),
-
-                   const SizedBox(height: TSizes.spaceItems),
-                   Obx(() {
-                      final networkImage = lessorGcashPhoto.value;
-                      final image = (networkImage.isNotEmpty)
-                          ? networkImage
-                          : 'assets/pic/profile-icon.png';
-
-                      return controller.imageUploading.value
-                          ? const ShimmerEffect(
-                              width: 80,
-                              height: 80,
-                              radius: 80,
-                            )
-                          : GestureDetector(
-                              onTap: () {
-                                if (networkImage.isNotEmpty) {
-                                  ImagesController.instance
-                                      .showEnlargedImage(networkImage);
-                                } else {
-                                  ELoaders.errorSnackBar(
-                                    title: 'Error',
-                                    message:
-                                        'No image available to enlarge',
-                                  );
-                                }
-                              },
-                              child: ECircularImage(
-                                image: image,
-                                width: 300,
-                                height: 300,
-                                isNetworkImage: networkImage.isNotEmpty,
-                              ),
-                            );
-                    }),
-                    SizedBox(
-                      width: double.infinity,
-                      child: Center(
-                        child: Text(
-                          product.lessor!.name,
-                          style:
-                              const TextStyle(fontSize: TSizes.fontLarge),
+                          title: "Selected Time",
+                          showActionButton: false,
                         ),
-                      ),
+                        const SizedBox(height: TSizes.spaceItems),
+                        SelectTime(
+                          title: "From Time",
+                          controller: ordercontroller.fromTime,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please select a start time';
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(height: TSizes.spaceItems),
+
+                        // Time Picker for To Time
+                        SelectTime(
+                          title: "To Time",
+                          controller: ordercontroller.toTime,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please select an end time';
+                            }
+                            return null;
+                          },
+                        ),
+
+                        const SizedBox(height: TSizes.spaceItems),
+                        Obx(() {
+                          final networkImage = lessorGcashPhoto.value;
+                          final image = (networkImage.isNotEmpty)
+                              ? networkImage
+                              : 'assets/pic/profile-icon.png';
+
+                          return controller.imageUploading.value
+                              ? const ShimmerEffect(
+                                  width: 80,
+                                  height: 80,
+                                  radius: 80,
+                                )
+                              : GestureDetector(
+                                  onTap: () {
+                                    if (networkImage.isNotEmpty) {
+                                      ImagesController.instance
+                                          .showEnlargedImage(networkImage);
+                                    } else {
+                                      ELoaders.errorSnackBar(
+                                        title: 'Error',
+                                        message:
+                                            'No image available to enlarge',
+                                      );
+                                    }
+                                  },
+                                  child: ECircularImage(
+                                    image: image,
+                                    width: 300,
+                                    height: 300,
+                                    isNetworkImage: networkImage.isNotEmpty,
+                                  ),
+                                );
+                        }),
+                        SizedBox(
+                          width: double.infinity,
+                          child: Center(
+                            child: Text(
+                              product.lessor!.name,
+                              style:
+                                  const TextStyle(fontSize: TSizes.fontLarge),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: double.infinity,
+                          child: Center(
+                            child: Text(
+                              lessorGcashNumber.value,
+                              style:
+                                  const TextStyle(fontSize: TSizes.fontLarge),
+                            ),
+                          ),
+                        )
+                      ],
                     ),
-                    SizedBox(
-                      width: double.infinity,
-                      child: Center(
-                        child: Text(
-                          lessorGcashNumber.value,
-                          style:
-                              const TextStyle(fontSize: TSizes.fontLarge),
-                        ),
-                      ),
-                    )
-                  ],
-                ),
+                  ),
+
+                  // Details
+                  const SizedBox(height: TSizes.spaceItems / 2),
+                  const Divider(),
+                  const SizedBox(height: TSizes.spaceItems),
+
+                  // Heading Profile Info
+                  const ESectionHeading(
+                    title: "Payment Option",
+                    showActionButton: false,
+                  ),
+                  const SizedBox(height: TSizes.spaceItems),
+
+                  Obx(() {
+                    return OrderInfo(
+                      title: "Full",
+                      value: finalPrice.value.toString(),
+                    );
+                  }),
+                  Obx(() {
+                    return OrderInfo(
+                      title: "Partial",
+                      value: partialPrice.value.toString(),
+                    );
+                  }),
+
+                  const SizedBox(height: TSizes.spaceItems),
+                  const Divider(),
+                  const SizedBox(height: TSizes.spaceItems),
+
+                  // Heading Personal Info
+                  ESectionHeading(
+                      title: "Proof of Payment",
+                      showActionButton: false,
+                      onPressed: () {}),
+                  const SizedBox(height: TSizes.spaceItems),
+
+                  TextButton(
+                    onPressed: () async {
+                      final pickedFile =
+                          await _picker.pickImage(source: ImageSource.gallery);
+                      if (pickedFile != null) {
+                        ordercontroller.setImageFile(
+                            pickedFile); // Set the picked image in the controller
+                      } else {
+                        ELoaders.errorSnackBar(
+                            title: 'Error', message: 'No image selected');
+                      }
+                    },
+                    child: const Text(
+                      "Upload Proof of Payment",
+                      style: TextStyle(color: Color(0xFF25291C)),
+                    ),
+                  ),
+                  const SizedBox(height: TSizes.spaceItems),
+
+                  Obx(() {
+                    if (ordercontroller.imageFile.value != null) {
+                      return Image.file(
+                        File(ordercontroller.imageFile.value!.path),
+                        height: 100,
+                      );
+                    } else {
+                      return const Text("No image selected.");
+                    }
+                  }),
+
+                  const Divider(),
+                ],
               ),
-
-              // Details
-              const SizedBox(height: TSizes.spaceItems / 2),
-              const Divider(),
-              const SizedBox(height: TSizes.spaceItems),
-
-              // Heading Profile Info
-              const ESectionHeading(
-                title: "Payment Option",
-                showActionButton: false,
-              ),
-              const SizedBox(height: TSizes.spaceItems),
-
-              Obx(() {
-                return OrderInfo(
-                  title: "Full",
-                  value: finalPrice.value.toString(),
-                );
-              }),
-              Obx(() {
-                return OrderInfo(
-                  title: "Partial",
-                  value: partialPrice.value.toString(),
-                );
-              }),
-
-              const SizedBox(height: TSizes.spaceItems),
-              const Divider(),
-              const SizedBox(height: TSizes.spaceItems),
-
-              // Heading Personal Info
-              ESectionHeading(
-                  title: "Proof of Payment",
-                  showActionButton: false,
-                  onPressed: () {}),
-              const SizedBox(height: TSizes.spaceItems),
-
-              TextButton(
-                onPressed: () async {
-                  final pickedFile =
-                      await _picker.pickImage(source: ImageSource.gallery);
-                  if (pickedFile != null) {
-                    ordercontroller.setImageFile(
-                        pickedFile); // Set the picked image in the controller
-                  } else {
-                    ELoaders.errorSnackBar(
-                        title: 'Error', message: 'No image selected');
-                  }
-                },
-                child: const Text(
-                  "Upload Proof of Payment",
-                  style: TextStyle(color: Color(0xFF25291C)),
-                ),
-              ),
-              const SizedBox(height: TSizes.spaceItems),
-
-              Obx(() {
-                if (ordercontroller.imageFile.value != null) {
-                  return Image.file(
-                    File(ordercontroller.imageFile.value!.path),
-                    height: 100,
-                  );
-                } else {
-                  return const Text("No image selected.");
-                }
-              }),
-
-              const Divider(),
-            ],
+            ),
           ),
-        ),
-      ),
-    ));
+        ));
   }
 
   void fetchLessorGcashPhoto(String lessorId) async {
@@ -322,9 +325,7 @@ class PayScreen extends StatelessWidget {
       if (lessorDoc.exists) {
         final lessorData = lessorDoc.data();
         lessorGcashPhoto.value = lessorData?['Gcash'] ?? '';
-         lessorGcashNumber.value = lessorData?['GcashNumber'] ?? '';
-         
-        
+        lessorGcashNumber.value = lessorData?['GcashNumber'] ?? '';
       } else {
         ELoaders.errorSnackBar(title: 'Error', message: 'Lessor not found');
       }
@@ -339,7 +340,6 @@ class PayScreen extends StatelessWidget {
         ordercontroller.toDate.text.isNotEmpty &&
         ordercontroller.fromTime.text.isNotEmpty &&
         ordercontroller.toTime.text.isNotEmpty) {
-
       double duration = calculateDuration(
         ordercontroller.fromDate.text,
         ordercontroller.toDate.text,
@@ -357,7 +357,6 @@ class PayScreen extends StatelessWidget {
           finalPrice.value = 0.0;
           partialPrice.value = 0.0;
         }
-
       } else {
         totalDuration.value = 0.0;
         partialPrice.value = 0.0;
@@ -370,10 +369,13 @@ class PayScreen extends StatelessWidget {
     }
   }
 
-  double calculateDuration(String fromDate, String toDate, String fromTime, String toTime) {
+  double calculateDuration(
+      String fromDate, String toDate, String fromTime, String toTime) {
     try {
-      DateTime startDateTime = DateFormat('MM-dd-yyyy HH:mm a').parse('$fromDate $fromTime');
-      DateTime endDateTime = DateFormat('MM-dd-yyyy HH:mm a').parse('$toDate $toTime');
+      DateTime startDateTime =
+          DateFormat('MM-dd-yyyy HH:mm a').parse('$fromDate $fromTime');
+      DateTime endDateTime =
+          DateFormat('MM-dd-yyyy HH:mm a').parse('$toDate $toTime');
       Duration duration = endDateTime.difference(startDateTime);
 
       if (duration.isNegative) {

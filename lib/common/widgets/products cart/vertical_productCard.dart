@@ -9,7 +9,6 @@ import 'package:equips_v2/feature/shop/screen/product_details/product_details.da
 import 'package:equips_v2/utilities/constants/size.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:iconsax/iconsax.dart';
 
 class VerticalProductCard extends StatelessWidget {
   const VerticalProductCard({super.key, required this.product});

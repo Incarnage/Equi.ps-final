@@ -234,6 +234,7 @@ class OrderDetails extends StatelessWidget {
     );
   }
 
+// enlarge image
   void showEnlargedImage(String image) {
     Get.to(
       fullscreenDialog: true,
@@ -253,7 +254,10 @@ class OrderDetails extends StatelessWidget {
               child: SizedBox(
                 width: 150,
                 child: OutlinedButton(
-                    onPressed: () => Get.back(), child: const Text('Close')),
+                    onPressed: () => Get.back(),
+                    child: const Text('Close'),
+                    style: OutlinedButton.styleFrom(
+                        side: const BorderSide(color: Color(0xFF25291C)))),
               ),
             ),
           ],

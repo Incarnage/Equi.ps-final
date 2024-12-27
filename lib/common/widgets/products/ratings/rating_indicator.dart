@@ -15,7 +15,8 @@ class ERatingBarIndicator extends StatelessWidget {
     return RatingBarIndicator(
         rating: rating,
         itemSize: 20,
-        unratedColor: Colors.grey,
-        itemBuilder: (_, __) => Icon(Iconsax.star1, color: Colors.black));
+        unratedColor: Colors.white,
+        itemBuilder: (_, __) =>
+            const Icon(Iconsax.star1, color: Color(0xFFFFD233)));
   }
 }

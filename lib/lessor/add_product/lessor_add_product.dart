@@ -27,8 +27,8 @@ class LessorAddProduct extends StatelessWidget {
               .apply(color: Colors.black),
         ),
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.only(
+      body: const SingleChildScrollView(
+        padding: EdgeInsets.only(
             left: TSizes.defaultSpace, right: TSizes.defaultSpace),
         child: AddProductForm(),
       ),

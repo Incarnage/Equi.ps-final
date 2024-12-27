@@ -92,11 +92,18 @@ class ChatNavigation extends StatelessWidget {
                 child: ListTile(
                   title: Text(senderName),
                   onTap: () {
-                    // Navigate to the chat room with the sender's ID
-                    Get.to(() => ChatRoom(
-                          receiverEmail: senderName, // Assuming email is not available in this code
-                          receiverID: senderID,
-                        ));
+                    if (senderName.isNotEmpty && senderID.isNotEmpty) {
+                      try {
+                        Get.to(() => ChatRoom(
+                              receiverEmail: senderName,
+                              receiverID: senderID,
+                            ));
+                      } catch (e) {
+                        print('Navigation error: $e');
+                      }
+                    } else {
+                      print('Invalid sender data: senderName=$senderName, senderID=$senderID');
+                    }
                   },
                 ),
               );

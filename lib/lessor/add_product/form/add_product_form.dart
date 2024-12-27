@@ -17,7 +17,7 @@ class AddProductForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ProductController controller = Get.find<ProductController>();
-
+controller.resetForm();
     return Form(
       key: controller.addProductFormKey,
       child: Column(

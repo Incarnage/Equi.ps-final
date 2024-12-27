@@ -83,7 +83,7 @@ class VerticalProductCard extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(left: TSizes.small),
                         child: Text(
-                          "₱ ${product.price.toString()}",
+                          "₱ ${product.price.toString()}0",
                           style: Theme.of(context)
                               .textTheme
                               .labelLarge!

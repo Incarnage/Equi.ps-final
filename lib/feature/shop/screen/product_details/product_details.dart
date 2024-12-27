@@ -75,31 +75,37 @@ class _ProductDetailsState extends State<ProductDetails> {
             ),
 
             // title
-            ERoundedcontainer(
-              backgroundColor: const Color(0xFF25291C),
-              child: Padding(
-                padding: const EdgeInsets.only(
-                    left: 120, right: 110, top: 15, bottom: 15),
-                child: Column(
-                  children: [
-                    // Name of product
-                    Text(
-                      widget.product.productTitle,
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleMedium
-                          ?.copyWith(color: Colors.white),
+            Row(
+              children: [
+                const SizedBox(width: TSizes.defaultSpace,),
+                Expanded(
+                  
+                  child: ERoundedcontainer(
+                    padding: const EdgeInsets.only(top: 15, bottom: 15),
+                    backgroundColor: const Color(0xFF25291C),
+                    child: Column(
+                      children: [
+                        // Name of product
+                        Text(
+                          widget.product.productTitle,
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleMedium
+                              ?.copyWith(color: Colors.white),
+                        ),
+                    
+                        // Store Name and Verified Icon
+                        brandTitleWithVerifiedIcon(
+                          title: widget.product.lessor!.name,
+                          brandTextSize: TextSizes.medium,
+                          textColor: Colors.white,
+                        ),
+                      ],
                     ),
-
-                    // Store Name and Verified Icon
-                    brandTitleWithVerifiedIcon(
-                      title: widget.product.lessor!.name,
-                      brandTextSize: TextSizes.medium,
-                      textColor: Colors.white,
-                    ),
-                  ],
+                  ),
                 ),
-              ),
+                const SizedBox(width: TSizes.defaultSpace,),
+              ],
             ),
 
             const SizedBox(
@@ -165,8 +171,7 @@ class _ProductDetailsState extends State<ProductDetails> {
 
             if (isLoading)
               const CircularProgressIndicator()
-            else if (errorMessage.isNotEmpty)
-              Text('Error: $errorMessage')
+            
             else if (socialMedia != null)
               Padding(
                 padding:
@@ -174,42 +179,12 @@ class _ProductDetailsState extends State<ProductDetails> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    _buildSocialMediaRow('Facebook', socialMedia?['Facebook']),
                     const SizedBox(height: TSizes.spaceItems),
-                    Row(
-                      children: [
-                        const EProductTitleText(title: 'Facebook'),
-                        const SizedBox(width: TSizes.spaceItems),
-                        Text(
-                          socialMedia!['Facebook']!,
-                          style: const TextStyle(fontSize: 20),
-                        ),
-                      ],
-                    ),
+                    _buildSocialMediaRow('Instagram', socialMedia?['Instagram']),
                     const SizedBox(height: TSizes.spaceItems),
-                    Row(
-                      children: [
-                        const EProductTitleText(title: 'Instagram'),
-                        const SizedBox(width: TSizes.spaceItems),
-                        Text(
-                          socialMedia!['Instagram']!,
-                          style: const TextStyle(fontSize: 20),
-                        ),
-                      ],
-                    ),
+                    _buildSocialMediaRow('Gmail', socialMedia?['Gmail']),
                     const SizedBox(height: TSizes.spaceItems),
-                    Row(
-                      children: [
-                        const EProductTitleText(title: 'Gmail'),
-                        const SizedBox(width: TSizes.spaceItems),
-                        Text(
-                          socialMedia!['Gmail']!,
-                          style: const TextStyle(fontSize: 20),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: TSizes.spaceItems,
-                    ),
                   ],
                 ),
               )
@@ -251,6 +226,21 @@ class _ProductDetailsState extends State<ProductDetails> {
           ],
         ),
       ),
+    );
+  }
+
+   Widget _buildSocialMediaRow(String platform, String? value) {
+    final displayText =
+        (value ?? '').isEmpty ? 'No $platform available' : value!;
+    return Row(
+      children: [
+        EProductTitleText(title: platform),
+        const SizedBox(width: TSizes.spaceItems),
+        Text(
+          displayText,
+          style: const TextStyle(fontSize: 20),
+        ),
+      ],
     );
   }
 }

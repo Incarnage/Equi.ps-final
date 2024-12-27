@@ -12,28 +12,20 @@ class ForgotPassword extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Get.put(ForgotPasswordController());
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(title: const Text("Forgot Password")),
       body: Padding(
         padding: const EdgeInsets.all(TSizes.defaultSpace),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            //heading
-            Text(
-              'Forgot Password',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-            const SizedBox(
-              height: TSizes.spaceItems,
-            ),
-
-            Text(
-              'Please enter the e-mail address that you\'ve used to your account',
-              style: Theme.of(context).textTheme.labelMedium,
+            const Text(
+              'Please enter the e-mail address that you\'ve used to retrieve your account.',
+              style: TextStyle(
+                  fontSize: TSizes.fontMedium, fontWeight: FontWeight.normal),
             ),
 
             const SizedBox(
-              height: TSizes.spaceSections * 2,
+              height: TSizes.spaceSections,
             ),
             //Text field
             Form(
@@ -53,6 +45,9 @@ class ForgotPassword extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF25291C),
+                      side: const BorderSide(color: Color(0xFF25291C))),
                   onPressed: () => controller.sendPasswordReset(),
                   child: const Text('Submit')),
             )

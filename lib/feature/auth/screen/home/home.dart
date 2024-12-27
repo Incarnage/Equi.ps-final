@@ -64,7 +64,11 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
             Padding(
-                padding: const EdgeInsets.all(TSizes.defaultSpace),
+                padding: const EdgeInsets.only(
+                    top: TSizes.defaultSpace / 2,
+                    bottom: TSizes.defaultSpace,
+                    left: TSizes.defaultSpace,
+                    right: TSizes.defaultSpace),
                 child: Column(
                   children: [
                     const EPromoSlider(),
@@ -73,11 +77,12 @@ class HomeScreen extends StatelessWidget {
                     // Heading
                     ESectionHeading(
                       title: "You may like",
-                    onPressed: () => Get.to(() => AllProducts(
-  title: 'You may like',
-  futureMethod: controller.fetchRandomProducts(limit: 4),  // Pass random products as futureMethod
-)),
-
+                      onPressed: () => Get.to(() => AllProducts(
+                            title: 'You may like',
+                            futureMethod: controller.fetchRandomProducts(
+                                limit:
+                                    4), // Pass random products as futureMethod
+                          )),
                     ),
                     const SizedBox(height: TSizes.spaceSections),
 
@@ -85,12 +90,14 @@ class HomeScreen extends StatelessWidget {
                     FutureBuilder<List<ProductModel>>(
                       future: controller.fetchRandomProducts(limit: 4),
                       builder: (context, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.waiting) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
                           return const EVerticalProductShimmer();
                         }
 
                         if (snapshot.hasError) {
-                          return Center(child: Text('Error: ${snapshot.error}'));
+                          return Center(
+                              child: Text('Error: ${snapshot.error}'));
                         }
 
                         if (!snapshot.hasData || snapshot.data!.isEmpty) {

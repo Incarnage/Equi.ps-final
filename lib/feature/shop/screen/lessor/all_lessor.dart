@@ -3,7 +3,6 @@ import 'package:equips_v2/common/widgets/appbar/appbar.dart';
 import 'package:equips_v2/common/widgets/brands/lessor_card.dart';
 import 'package:equips_v2/common/widgets/layouts/gridLayout.dart';
 import 'package:equips_v2/common/widgets/shimmer/lessor_shimmer.dart';
-import 'package:equips_v2/common/widgets/text/section_heading.dart';
 import 'package:equips_v2/feature/shop/controller/lessor_controller.dart';
 import 'package:equips_v2/feature/shop/screen/lessor/lessor_products.dart';
 import 'package:equips_v2/utilities/constants/size.dart';

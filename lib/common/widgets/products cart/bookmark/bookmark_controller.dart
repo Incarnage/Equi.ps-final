@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'package:equips_v2/data/repository/product/product_repository.dart';
 import 'package:equips_v2/feature/shop/models/product_model.dart';
+import 'package:equips_v2/utilities/constants/size.dart';
 import 'package:equips_v2/utilities/local_storage/storage_util.dart';
 import 'package:equips_v2/utilities/popups/loaders.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class BookmarkController extends GetxController {
@@ -33,14 +35,15 @@ class BookmarkController extends GetxController {
     if (!bookmarks.containsKey(productId)) {
       bookmarks[productId] = true;
       saveBookmarktoStorage();
-      ELoaders.customToast(message: "Products has been added to your bookmark");
+      ELoaders.customToast(
+          message: "Product has been added to your Saved Items!");
     } else {
       ELocalStorage.instance().removeData(productId);
       bookmarks.remove(productId);
       saveBookmarktoStorage();
       bookmarks.refresh();
       ELoaders.customToast(
-          message: "Products has been removed from your bookmark");
+          message: "Product has been removed from your Saved Items!");
     }
   }
 

@@ -29,7 +29,9 @@ class AllProductController extends GetxController {
 
     switch (sortOption) {
       case 'Name':
-        products.sort((a, b) => a.productTitle.compareTo(b.productTitle));
+        products.sort((a, b) => a.productTitle
+            .toLowerCase()
+            .compareTo(b.productTitle.toLowerCase()));
         break;
       case 'Higher Price':
         products.sort((a, b) => b.price.compareTo(a.price));
@@ -38,7 +40,9 @@ class AllProductController extends GetxController {
         products.sort((a, b) => a.price.compareTo(b.price));
         break;
       default:
-        products.sort((a, b) => a.productTitle.compareTo(b.productTitle));
+        products.sort((a, b) => a.productTitle
+            .toLowerCase()
+            .compareTo(b.productTitle.toLowerCase()));
     }
   }
 

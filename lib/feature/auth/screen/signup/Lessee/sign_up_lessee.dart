@@ -21,7 +21,7 @@ class SignUpLessee extends StatelessWidget {
 
             Text("We require that you input your accurate information.",
                 style: Theme.of(context).textTheme.bodySmall),
-            const SizedBox(height: TSizes.spaceSections),
+            const SizedBox(height: TSizes.spaceSections * 1.4),
 
             // Form
             const SignupForm(),

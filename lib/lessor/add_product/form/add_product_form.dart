@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -17,7 +16,7 @@ class AddProductForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ProductController controller = Get.find<ProductController>();
-controller.resetForm();
+    controller.resetForm();
     return Form(
       key: controller.addProductFormKey,
       child: Column(
@@ -27,6 +26,7 @@ controller.resetForm();
 
           // Category
           Obx(() => DropdownButtonFormField<String>(
+                dropdownColor: Colors.white,
                 value: controller.category.value.isEmpty
                     ? null
                     : controller.category.value,

@@ -26,7 +26,7 @@ class ERatingProcessIndicator extends StatelessWidget {
             child: LinearProgressIndicator(
               value: value,
               minHeight: 11,
-              backgroundColor: Colors.grey,
+              backgroundColor: Colors.grey[400],
               valueColor: const AlwaysStoppedAnimation(Color(0xFF484D3B)),
               borderRadius: BorderRadius.circular(7),
             ),

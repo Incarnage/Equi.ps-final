@@ -58,20 +58,30 @@ class _ProductReviewScreenState extends State<ProductReviewScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const TAppbar(
-        title: Text("Review and Ratings"),
+        title: Text("Review and Ratings",
+            style: TextStyle(color: Color(0xFF25291C))),
         showBackArrow: true,
       ),
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(TSizes.defaultSpace),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                "Ratings and reviews of the rented properties from the shop are shown here.",
-                style: TextStyle(fontSize: 16),
-              ),
-              const SizedBox(height: TSizes.defaultSpace),
+              /*Container(
+                color: const Color(0xFF25291C),
+                child: const Padding(
+                  padding: EdgeInsets.all(TSizes.defaultSpace / 2),
+                  child: Text(
+                    "Ratings and reviews of the rented properties from the shop are shown here.",
+                    style: TextStyle(
+                        fontSize: TSizes.fontMedium,
+                        fontWeight: FontWeight.normal,
+                        color: Colors.white),
+                  ),
+                ),
+              ),*/
               FutureBuilder<List<Map<String, dynamic>>>(
                 future: reviewsFuture,
                 builder: (context, snapshot) {
@@ -99,14 +109,14 @@ class _ProductReviewScreenState extends State<ProductReviewScreen> {
 
                   return Column(
                     children: [
-                      const Divider(),
-                      const SizedBox(
-                        height: TSizes.spaceItems,
-                      ),
                       OverallProductRatings(
                         averageRating: averageRating,
                         ratingDistribution: ratingDistribution,
                       ),
+                      const SizedBox(
+                        height: TSizes.spaceItems,
+                      ),
+                      const Divider(),
                       const SizedBox(
                         height: TSizes.spaceItems,
                       ),

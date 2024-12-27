@@ -1,3 +1,4 @@
+import 'package:equips_v2/utilities/constants/size.dart';
 import 'package:flutter/material.dart';
 
 class SectionHeading extends StatelessWidget {
@@ -30,7 +31,13 @@ class SectionHeading extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
         ),
         if (showActionButton)
-          TextButton(onPressed: onPressed, child: Text(buttonTitle))
+          TextButton(
+              onPressed: onPressed,
+              child: Text(
+                buttonTitle,
+                style: const TextStyle(
+                    color: Color(0xFFFFD233), fontSize: TSizes.fontMedium),
+              ))
       ],
     );
   }

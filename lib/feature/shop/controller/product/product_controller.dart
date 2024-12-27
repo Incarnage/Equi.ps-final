@@ -1,9 +1,7 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equips_v2/data/repository/product/product_repository.dart';
 import 'package:equips_v2/data/repository/user/user_repository.dart';
-
 import 'package:equips_v2/feature/shop/models/product_model.dart';
 import 'package:equips_v2/lessor/lessor_Navigation_menu.dart';
 import 'package:equips_v2/utilities/popups/loaders.dart';
@@ -40,6 +38,8 @@ class ProductController extends GetxController {
     addProductFormKey = GlobalKey<FormState>();
     editProductFormKey = GlobalKey<FormState>();
   }
+
+  get banners => null;
 
   @override
   void onInit() {
@@ -93,10 +93,11 @@ class ProductController extends GetxController {
 
   Future<void> pickImage() async {
     final pickedFiles = await _picker.pickMultiImage();
-    if(pickedFiles != null && pickedFiles.length + imageFiles.length > 5){
-      ELoaders.errorSnackBar(title: "Limit Exceeded", message: "You can only upload a maximum of 5 images");
-    }
-    else if (pickedFiles != null) {
+    if (pickedFiles != null && pickedFiles.length + imageFiles.length > 5) {
+      ELoaders.errorSnackBar(
+          title: "Limit Exceeded",
+          message: "You can only upload a maximum of 5 images");
+    } else if (pickedFiles != null) {
       imageFiles.addAll(pickedFiles);
     }
   }
@@ -106,9 +107,8 @@ class ProductController extends GetxController {
     List<String> downloadUrls = [];
     try {
       for (var file in imageFiles) {
-        final storageRef = FirebaseStorage.instance
-            .ref()
-            .child('product_images/${file.name}');
+        final storageRef =
+            FirebaseStorage.instance.ref().child('product_images/${file.name}');
         final uploadTask = await storageRef.putFile(File(file.path));
         final downloadUrl = await uploadTask.ref.getDownloadURL();
         downloadUrls.add(downloadUrl);
@@ -127,13 +127,12 @@ class ProductController extends GetxController {
       // Set loading state to true
 
       try {
-        
         if (imageFiles.isEmpty) {
           ELoaders.errorSnackBar(
               title: 'Error', message: 'Please select an image to upload');
           return;
         }
-        final imageURLs= await uploadImages(imageFiles);
+        final imageURLs = await uploadImages(imageFiles);
 
         await productRepository.addProduct({
           'Lessor': {

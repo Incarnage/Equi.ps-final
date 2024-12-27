@@ -62,6 +62,7 @@ class VerticalProductCard extends StatelessWidget {
                   EProductTitleText(
                     title: product.productTitle,
                     smallSize: true,
+                    textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: TSizes.spaceItems / 2),
                   brandTitleWithVerifiedIcon(
@@ -73,42 +74,14 @@ class VerticalProductCard extends StatelessWidget {
             ),
             const Spacer(),
             // Price Row
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                // Price
-                Flexible(
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: TSizes.small),
-                        child: Text(
-                          "₱ ${product.price.toString()}0",
-                          style: Theme.of(context)
-                              .textTheme
-                              .labelLarge!
-                              .apply(decoration: TextDecoration.none),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                // Add to cart
-                /*Container(
-                  decoration: const BoxDecoration(
-                      color: const Color(0xFF25291C),
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(TSizes.cardRaidusMedium),
-                        bottomRight: Radius.circular(TSizes.productImageRadius),
-                      )),
-                  child: const SizedBox(
-                      width: TSizes.iconLarge * 1.0,
-                      height: TSizes.iconLarge * 1.0,
-                      child: Center(
-                          child: Icon(Iconsax.add, color: Colors.white))),
-                ),*/
-              ],
-            )
+            Text(
+              textAlign: TextAlign.center,
+              "₱ ${product.price.toString()}0",
+              style: Theme.of(context)
+                  .textTheme
+                  .labelLarge!
+                  .apply(decoration: TextDecoration.none),
+            ),
           ],
         ),
       ),

@@ -14,13 +14,12 @@ class UserAddressScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(AddressController());
-    
 
     return Scaffold(
       appBar: TAppbar(
         showBackArrow: true,
         title: Text(
-          'Your Address',
+          'Address',
           style: Theme.of(context)
               .textTheme
               .headlineMedium!
@@ -37,12 +36,10 @@ class UserAddressScreen extends StatelessWidget {
                 key: controller.updateUserAddressFormKey,
                 child: Column(
                   children: [
-                   
                     const SizedBox(height: TSizes.spaceInputFields),
-              
+
                     // Username
-                   
-              
+
                     //address
                     TextFormField(
                       controller: controller.streetController,
@@ -54,44 +51,42 @@ class UserAddressScreen extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: TSizes.spaceInputFields),
-                    Row(children: [
-                      Expanded(
-                        child: TextFormField(
-                        controller: controller.cityController,
-                        validator: (value) => EValidate.validateEmptyText('City', value),
-                        decoration: const InputDecoration(
-                          labelText: "City",
-                          prefixIcon: Icon(Iconsax.location),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: TextFormField(
+                            controller: controller.cityController,
+                            validator: (value) =>
+                                EValidate.validateEmptyText('City', value),
+                            decoration: const InputDecoration(
+                              labelText: "City",
+                              prefixIcon: Icon(Iconsax.location),
+                            ),
+                          ),
                         ),
-                                      ),
-                      ),
-                         const SizedBox(width: TSizes.spaceInputFields),        
-                    Expanded(
-                      child: TextFormField(
-                        controller: controller.provinceController,
-                        validator: (value) =>
-                            EValidate.validateEmptyText('Province', value),
-                        decoration: const InputDecoration(
-                          labelText: "Province",
-                          prefixIcon: Icon(Iconsax.map),
+                        const SizedBox(width: TSizes.spaceInputFields),
+                        Expanded(
+                          child: TextFormField(
+                            controller: controller.provinceController,
+                            validator: (value) =>
+                                EValidate.validateEmptyText('Province', value),
+                            decoration: const InputDecoration(
+                              labelText: "Province",
+                              prefixIcon: Icon(Iconsax.map),
+                            ),
+                          ),
                         ),
-                      ),
+                      ],
                     ),
-                    ],),
                     const SizedBox(height: TSizes.spaceInputFields),
-              
+
                     // cp number
-                   
-                   
-                   
-                    
-              
+
                     // Sign Up Button
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
                         onPressed: () {
-                          
                           controller.address.text =
                               "${controller.streetController.text}, ${controller.cityController.text}, ${controller.provinceController.text}";
                           controller.updateUserAddress();

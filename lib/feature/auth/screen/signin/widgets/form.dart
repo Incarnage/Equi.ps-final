@@ -24,6 +24,8 @@ class SignIn_Form extends StatelessWidget {
           children: [
             // Email
             TextFormField(
+              style: const TextStyle(
+                  fontSize: TSizes.fontMedium, fontWeight: FontWeight.normal),
               controller: controller.email,
               validator: (value) => EValidate.validateEmail(value),
               decoration: const InputDecoration(
@@ -38,6 +40,8 @@ class SignIn_Form extends StatelessWidget {
             // Password
             Obx(
               () => TextFormField(
+                style: const TextStyle(
+                    fontSize: TSizes.fontMedium, fontWeight: FontWeight.normal),
                 controller: controller.password,
                 validator: (value) =>
                     EValidate.validateEmptyText('pass', value),
@@ -69,15 +73,17 @@ class SignIn_Form extends StatelessWidget {
                         value: controller.rememberMe.value,
                         onChanged: (value) => controller.rememberMe.value =
                             !controller.rememberMe.value)),
-                    const Text('Remember Me'),
+                    const Text('Remember Me',
+                        style: TextStyle(fontSize: TSizes.fontSmall)),
                   ],
                 ),
 
                 // Forget Password
                 TextButton(
                     onPressed: () => Get.to(() => const ForgotPassword()),
-                    child: Text("Forgot Password",
-                        style: Theme.of(context).textTheme.bodyMedium)),
+                    child: const Text("Forgot Password",
+                        style: TextStyle(
+                            fontSize: TSizes.fontSmall, color: Colors.red)))
               ],
             ),
             const SizedBox(height: TSizes.spaceSections),

@@ -21,12 +21,21 @@ class SortableProduct extends StatelessWidget {
     controller.assignProducts(products);
     return Column(
       children: [
+        Row(
+          children: [
+            const Expanded(child: SizedBox()),
+            Container(
+                padding: const EdgeInsets.only(right: 5, bottom: 5),
+                child: const Text("Sort Products", textAlign: TextAlign.left)),
+          ],
+        ),
+        const SizedBox(),
         //dropdown
         DropdownButtonFormField(
             style: const TextStyle(
                 fontSize: TSizes.fontLarge, color: Color(0xFF25291C)),
             decoration: const InputDecoration(prefixIcon: Icon(Iconsax.sort)),
-            dropdownColor: const Color(0xFFFFD233),
+            dropdownColor: Colors.white,
             iconEnabledColor: const Color(0xFF25291C),
             value: controller.selectedSortOption.value,
             onChanged: (value) {

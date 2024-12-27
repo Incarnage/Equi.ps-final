@@ -56,8 +56,7 @@ class LessorHomeScreen extends StatelessWidget {
                         animation: 'assets/pic/equips-json.json',
                         showAction: true,
                         actionText: 'Let\'s add some',
-                        onActionPressed: () =>
-                            Get.to(() =>  LessorAddProduct()),
+                        onActionPressed: () => Get.to(() => LessorAddProduct()),
                       );
 
                       const loader = EVerticalProductShimmer(itemCount: 6);

@@ -101,7 +101,7 @@ class SettingScreen extends StatelessWidget {
                   if (controller.user.value.userType == "Lessee")
                     ESettingMenuTile(
                         icon: Iconsax.bag_tick,
-                        title: "My Orders",
+                        title: "Transaction History",
                         subtitle:
                             "View In-Progress and Completed Rental Requests",
                         onTap: () => Get.to(() => const OrderScreen())),

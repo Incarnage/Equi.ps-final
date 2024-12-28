@@ -32,7 +32,7 @@ class ChatNavigation extends StatelessWidget {
             return Center(child: Text('Error: ${snapshot.error}'));
           }
           if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(child: Text('No chat rooms found.'));
+            return const Center(child: Text('No chat rooms found.', style: TextStyle(color: Colors.white),));
           }
 
           final chatRooms = snapshot.data!;

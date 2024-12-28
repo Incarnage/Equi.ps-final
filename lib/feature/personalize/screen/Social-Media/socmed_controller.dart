@@ -2,6 +2,8 @@ import 'package:equips_v2/data/repository/user/user_repository.dart';
 import 'package:equips_v2/feature/auth/controller/signUp/widgets/usermodel.dart';
 import 'package:equips_v2/feature/personalize/controller/user_controller.dart';
 import 'package:equips_v2/feature/personalize/screen/profile/profile.dart';
+import 'package:equips_v2/lessor/lessor_Navigation_menu.dart';
+import 'package:equips_v2/navigation_menu.dart';
 import 'package:equips_v2/utilities/network/network_manager.dart';
 import 'package:equips_v2/utilities/popups/full_screen_loader.dart';
 import 'package:equips_v2/utilities/popups/loaders.dart';
@@ -27,6 +29,7 @@ class SocmedController extends GetxController {
 
   //get user record
   Future<void> initializeName() async {
+   
     facebook.text = socialsController.user.value.facebook;
     instagram.text = socialsController.user.value.instagram;
     gmail.text = socialsController.user.value.gmail;
@@ -73,7 +76,7 @@ class SocmedController extends GetxController {
       ELoaders.successSnackBar(
           title: 'SAVED!', message: 'Your details have been stored.');
 
-      Get.off(() => const ProfileScreen());
+      Get.offAll(() => const LessorNavigationMenu());
     } catch (e) {
       EFullScreenLoader.stopLoading();
       ELoaders.errorSnackBar(title: "Oh Snap", message: e.toString());

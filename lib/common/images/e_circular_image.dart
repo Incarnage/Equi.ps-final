@@ -13,13 +13,15 @@ class ECircularImage extends StatelessWidget {
       required this.image,
       this.fit = BoxFit.cover,
       this.padding = TSizes.small,
-      this.isNetworkImage = false});
+      this.isNetworkImage = false,
+      this.radius = 100});
 
   final BoxFit? fit;
   final String image;
   final bool isNetworkImage;
   final Color? overlayColor;
   final Color? backgroundColor;
+  final double radius;
   final double width, height, padding;
 
   @override
@@ -30,10 +32,10 @@ class ECircularImage extends StatelessWidget {
       padding: EdgeInsets.all(padding),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(100),
+        borderRadius: BorderRadius.circular(radius),
       ),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(100),
+        borderRadius: BorderRadius.circular(radius),
         child: Center(
           child: isNetworkImage
               ? CachedNetworkImage(

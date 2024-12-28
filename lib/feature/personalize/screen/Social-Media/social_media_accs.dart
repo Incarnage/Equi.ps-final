@@ -42,6 +42,7 @@ class SocialMediaAccs extends StatelessWidget {
                     children: [
                       // Facebook
                       TextFormField(
+                        style: const TextStyle(fontSize: TSizes.fontMedium),
                         controller: controller.facebook,
                         validator: (value) =>
                             EValidate.validateEmptyText('Facebook', value),
@@ -49,7 +50,7 @@ class SocialMediaAccs extends StatelessWidget {
                         decoration: InputDecoration(
                             labelText: 'Facebook',
                             prefixIcon: Image.asset('assets/logo/facebook.png',
-                                width: 28, height: 28)),
+                                width: 48, height: 28)),
                       ),
                       const SizedBox(
                         height: TSizes.spaceItems,
@@ -57,6 +58,7 @@ class SocialMediaAccs extends StatelessWidget {
 
                       // Instagram
                       TextFormField(
+                        style: const TextStyle(fontSize: TSizes.fontMedium),
                         controller: controller.instagram,
                         validator: (value) =>
                             EValidate.validateEmptyText('Instagram', value),
@@ -72,6 +74,7 @@ class SocialMediaAccs extends StatelessWidget {
 
                       // Gmail
                       TextFormField(
+                        style: const TextStyle(fontSize: TSizes.fontMedium),
                         controller: controller.gmail,
                         validator: (value) =>
                             EValidate.validateEmptyText('Gmail', value),

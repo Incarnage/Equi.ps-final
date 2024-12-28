@@ -3,6 +3,7 @@ import 'package:equips_v2/feature/auth/controller/signUp/widgets/usermodel.dart'
 import 'package:equips_v2/feature/personalize/controller/user_controller.dart';
 import 'package:equips_v2/feature/personalize/screen/profile/profile.dart';
 import 'package:equips_v2/feature/personalize/screen/settings/settings.dart';
+import 'package:equips_v2/lessor/lessor_Navigation_menu.dart';
 import 'package:equips_v2/navigation_menu.dart';
 import 'package:equips_v2/utilities/network/network_manager.dart';
 import 'package:equips_v2/utilities/popups/full_screen_loader.dart';
@@ -29,75 +30,84 @@ class AddressController extends GetxController {
     super.onInit();
   }
 
-  //get user record
+  
  Future<void> initializeAddress() async {
   try {
-    // Get the current user object
+   
    var currentUser = await userRepository.fetchUserDetail();
    
 
-    // Check if the address field exists and is not null
+    
     String? concatenatedAddress = currentUser.address;
 
     
-      // Split the address into components
+     
       List<String> addressParts = concatenatedAddress.split(',').map((e) => e.trim()).toList();
 
-      // Assign parts to text controllers
+      
       streetController.text = addressParts.isNotEmpty ? addressParts[0] : '';
       cityController.text = addressParts.length > 1 ? addressParts[1] : '';
       provinceController.text = addressParts.length > 2 ? addressParts[2] : '';
     
   } catch (e) {
-    // Handle errors gracefully
+  
     ELoaders.errorSnackBar(
         title: "Error", message: "Failed to initialize address: $e");
   }
 }
 
 
-  Future<void> updateUserAddress() async {
-    try {
-      //start loading
+ Future<void> updateUserAddress() async {
+  try {
+    var currentUser = await userRepository.fetchUserDetail();
+  
+    EFullScreenLoader.openLoadingDialog(
+        'Currently updating your information', 'assets/pic/loading.json');
 
-      EFullScreenLoader.openLoadingDialog(
-          'Currently updating your information', 'assets/pic/loading.json');
-//check internet
-      final isConnected = await NetworkManager.instance.isConnected();
+    // Check internet
+    final isConnected = await NetworkManager.instance.isConnected();
 
-      if (!isConnected) {
-        EFullScreenLoader.stopLoading();
-        return;
-      }
-
-      //form validator
-      if (!updateUserAddressFormKey.currentState!.validate()) {
-        EFullScreenLoader.stopLoading();
-        return;
-      }
-
-      //update first and last name
-      Map<String, dynamic> addressInfo = {
-        'address': address.text.trim(),
-      };
-      await userRepository.updateSingleField(addressInfo);
-
-      //update Rx user value
-
-      user.value.address = address.text.trim();
-
-
-      //remove loader
+    if (!isConnected) {
       EFullScreenLoader.stopLoading();
-
-      //sucess message
-      ELoaders.successSnackBar(
-          title: 'SAVED!', message: 'Your details have been stored.');
-
-      Get.off(() =>  const NavigationMenu());
-    } catch (e) {
-      EFullScreenLoader.stopLoading();
-      ELoaders.errorSnackBar(title: "Oh Snap", message: e.toString());
+      return;
     }
+
+   
+    if (!updateUserAddressFormKey.currentState!.validate()) {
+      EFullScreenLoader.stopLoading();
+      return;
+    }
+
+  
+    Map<String, dynamic> addressInfo = {
+      'address': address.text.trim(),
+    };
+    await userRepository.updateSingleField(addressInfo);
+
+ 
+    user.value.address = address.text.trim();
+
+   
+    EFullScreenLoader.stopLoading();
+
+    // Success message
+    ELoaders.successSnackBar(
+        title: 'SAVED!', message: 'Your details have been stored.');
+print("Redirecting User Type: ${currentUser.userType}");
+    // Navigate based on user type
+    if (currentUser.userType == 'Lessor') {
+      print(currentUser.userType);
+      // Redirect to Lessor Navigation Menu if user is a lessor
+      Get.off(() => const LessorNavigationMenu());
+    } else {
+      // Redirect to the main navigation menu for other user types
+      Get.off(() => const NavigationMenu());
+    }
+
+  } catch (e) {
+    EFullScreenLoader.stopLoading();
+    ELoaders.errorSnackBar(title: "Oh Snap", message: e.toString());
   }
+}
+
 }

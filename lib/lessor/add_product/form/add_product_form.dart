@@ -51,7 +51,9 @@ class AddProductForm extends StatelessWidget {
                         ))
                     .toList(),
                 onChanged: (value) {
-                  controller.category.value = value!;
+                  if(value != null) {
+                    controller.category.value ;
+                  }
                 },
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -215,9 +217,11 @@ class AddProductForm extends StatelessWidget {
 
           // Submit Button
           SizedBox(
-            width: double.infinity,
-            child: ElevatedButton(
-              onPressed: () {
+  width: double.infinity,
+  child: Obx(() => ElevatedButton(
+        onPressed: controller.isLoading.value
+            ? null // Disable the button when isLoading is true
+            : () {
                 if (controller.addProductFormKey.currentState!.validate()) {
                   if (controller.deliveryOption.isEmpty) {
                     // Show error if no delivery option is selected
@@ -231,14 +235,20 @@ class AddProductForm extends StatelessWidget {
                   }
                 }
               },
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF25291C),
-                  side: const BorderSide(color: Color(0xFF25291C))),
-              child: controller.isLoading.value
-                  ? const Text('Loading') // Show loading spinner
-                  : const Text('Add Product'),
-            ),
-          ),
+        style: ElevatedButton.styleFrom(
+          backgroundColor: controller.isLoading.value
+              ? Colors.grey // Change color when disabled
+              : const Color(0xFF25291C),
+          side: const BorderSide(color: Color(0xFF25291C)),
+        ),
+        child: controller.isLoading.value
+            ? const CircularProgressIndicator(
+                color: Colors.white, // Add a spinner while loading
+              )
+            : const Text('Add Product'),
+      )),
+)
+
         ],
       ),
     );

@@ -18,12 +18,7 @@ class VerifyEmailScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        actions: [
-          IconButton(
-            onPressed: () => AuthenticateRepository.instance.logout(),
-            icon: const Icon(CupertinoIcons.clear),
-          )
-        ],
+       
       ),
       body: SingleChildScrollView(
         child: Padding(

@@ -86,6 +86,8 @@ class _ChatRoomState extends State<ChatRoom> {
             return const Text("Loading...");
           }
 
+          
+
           return ListView(
             controller: _scrollController,
             children: snapshot.data!.docs

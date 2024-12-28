@@ -25,30 +25,34 @@ class SortableProduct extends StatelessWidget {
           children: [
             const Expanded(child: SizedBox()),
             Container(
-                padding: const EdgeInsets.only(right: 5, bottom: 5),
+                padding: const EdgeInsets.only(right: 10, bottom: 5),
                 child: const Text("Sort Products", textAlign: TextAlign.left)),
           ],
         ),
         const SizedBox(),
         //dropdown
-        DropdownButtonFormField(
-            style: const TextStyle(
-                fontSize: TSizes.fontLarge, color: Color(0xFF25291C)),
-            decoration: const InputDecoration(prefixIcon: Icon(Iconsax.sort)),
-            dropdownColor: Colors.white,
-            iconEnabledColor: const Color(0xFF25291C),
-            value: controller.selectedSortOption.value,
-            onChanged: (value) {
-              controller.sortProducts(value!);
-            },
-            items: [
-              'Name',
-              'Higher Price',
-              'Lower Price',
-            ]
-                .map((option) =>
-                    DropdownMenuItem(value: option, child: Text(option)))
-                .toList()),
+        SizedBox(
+          width: 350,
+          child: DropdownButtonFormField(
+              style: const TextStyle(
+                  fontSize: TSizes.fontLarge, color: Color(0xFF25291C)),
+              decoration: const InputDecoration(prefixIcon: Icon(Iconsax.sort), ),
+              
+              dropdownColor: Colors.white,
+              iconEnabledColor: const Color(0xFF25291C),
+              value: controller.selectedSortOption.value,
+              onChanged: (value) {
+                controller.sortProducts(value!);
+              },
+              items: [
+                'Name',
+                'Higher Price',
+                'Lower Price',
+              ]
+                  .map((option) =>
+                      DropdownMenuItem(value: option, child: Text(option)))
+                  .toList()),
+        ),
 
         const SizedBox(
           height: TSizes.spaceSections,

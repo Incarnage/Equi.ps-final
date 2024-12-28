@@ -20,11 +20,13 @@ class Unavailable extends StatelessWidget {
           width: double.infinity,
           child: ElevatedButton(
               style: ElevatedButton.styleFrom(
+                disabledBackgroundColor:Color(0xFF25291C) ,
+                side: const BorderSide(color: Color(0xFF25291C)), 
                   backgroundColor: const Color(0xFF25291C)),
               onPressed: null,
               child: const Text(
                 'Unavailable',
-                style: TextStyle(color: Color(0xFF25291C)),
+                style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
               ))),
     );
   }

@@ -9,6 +9,7 @@ import 'package:equips_v2/feature/personalize/screen/FAQs/faqs.dart';
 import 'package:equips_v2/feature/personalize/screen/Social-Media/social_media_accs.dart';
 import 'package:equips_v2/feature/personalize/screen/address/widgets/address.dart';
 import 'package:equips_v2/feature/personalize/screen/profile/profile.dart';
+import 'package:equips_v2/feature/personalize/screen/settings/gcash_settings.dart';
 import 'package:equips_v2/feature/shop/screen/order/order.dart';
 import 'package:equips_v2/utilities/constants/size.dart';
 import 'package:flutter/material.dart';
@@ -108,10 +109,11 @@ class SettingScreen extends StatelessWidget {
 
                   if (controller.user.value.userType == "Lessor")
                     // Bank
-                    const ESettingMenuTile(
+                     ESettingMenuTile(
                       icon: Iconsax.bank,
                       title: "GCash Details",
                       subtitle: "Update your Account Details",
+                      onTap: () => Get.to(() =>GcashSettings())
                     ),
 
                   // Support

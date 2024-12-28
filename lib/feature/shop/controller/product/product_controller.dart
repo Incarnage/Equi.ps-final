@@ -228,6 +228,7 @@ class ProductController extends GetxController {
     pduration.clear();
     category.value = '';
     imageFile.value = null;
+    imageFiles.clear();
     deliveryOption.clear();
     addProductFormKey.currentState?.reset();
   }

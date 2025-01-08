@@ -5,6 +5,7 @@ import 'package:equips_v2/utilities/popups/loaders.dart';
 import 'package:equips_v2/utilities/validator/validate.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_places_flutter/google_places_flutter.dart';
 import 'package:iconsax/iconsax.dart';
 
 class SignupForm extends StatelessWidget {
@@ -13,9 +14,7 @@ class SignupForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(SignupController());
-    final streetController = TextEditingController();
-    final cityController = TextEditingController();
-    final provinceController = TextEditingController();
+     final addressController = TextEditingController();
 
     return Form(
       key: controller.signupFormKey,
@@ -72,49 +71,29 @@ class SignupForm extends StatelessWidget {
           const SizedBox(height: TSizes.spaceInputFields),
 
           // Address Fields
-          TextFormField(
-            style: const TextStyle(
-                fontSize: TSizes.fontMedium, fontWeight: FontWeight.normal),
-            controller: streetController,
-            validator: (value) => EValidate.validateEmptyText('Street', value),
-            decoration: const InputDecoration(
-              labelText: "Street",
-              prefixIcon: Icon(Iconsax.home),
+          Container(
+            decoration: const BoxDecoration(
+              border: Border(
+                bottom: BorderSide(color: Colors.grey),
+              ),
             ),
-          ),
-          const SizedBox(height: TSizes.spaceInputFields),
-          Row(
-            children: [
-              Expanded(
-                child: TextFormField(
-                  style: const TextStyle(
-                      fontSize: TSizes.fontMedium,
-                      fontWeight: FontWeight.normal),
-                  controller: cityController,
-                  validator: (value) =>
-                      EValidate.validateEmptyText('City', value),
-                  decoration: const InputDecoration(
-                    labelText: "City",
-                    prefixIcon: Icon(Iconsax.location),
-                  ),
-                ),
-              ),
-              const SizedBox(width: TSizes.spaceInputFields),
-              Expanded(
-                child: TextFormField(
-                  style: const TextStyle(
-                      fontSize: TSizes.fontMedium,
-                      fontWeight: FontWeight.normal),
-                  controller: provinceController,
-                  validator: (value) =>
-                      EValidate.validateEmptyText('Province', value),
-                  decoration: const InputDecoration(
-                    labelText: "Province",
-                    prefixIcon: Icon(Iconsax.map),
-                  ),
-                ),
-              ),
-            ],
+            child: GooglePlaceAutoCompleteTextField(
+              textEditingController: addressController,
+              googleAPIKey: "AIzaSyBaYDvf3_TM58IsWhzKIKwaM58w31EEJSU",
+              debounceTime: 800,
+              countries: ["PH"], // Limit to the Philippines
+              isLatLngRequired: true, // Get latitude & longitude
+              getPlaceDetailWithLatLng: (prediction) {
+                controller.latitude.value = double.parse(prediction.lat!);
+                controller.longitude.value =  double.parse(prediction.lng!);
+                controller.address.text = addressController.text;
+              },
+              itemClick: (prediction) {
+                addressController.text = prediction.description!;
+                controller.address.text = prediction.description!;
+                controller.update();
+              },
+            ),
           ),
           const SizedBox(height: TSizes.spaceInputFields),
 
@@ -383,8 +362,7 @@ class SignupForm extends StatelessWidget {
                       // Validate the form before proceeding
                       if (controller.signupFormKey.currentState!.validate()) {
                         // Concatenate address
-                        controller.address.text =
-                            "${streetController.text}, ${cityController.text}, ${provinceController.text}";
+                        
 
                         // Proceed with the sign-up if the form is valid
                         controller.signUp();

@@ -29,8 +29,19 @@ class AddProductForm extends StatelessWidget {
   dropdownColor: Colors.white,
   value: controller.category.value.isEmpty ? null : controller.category.value,
   items: [
-    'Carts', 'Chairs', 'Costumes', 'Decorations', 'Kitchenwares', 'Lights',
-    'Props', 'Sound System', 'Stage', 'Tables', 'Tents', 'Venue', 'Others'
+    'Carts', 
+    'Chairs', 
+    'Costumes', 
+    'Decorations', 
+    'Kitchenwares', 
+    'Lights',
+    'Props', 
+    'Sound System', 
+    'Stage', 
+    'Tables', 
+    'Tents', 
+    'Venue', 
+    'Others'
   ]
       .map((type) => DropdownMenuItem(
             value: type,
@@ -40,7 +51,7 @@ class AddProductForm extends StatelessWidget {
       .toList(),
   onChanged: (value) {
     if (value != null) {
-      controller.category.value = value; // Set the category value
+      controller.category.value = value; 
     }
   },
   validator: (value) {

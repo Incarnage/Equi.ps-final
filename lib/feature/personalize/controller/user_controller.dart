@@ -81,6 +81,8 @@ class UserController extends GetxController {
             profilePicture: userCredentials.user!.photoURL ?? '',
             userType: SignupController.instance.userType.value ?? '',
             gcashNumber: SignupController.instance.gcashNumber.text ?? '',
+            latitude: SignupController.instance.latitude.value,
+            longitude: SignupController.instance.longitude.value,
           );
         }
         await userRepository.saveUserRecord(user as UserModel);

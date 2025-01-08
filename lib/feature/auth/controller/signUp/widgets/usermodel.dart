@@ -16,6 +16,8 @@ class UserModel {
   String facebook;
   String instagram;
   String gcashNumber;
+  double latitude;
+  double longitude;
 
   UserModel(
       {required this.address,
@@ -32,7 +34,9 @@ class UserModel {
       required this.gmail,
       required this.facebook,
       required this.instagram,
-      required this.gcashNumber});
+      required this.gcashNumber,
+      required this.latitude,
+      required this.longitude});
 
   String get fullName => '$firstName $lastName';
 
@@ -43,13 +47,11 @@ class UserModel {
     String firstName = nameParts[0].toLowerCase();
     String lastName = nameParts.length > 1 ? nameParts[1].toLowerCase() : "";
 
-    String camelCaseUsername =
-        "$firstName$lastName"; // Combine first and last name
-    String usernameWithPrefix = "cwt_$camelCaseUsername"; // Add "cwt_" prefix
+    String camelCaseUsername = "$firstName$lastName";
+    String usernameWithPrefix = "cwt_$camelCaseUsername";
     return usernameWithPrefix;
   }
 
-  // Static function to create an empty user model.
   static UserModel empty() => UserModel(
       address: "",
       validID: "",
@@ -65,9 +67,10 @@ class UserModel {
       gmail: "",
       instagram: "",
       facebook: "",
-      gcashNumber: "");
+      gcashNumber: "",
+      latitude: 0.0,
+      longitude: 0.0);
 
-  // Convert model to JSON structure for storing data in Firebase.
   Map<String, dynamic> toJson() {
     return {
       'address': address,
@@ -83,11 +86,12 @@ class UserModel {
       'Gmail': gmail,
       'Facebook': facebook,
       'Instagram': instagram,
-      'GcashNumber': gcashNumber
+      'GcashNumber': gcashNumber,
+      'Latitude': latitude,
+      'Longitude': longitude
     };
   }
 
-  // Factory method to create a UserModel from a Firebase document snapshot.
   factory UserModel.fromSnapshot(
       DocumentSnapshot<Map<String, dynamic>> document) {
     final data = document.data()!;
@@ -106,6 +110,8 @@ class UserModel {
         gmail: data['Gmail'] ?? "",
         instagram: data['Instagram'] ?? "",
         facebook: data['Facebook'] ?? "",
-        gcashNumber: data['GcashNumber'] ?? "");
+        gcashNumber: data['GcashNumber'] ?? "",
+        latitude: (data['Latitude'] ?? 0.0).toDouble(),
+        longitude: (data['Longitude'] ?? 0.0).toDouble());
   }
 }

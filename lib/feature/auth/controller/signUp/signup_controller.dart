@@ -9,7 +9,9 @@ import 'package:equips_v2/utilities/popups/full_screen_loader.dart';
 import 'package:equips_v2/utilities/popups/loaders.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:geocoding/geocoding.dart' as geocoding;
 import 'package:get/get.dart';
+import 'package:google_places_flutter/model/place_details.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
@@ -30,6 +32,8 @@ class SignupController extends GetxController {
   final validID = ''.obs; // Store the valid ID image path
   final QRCode = ''.obs; // Store the QR Code image path
   final address = TextEditingController();
+   final RxDouble latitude = 0.0.obs;
+  final RxDouble longitude = 0.0.obs;
 
 
   final userRepository = Get.put(UserRepository());
@@ -39,6 +43,22 @@ class SignupController extends GetxController {
 
   RxBool isSubmitting = false.obs;
 
+Future<void> getLatLongFromAddress() async {
+    try {
+      if (address.text.isNotEmpty) {
+        List<geocoding.Location> locations = await geocoding.locationFromAddress(address.text.trim());
+        if (locations.isNotEmpty) {
+          latitude.value = locations.first.latitude;
+          longitude.value = locations.first.longitude;
+        }
+      }
+    } catch (e) {
+      ELoaders.errorSnackBar(
+        title: "Location Error",
+        message: "Could not get location from address: $e",
+      );
+    }
+  }
 
 
   // Upload Image to Firebase Storage
@@ -153,7 +173,7 @@ class SignupController extends GetxController {
       isSubmitting.value = false; 
       return;
     }
-
+ await getLatLongFromAddress();
     // Upload Valid ID Image
     final validIDUrl = await uploadImage(
       'user_images/validID/',
@@ -190,7 +210,9 @@ class SignupController extends GetxController {
       phoneNumber: phoneNumber.text.trim(),
       profilePicture: 'https://firebasestorage.googleapis.com/v0/b/equips-d40b3.appspot.com/o/pictures%2Fprofile-icon.png?alt=media&token=8b804b8d-a5cf-40a1-b4b9-9901416a5bdd', // Add the profile picture URL if available
       userType: userType.value,
-      gcashNumber: gcashNumber.text.trim(), // If empty, it won't be stored
+      gcashNumber: gcashNumber.text.trim(),
+      latitude: latitude.value,
+        longitude: longitude.value, // If empty, it won't be stored
     );
 
     EFullScreenLoader.stopLoading();

@@ -3,6 +3,9 @@
         android:label="Equi.ps"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
+
+          <meta-data android:name="com.google.android.geo.API_KEY"
+               android:value="AIzaSyC9li5eDxTiHIa3Q0c5HIV8roU9lcumL8M"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"

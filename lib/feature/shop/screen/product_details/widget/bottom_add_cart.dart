@@ -44,7 +44,7 @@ class EBottomeAddToCart extends StatelessWidget {
                       side: const BorderSide(color: Color(0xFF25291C)),
                       backgroundColor:
                           const Color.fromARGB(255, 255, 255, 255)),
-                  onPressed: () => Get.to(()=>ChatRoom(receiverEmail: product.lessor!.name, receiverID: product.lessor!.id,)),
+                  onPressed: () => Get.to(()=>ChatRoom(receiverEmail: product.lessor!.name, receiverID: product.lessor!.id, initialMessage: "I'm interested in the product: ${product.productTitle} priced at \₱${product.price}",)),
                   child: const Text('Inquire',
                       style: TextStyle(color: Color(0xFF25291C)))))
         ],

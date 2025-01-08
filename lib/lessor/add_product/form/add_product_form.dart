@@ -26,48 +26,35 @@ class AddProductForm extends StatelessWidget {
 
           // Category
           Obx(() => DropdownButtonFormField<String>(
-                dropdownColor: Colors.white,
-                value: controller.category.value.isEmpty
-                    ? null
-                    : controller.category.value,
-                items: [
-                  'Carts',
-                  'Chairs',
-                  'Costumes',
-                  'Decorations',
-                  'Kitchenwares',
-                  'Lights',
-                  'Props',
-                  'Sound System',
-                  'Stage',
-                  'Tables',
-                  'Tents',
-                  'Venue',
-                  'Others'
-                ]
-                    .map((type) => DropdownMenuItem(
-                          value: type,
-                          child: Text(type,
-                              style:
-                                  const TextStyle(fontSize: TSizes.fontMedium, fontWeight: FontWeight.normal)),
-                        ))
-                    .toList(),
-                onChanged: (value) {
-                  if(value != null) {
-                    controller.category.value ;
-                  }
-                },
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please select a category';
-                  }
-                  return null;
-                },
-                decoration: const InputDecoration(
-                  labelText: "Product category",
-                  prefixIcon: Icon(Iconsax.user_tag),
-                ),
-              )),
+  dropdownColor: Colors.white,
+  value: controller.category.value.isEmpty ? null : controller.category.value,
+  items: [
+    'Carts', 'Chairs', 'Costumes', 'Decorations', 'Kitchenwares', 'Lights',
+    'Props', 'Sound System', 'Stage', 'Tables', 'Tents', 'Venue', 'Others'
+  ]
+      .map((type) => DropdownMenuItem(
+            value: type,
+            child: Text(type,
+                style: const TextStyle(fontSize: TSizes.fontMedium, fontWeight: FontWeight.normal)),
+          ))
+      .toList(),
+  onChanged: (value) {
+    if (value != null) {
+      controller.category.value = value; // Set the category value
+    }
+  },
+  validator: (value) {
+    if (value == null || value.isEmpty) {
+      return 'Please select a category';
+    }
+    return null;
+  },
+  decoration: const InputDecoration(
+    labelText: "Product category",
+    prefixIcon: Icon(Iconsax.user_tag),
+  ),
+)
+),
 
           const SizedBox(height: TSizes.spaceInputFields),
 
@@ -103,7 +90,16 @@ class AddProductForm extends StatelessWidget {
           TextFormField(
             controller: controller.price,
             style: const TextStyle(fontSize: TSizes.fontMedium, fontWeight: FontWeight.normal),
-            validator: (value) => EValidate.validateEmptyText('Price', value),
+            validator: (value) {
+  if (value == null || value.isEmpty) {
+    return 'Price is required';
+  }
+  final price = double.tryParse(value);
+  if (price == null || price <= 0) {
+    return 'Price must be higher than 0';
+  }
+  return null;
+},
             inputFormatters: [FilteringTextInputFormatter.digitsOnly],
             decoration: const InputDecoration(
               labelText: "Price",
@@ -117,8 +113,16 @@ class AddProductForm extends StatelessWidget {
           TextFormField(
             controller: controller.pduration,
             style: const TextStyle(fontSize: TSizes.fontMedium, fontWeight: FontWeight.normal),
-            validator: (value) =>
-                EValidate.validateEmptyText('Duration', value),
+           validator: (value) {
+  if (value == null || value.isEmpty) {
+    return 'Duration is required';
+  }
+  final duration = int.tryParse(value);
+  if (duration == null || duration <= 0) {
+    return 'Duration must be higher than 0';
+  }
+  return null;
+},
             inputFormatters: [FilteringTextInputFormatter.digitsOnly],
             decoration: const InputDecoration(
               labelText: "Duration (in hours)",

@@ -119,7 +119,7 @@ class _ProductDetailsState extends State<ProductDetails> {
             ),
 
             // Location
-            Padding(
+             Padding(
               padding:
                   const EdgeInsets.symmetric(horizontal: TSizes.defaultSpace),
               child: Row(
@@ -127,13 +127,19 @@ class _ProductDetailsState extends State<ProductDetails> {
                   // location
                   SizedBox(width: 50, child: const EProductTitleText(title: 'Location')),
                   const SizedBox(width: TSizes.spaceItems),
-                  Text(
-                    socialMedia?["address"] ?? 'No address available',
-                    style: Theme.of(context).textTheme.titleMedium,
+                  Expanded(
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal, // Enable horizontal scrolling
+                      child: Text(
+                        socialMedia?["address"] ?? 'No address available',
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                    ),
                   ),
                 ],
               ),
             ),
+
 
             const SizedBox(height: TSizes.spaceItems),
             //deliver options

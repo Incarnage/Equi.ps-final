@@ -30,8 +30,6 @@ class SignupController extends GetxController {
   final validID = ''.obs; // Store the valid ID image path
   final QRCode = ''.obs; // Store the QR Code image path
   final address = TextEditingController();
-  final latitude = RxDouble(0.0);
-  final longitude = RxDouble(0.0);
 
 
   final userRepository = Get.put(UserRepository());
@@ -182,8 +180,6 @@ class SignupController extends GetxController {
       facebook: '',
       instagram: '',
       address: address.text.trim(),
-      latitude: latitude.value,
-      longitude: longitude.value,
       validID: validIDUrl,
       gcash: qrCodeUrl, // If QRCode is not provided, it will be an empty string
       id: UserCredential.user!.uid,

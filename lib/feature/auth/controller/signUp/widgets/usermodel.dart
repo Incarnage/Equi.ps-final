@@ -16,8 +16,6 @@ class UserModel {
   String facebook;
   String instagram;
   String gcashNumber;
-  double latitude;
-  double longitude;
 
   UserModel(
       {required this.address,
@@ -34,9 +32,7 @@ class UserModel {
       required this.gmail,
       required this.facebook,
       required this.instagram,
-      required this.gcashNumber,
-      required this.latitude,
-      required this.longitude});
+      required this.gcashNumber});
 
   String get fullName => '$firstName $lastName';
 
@@ -69,18 +65,12 @@ class UserModel {
       gmail: "",
       instagram: "",
       facebook: "",
-      gcashNumber: "",
-      latitude: 0.0,
-      longitude: 0.0);
+      gcashNumber: "");
 
   // Convert model to JSON structure for storing data in Firebase.
   Map<String, dynamic> toJson() {
     return {
-      'address': {
-        'formatted': address,
-        'latitude': latitude,
-        'longitude': longitude,
-      },
+      'address': address,
       'validID': validID,
       'Gcash': gcash,
       'FirstName': firstName,
@@ -102,10 +92,7 @@ class UserModel {
       DocumentSnapshot<Map<String, dynamic>> document) {
     final data = document.data()!;
     return UserModel(
-       address: data['address']?['formatted'] ?? "",
-        latitude: data['address']?['latitude'] ?? 0.0,
-        longitude: data['address']?['longitude'] ?? 0.0,
-        
+        address: data['address'] ?? "",
         validID: data['validID'] ?? "",
         id: document.id,
         firstName: data['FirstName'] ?? "",

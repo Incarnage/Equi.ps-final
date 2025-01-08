@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:equips_v2/feature/auth/controller/signUp/signup_controller.dart';
-import 'package:equips_v2/feature/location.dart';
 import 'package:equips_v2/utilities/constants/size.dart';
 import 'package:equips_v2/utilities/popups/loaders.dart';
 import 'package:equips_v2/utilities/validator/validate.dart';
@@ -73,34 +72,50 @@ class SignupForm extends StatelessWidget {
           const SizedBox(height: TSizes.spaceInputFields),
 
           // Address Fields
-          // Address Field with Google Maps Picker
- TextFormField(
+          TextFormField(
             style: const TextStyle(
                 fontSize: TSizes.fontMedium, fontWeight: FontWeight.normal),
-            controller: controller.address,
-            validator: (value) => EValidate.validateEmptyText('Address', value),
-            readOnly: true, // Prevent manual typing
-            decoration: InputDecoration(
-              labelText: "Address",
-              prefixIcon: const Icon(Iconsax.location),
-              suffixIcon: IconButton(
-                icon: const Icon(Iconsax.map),
-                onPressed: () async {
-                  String? selectedLocation = await Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => LocationPicker(
-                        onLocationSelected: (location) {
-                          controller.address.text = location;
-                        },
-                      ),
-                    ),
-                  );
-                },
-              ),
+            controller: streetController,
+            validator: (value) => EValidate.validateEmptyText('Street', value),
+            decoration: const InputDecoration(
+              labelText: "Street",
+              prefixIcon: Icon(Iconsax.home),
             ),
           ),
-
+          const SizedBox(height: TSizes.spaceInputFields),
+          Row(
+            children: [
+              Expanded(
+                child: TextFormField(
+                  style: const TextStyle(
+                      fontSize: TSizes.fontMedium,
+                      fontWeight: FontWeight.normal),
+                  controller: cityController,
+                  validator: (value) =>
+                      EValidate.validateEmptyText('City', value),
+                  decoration: const InputDecoration(
+                    labelText: "City",
+                    prefixIcon: Icon(Iconsax.location),
+                  ),
+                ),
+              ),
+              const SizedBox(width: TSizes.spaceInputFields),
+              Expanded(
+                child: TextFormField(
+                  style: const TextStyle(
+                      fontSize: TSizes.fontMedium,
+                      fontWeight: FontWeight.normal),
+                  controller: provinceController,
+                  validator: (value) =>
+                      EValidate.validateEmptyText('Province', value),
+                  decoration: const InputDecoration(
+                    labelText: "Province",
+                    prefixIcon: Icon(Iconsax.map),
+                  ),
+                ),
+              ),
+            ],
+          ),
           const SizedBox(height: TSizes.spaceInputFields),
 
           // Phone Number Field
@@ -455,7 +470,7 @@ For questions or concerns regarding these Terms and Conditions, please contact m
 
 By using the Application, you acknowledge that the platform is only a facilitator and agree to assume all responsibility for transactions conducted through it.
             ''',
-            style: TextStyle(fontSize: 14),
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.normal),
           ),
         ),
         actions: [

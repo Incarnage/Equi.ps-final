@@ -48,7 +48,7 @@ class UserController extends GetxController {
   }
 
   // save user record from any registration provider
-  Future<void> saveUserRecord(UserCredential? userCredentials) async {
+  Future<void> saveUserRecord(UserCredential? userCredentials, double latitude, double longitude) async {
     try {
       // first, update Rx user and then check if user data is already stored. if not, store new data
       await fetchUserRecord();
@@ -81,6 +81,8 @@ class UserController extends GetxController {
             profilePicture: userCredentials.user!.photoURL ?? '',
             userType: SignupController.instance.userType.value ?? '',
             gcashNumber: SignupController.instance.gcashNumber.text ?? '',
+            latitude: latitude,
+            longitude: longitude,
           );
         }
         await userRepository.saveUserRecord(user as UserModel);

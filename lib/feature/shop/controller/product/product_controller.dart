@@ -194,6 +194,7 @@ class ProductController extends GetxController {
               : product.images, // Use new image if uploaded
           'createdAt': FieldValue.serverTimestamp(),
           'duration': pduration.text,
+          'DeliveryOption': deliveryOption,
         };
 
         // Call the repository method to update the product

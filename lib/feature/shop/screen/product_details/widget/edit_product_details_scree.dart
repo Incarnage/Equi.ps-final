@@ -65,6 +65,20 @@ class EditProductDetails extends StatelessWidget {
                       // product data: rental cost
                       ProductData(product: product),
                       const SizedBox(height: TSizes.spaceItems),
+
+                      if (product.delivertOption.isNotEmpty)
+  Row(
+    children: [
+      const SizedBox(width: 50, child: EProductTitleText(title: 'Delivery Option: ')),
+      const SizedBox(width: TSizes.spaceItems),
+      Text(
+       product.delivertOption.join(' / '),
+        style: Theme.of(context).textTheme.titleMedium,
+      ),
+    ],
+  ),
+                     
+                     const SizedBox(height: TSizes.spaceItems),
                       // Description
                       const SectionHeading(
                           title: 'Description', showActionButton: false),

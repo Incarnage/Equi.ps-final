@@ -20,20 +20,28 @@ class ProductData extends StatelessWidget {
         Row(
           children: [
             //title
-            const EProductTitleText(
-                title: 'Rental Cost', textColor: Colors.black),
+            const SizedBox(
+              width: 50,
+              child: EProductTitleText(
+                  title: 'Rental Cost', textColor: Colors.black),
+            ),
             const SizedBox(width: TSizes.spaceItems),
             ProductPriceText(
               isLarge: true,
               price: controller.getProductPrice(product),
             ),
+            Text(' / ${product.pduration} hours', style: Theme.of(context).textTheme.headlineMedium,)
+
           ],
         ),
 
         //stock
         Row(
           children: [
-            const EProductTitleText(title: 'Status', textColor: Colors.black),
+            const SizedBox(
+              width: 50,
+              
+              child: EProductTitleText(title: 'Status', textColor: Colors.black)),
             const SizedBox(width: TSizes.spaceItems),
             Text(
               controller.getStock(product.isAvailable),

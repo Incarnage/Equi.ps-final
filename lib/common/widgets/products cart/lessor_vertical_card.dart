@@ -9,6 +9,7 @@ import 'package:equips_v2/feature/shop/screen/product_details/widget/edit_produc
 import 'package:equips_v2/utilities/constants/size.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:iconsax/iconsax.dart';
 
 class LessorVerticalCard extends StatelessWidget {
@@ -74,42 +75,14 @@ class LessorVerticalCard extends StatelessWidget {
             ),
             const Spacer(),
             // Price Row
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                // Price
-                Flexible(
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: TSizes.small),
-                        child: Text(
+           Text(
+            textAlign: TextAlign.center,
                           "₱${product.price.toString()}0",
                           style: Theme.of(context)
                               .textTheme
                               .labelLarge!
                               .apply(decoration: TextDecoration.none),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                // Add to cart
-                Container(
-                  decoration: const BoxDecoration(
-                      color: Colors.black,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(TSizes.cardRaidusMedium),
-                        bottomRight: Radius.circular(TSizes.productImageRadius),
-                      )),
-                  child: const SizedBox(
-                      width: TSizes.iconLarge * 1.0,
-                      height: TSizes.iconLarge * 1.0,
-                      child: Center(
-                          child: Icon(Iconsax.edit, color: Colors.white))),
-                ),
-              ],
-            )
+                        )
           ],
         ),
       ),

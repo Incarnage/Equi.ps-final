@@ -42,9 +42,11 @@ class EditProductForm extends StatelessWidget {
                 items: [
                   'Carts',
                   'Chairs',
+                  'Costumes',
                   'Decorations',
                   'Kitchenwares',
                   'Lights',
+                  'Props',
                   'Sound System',
                   'Stage',
                   'Tables',
@@ -56,7 +58,7 @@ class EditProductForm extends StatelessWidget {
                           value: type,
                           child: Text(type,
                               style:
-                                  const TextStyle(fontSize: TSizes.fontMedium)),
+                                  const TextStyle(fontSize: TSizes.fontMedium, fontWeight: FontWeight.normal)),
                         ))
                     .toList(),
                 onChanged: (value) {
@@ -78,7 +80,7 @@ class EditProductForm extends StatelessWidget {
           // Product Name
           TextFormField(
             controller: controller.productName,
-            style: const TextStyle(fontSize: TSizes.fontMedium),
+            style: const TextStyle(fontSize: TSizes.fontMedium, fontWeight: FontWeight.normal),
             validator: (value) =>
                 EValidate.validateEmptyText('Product Name', value),
             decoration: const InputDecoration(
@@ -90,7 +92,7 @@ class EditProductForm extends StatelessWidget {
           // Description
           TextFormField(
             controller: controller.description,
-            style: const TextStyle(fontSize: TSizes.fontMedium),
+            style: const TextStyle(fontSize: TSizes.fontMedium, fontWeight: FontWeight.normal),
             validator: (value) =>
                 EValidate.validateEmptyText('Description', value),
             decoration: const InputDecoration(
@@ -102,7 +104,7 @@ class EditProductForm extends StatelessWidget {
           // Price
           TextFormField(
             controller: controller.price,
-            style: const TextStyle(fontSize: TSizes.fontMedium),
+            style: const TextStyle(fontSize: TSizes.fontMedium, fontWeight: FontWeight.normal),
             validator: (value) => EValidate.validateEmptyText('Price', value),
             inputFormatters: [FilteringTextInputFormatter.digitsOnly],
             decoration: const InputDecoration(
@@ -114,7 +116,7 @@ class EditProductForm extends StatelessWidget {
           // Duration
           TextFormField(
             controller: controller.pduration,
-            style: const TextStyle(fontSize: TSizes.fontMedium),
+            style: const TextStyle(fontSize: TSizes.fontMedium, fontWeight: FontWeight.normal),
             validator: (value) =>
                 EValidate.validateEmptyText('Duration', value),
             inputFormatters: [FilteringTextInputFormatter.digitsOnly],
@@ -128,67 +130,68 @@ class EditProductForm extends StatelessWidget {
 
           // Delivery Options (Checkboxes)
           Obx(() => Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      'Delivery Option',
-                      style: TextStyle(fontSize: TSizes.fontMedium),
-                    ),
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Align(
+          alignment: Alignment.center,
+          child: Text(
+            'Delivery Option',
+            style: const TextStyle(fontSize: TSizes.fontMedium, fontWeight: FontWeight.normal),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 50),
+          child: Row(
+            children: [
+              Checkbox(
+                value: controller.deliveryOption.contains('Pick Up'),
+                onChanged: (isSelected) {
+                  if (isSelected!) {
+                    controller.deliveryOption.add('Pick Up');
+                  } else {
+                    controller.deliveryOption.remove('Pick Up');
+                  }
+                },
+              ),
+              const Text(
+                'Pick Up',
+                style: const TextStyle(fontSize: TSizes.fontMedium, fontWeight: FontWeight.normal),
+              ),
+              Checkbox(
+                value: controller.deliveryOption.contains('Deliver'),
+                onChanged: (isSelected) {
+                  if (isSelected!) {
+                    controller.deliveryOption.add('Deliver');
+                  } else {
+                    controller.deliveryOption.remove('Deliver');
+                  }
+                },
+              ),
+              const Text(
+                'Deliver',
+                style: const TextStyle(fontSize: TSizes.fontMedium, fontWeight: FontWeight.normal),
+              ),
+            ],
+          ),
+        ),
+        // Validator for checkboxes
+        Obx(() {
+          return controller.deliveryOption.isEmpty
+              ? const Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    'Please select at least one delivery option',
+                    style: TextStyle(
+                        color: Colors.red,
+                        fontSize: 12,
+                        fontStyle: FontStyle.italic),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 50),
-                    child: Row(
-                      children: [
-                        Checkbox(
-                          value: controller.deliveryOption.contains('Pick Up'),
-                          onChanged: (isSelected) {
-                            if (isSelected!) {
-                              controller.deliveryOption.add('Pick Up');
-                            } else {
-                              controller.deliveryOption.remove('Pick Up');
-                            }
-                          },
-                        ),
-                        const Text(
-                          'Pick Up',
-                          style: TextStyle(fontSize: TSizes.fontMedium),
-                        ),
-                        Checkbox(
-                          value: controller.deliveryOption.contains('Deliver'),
-                          onChanged: (isSelected) {
-                            if (isSelected!) {
-                              controller.deliveryOption.add('Deliver');
-                            } else {
-                              controller.deliveryOption.remove('Deliver');
-                            }
-                          },
-                        ),
-                        const Text(
-                          'Deliver',
-                          style: TextStyle(fontSize: TSizes.fontMedium),
-                        ),
-                      ],
-                    ),
-                  ),
-                  // Validator for checkboxes
-                  Obx(() {
-                    return controller.deliveryOption.isEmpty
-                        ? const Align(
-                            alignment: Alignment.center,
-                            child: Text(
-                              'Please select at least one delivery option',
-                              style: TextStyle(
-                                  color: Colors.red,
-                                  fontSize: 12,
-                                  fontStyle: FontStyle.italic),
-                            ),
-                          )
-                        : Container(); // Hide error when options are selected
-                  }),
-                ],
-              )),
+                )
+              : Container(); // Hide error when options are selected
+        }),
+      ],
+    )),
+
           const SizedBox(height: TSizes.spaceInputFields),
 
           const Divider(),

@@ -125,7 +125,7 @@ class _ProductDetailsState extends State<ProductDetails> {
               child: Row(
                 children: [
                   // location
-                  const EProductTitleText(title: 'Location'),
+                  SizedBox(width: 50, child: const EProductTitleText(title: 'Location')),
                   const SizedBox(width: TSizes.spaceItems),
                   Text(
                     socialMedia?["address"] ?? 'No address available',
@@ -136,7 +136,23 @@ class _ProductDetailsState extends State<ProductDetails> {
             ),
 
             const SizedBox(height: TSizes.spaceItems),
-
+            //deliver options
+// Delivery Options Section
+if (widget.product.delivertOption.isNotEmpty)
+  Padding(
+    padding: const EdgeInsets.symmetric(horizontal: TSizes.defaultSpace),
+    child: Row(
+      children: [
+        SizedBox(width: 50, child: const EProductTitleText(title: 'Delivery Option: ')),
+        const SizedBox(width: TSizes.spaceItems),
+        Text(
+          widget.product.delivertOption.join(' / '),
+          style: Theme.of(context).textTheme.titleMedium,
+        ),
+      ],
+    ),
+  ),
+const SizedBox(height: TSizes.spaceItems),
             // Descr
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: TSizes.defaultSpace),

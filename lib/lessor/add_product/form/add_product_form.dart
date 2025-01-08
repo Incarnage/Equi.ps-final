@@ -33,9 +33,11 @@ class AddProductForm extends StatelessWidget {
                 items: [
                   'Carts',
                   'Chairs',
+                  'Costumes',
                   'Decorations',
                   'Kitchenwares',
                   'Lights',
+                  'Props',
                   'Sound System',
                   'Stage',
                   'Tables',
@@ -47,7 +49,7 @@ class AddProductForm extends StatelessWidget {
                           value: type,
                           child: Text(type,
                               style:
-                                  const TextStyle(fontSize: TSizes.fontMedium)),
+                                  const TextStyle(fontSize: TSizes.fontMedium, fontWeight: FontWeight.normal)),
                         ))
                     .toList(),
                 onChanged: (value) {
@@ -72,7 +74,7 @@ class AddProductForm extends StatelessWidget {
           // Product Name
           TextFormField(
             controller: controller.productName,
-            style: const TextStyle(fontSize: TSizes.fontMedium),
+            style: const TextStyle(fontSize: TSizes.fontMedium, fontWeight: FontWeight.normal),
             validator: (value) =>
                 EValidate.validateEmptyText('Product Name', value),
             decoration: const InputDecoration(
@@ -86,7 +88,7 @@ class AddProductForm extends StatelessWidget {
           // Description
           TextFormField(
             controller: controller.description,
-            style: const TextStyle(fontSize: TSizes.fontMedium),
+            style: const TextStyle(fontSize: TSizes.fontMedium, fontWeight: FontWeight.normal),
             validator: (value) =>
                 EValidate.validateEmptyText('Description', value),
             decoration: const InputDecoration(
@@ -100,7 +102,7 @@ class AddProductForm extends StatelessWidget {
           // Price
           TextFormField(
             controller: controller.price,
-            style: const TextStyle(fontSize: TSizes.fontMedium),
+            style: const TextStyle(fontSize: TSizes.fontMedium, fontWeight: FontWeight.normal),
             validator: (value) => EValidate.validateEmptyText('Price', value),
             inputFormatters: [FilteringTextInputFormatter.digitsOnly],
             decoration: const InputDecoration(
@@ -114,7 +116,7 @@ class AddProductForm extends StatelessWidget {
           // Duration
           TextFormField(
             controller: controller.pduration,
-            style: const TextStyle(fontSize: TSizes.fontMedium),
+            style: const TextStyle(fontSize: TSizes.fontMedium, fontWeight: FontWeight.normal),
             validator: (value) =>
                 EValidate.validateEmptyText('Duration', value),
             inputFormatters: [FilteringTextInputFormatter.digitsOnly],
@@ -134,7 +136,7 @@ class AddProductForm extends StatelessWidget {
                     alignment: Alignment.center,
                     child: Text(
                       'Delivery Option (Select one or both)',
-                      style: TextStyle(fontSize: TSizes.fontMedium),
+                      style:  TextStyle(fontSize: TSizes.fontMedium, fontWeight: FontWeight.normal),
                     ),
                   ),
                   Padding(
@@ -153,7 +155,7 @@ class AddProductForm extends StatelessWidget {
                         ),
                         const Text(
                           'Pick Up',
-                          style: TextStyle(fontSize: TSizes.fontMedium),
+                          style:  TextStyle(fontSize: TSizes.fontMedium, fontWeight: FontWeight.normal),
                         ),
                         Checkbox(
                           value: controller.deliveryOption.contains('Deliver'),
@@ -166,7 +168,7 @@ class AddProductForm extends StatelessWidget {
                           },
                         ),
                         const Text('Deliver',
-                            style: TextStyle(fontSize: TSizes.fontMedium)),
+                            style:  TextStyle(fontSize: TSizes.fontMedium, fontWeight: FontWeight.normal)),
                       ],
                     ),
                   ),

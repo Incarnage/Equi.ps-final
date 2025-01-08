@@ -71,8 +71,8 @@ class OrderController extends GetxController {
       TimeOfDay? totime;
 
       try {
-        fromdate = DateFormat('yyyy-MM-dd').parse(fromDate.text.trim());
-        todate = DateFormat('yyyy-MM-dd').parse(toDate.text.trim());
+        fromdate = DateFormat('MM-dd-yyyy').parse(fromDate.text.trim());
+        todate = DateFormat('MM-dd-yyyy').parse(toDate.text.trim());
 
         fromtime = _parseTime(fromTime.text);
         totime = _parseTime(toTime.text);

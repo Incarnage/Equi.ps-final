@@ -28,6 +28,12 @@ class CategoryController extends GetxController {
       // Fetch categories from data source (Firestore, API, etc.)
       final categories = await _categoryRepository.getAllCategories();
 
+        categories.sort((a, b) {
+      if (a.name == "Others") return 1;
+      if (b.name == "Others") return -1;
+      return a.name.compareTo(b.name);
+    });
+
       // Update the categories list
       allCategories.assignAll(categories);
 

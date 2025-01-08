@@ -42,6 +42,9 @@ class UserAddressScreen extends StatelessWidget {
 
                     //address
                     TextFormField(
+                      style: const TextStyle(
+                          fontSize: TSizes.fontMedium,
+                          fontWeight: FontWeight.normal),
                       controller: controller.streetController,
                       validator: (value) =>
                           EValidate.validateEmptyText('Street', value),
@@ -55,11 +58,14 @@ class UserAddressScreen extends StatelessWidget {
                       children: [
                         Expanded(
                           child: TextFormField(
-                            controller: controller.cityController,
+                            style: const TextStyle(
+                                fontSize: TSizes.fontMedium,
+                                fontWeight: FontWeight.normal),
+                            controller: controller.barangayController,
                             validator: (value) =>
-                                EValidate.validateEmptyText('City', value),
+                                EValidate.validateEmptyText('Barangay', value),
                             decoration: const InputDecoration(
-                              labelText: "City",
+                              labelText: "Barangay",
                               prefixIcon: Icon(Iconsax.location),
                             ),
                           ),
@@ -67,18 +73,21 @@ class UserAddressScreen extends StatelessWidget {
                         const SizedBox(width: TSizes.spaceInputFields),
                         Expanded(
                           child: TextFormField(
-                            controller: controller.provinceController,
+                            style: const TextStyle(
+                                fontSize: TSizes.fontMedium,
+                                fontWeight: FontWeight.normal),
+                            controller: controller.cityController,
                             validator: (value) =>
-                                EValidate.validateEmptyText('Province', value),
+                                EValidate.validateEmptyText('City', value),
                             decoration: const InputDecoration(
-                              labelText: "Province",
+                              labelText: "City",
                               prefixIcon: Icon(Iconsax.map),
                             ),
                           ),
                         ),
                       ],
                     ),
-                    const SizedBox(height: TSizes.spaceInputFields),
+                    const SizedBox(height: TSizes.spaceSections),
 
                     // cp number
 
@@ -88,7 +97,7 @@ class UserAddressScreen extends StatelessWidget {
                       child: ElevatedButton(
                         onPressed: () {
                           controller.address.text =
-                              "${controller.streetController.text}, ${controller.cityController.text}, ${controller.provinceController.text}";
+                              "${controller.streetController.text}, ${controller.cityController.text}, ${controller.cityController.text}";
                           controller.updateUserAddress();
                         },
                         style: ElevatedButton.styleFrom(

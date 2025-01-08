@@ -5,6 +5,7 @@ import 'package:equips_v2/common/widgets/layouts/gridLayout.dart';
 import 'package:equips_v2/common/widgets/shimmer/lessor_shimmer.dart';
 import 'package:equips_v2/feature/shop/controller/lessor_controller.dart';
 import 'package:equips_v2/feature/shop/screen/lessor/lessor_products.dart';
+import 'package:equips_v2/feature/shop/screen/store/store.dart';
 import 'package:equips_v2/utilities/constants/size.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -16,7 +17,10 @@ class AllLessors extends StatelessWidget {
   Widget build(BuildContext context) {
     final lessorController = LessorController.instance;
     return Scaffold(
-      appBar: TAppbar(
+      appBar: AppBar(
+        leading: IconButton(
+            icon: const Icon(Icons.arrow_back, color: Colors.white),
+            onPressed: () => Get.to(() => const Store())),
         title: Text(
           'Verified Lessors',
           style: Theme.of(context)
@@ -24,7 +28,6 @@ class AllLessors extends StatelessWidget {
               .headlineMedium!
               .apply(color: Colors.white),
         ),
-        showBackArrow: false,
       ),
       backgroundColor: const Color(0xFF25291C),
       body: SingleChildScrollView(

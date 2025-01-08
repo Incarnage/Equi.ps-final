@@ -77,9 +77,10 @@ class _ProductDetailsState extends State<ProductDetails> {
             // title
             Row(
               children: [
-                const SizedBox(width: TSizes.defaultSpace,),
+                const SizedBox(
+                  width: TSizes.defaultSpace,
+                ),
                 Expanded(
-                  
                   child: ERoundedcontainer(
                     padding: const EdgeInsets.only(top: 15, bottom: 15),
                     backgroundColor: const Color(0xFF25291C),
@@ -93,7 +94,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                               .titleMedium
                               ?.copyWith(color: Colors.white),
                         ),
-                    
+
                         // Store Name and Verified Icon
                         brandTitleWithVerifiedIcon(
                           title: widget.product.lessor!.name,
@@ -104,7 +105,9 @@ class _ProductDetailsState extends State<ProductDetails> {
                     ),
                   ),
                 ),
-                const SizedBox(width: TSizes.defaultSpace,),
+                const SizedBox(
+                  width: TSizes.defaultSpace,
+                ),
               ],
             ),
 
@@ -119,17 +122,19 @@ class _ProductDetailsState extends State<ProductDetails> {
             ),
 
             // Location
-             Padding(
+            Padding(
               padding:
                   const EdgeInsets.symmetric(horizontal: TSizes.defaultSpace),
               child: Row(
                 children: [
                   // location
-                  SizedBox(width: 50, child: const EProductTitleText(title: 'Location')),
+                  const SizedBox(
+                      width: 50, child: EProductTitleText(title: 'Location')),
                   const SizedBox(width: TSizes.spaceItems),
                   Expanded(
                     child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal, // Enable horizontal scrolling
+                      scrollDirection:
+                          Axis.horizontal, // Enable horizontal scrolling
                       child: Text(
                         socialMedia?["address"] ?? 'No address available',
                         style: Theme.of(context).textTheme.titleMedium,
@@ -140,25 +145,27 @@ class _ProductDetailsState extends State<ProductDetails> {
               ),
             ),
 
-
             const SizedBox(height: TSizes.spaceItems),
             //deliver options
 // Delivery Options Section
-if (widget.product.delivertOption.isNotEmpty)
-  Padding(
-    padding: const EdgeInsets.symmetric(horizontal: TSizes.defaultSpace),
-    child: Row(
-      children: [
-        SizedBox(width: 50, child: const EProductTitleText(title: 'Delivery Option: ')),
-        const SizedBox(width: TSizes.spaceItems),
-        Text(
-          widget.product.delivertOption.join(' / '),
-          style: Theme.of(context).textTheme.titleMedium,
-        ),
-      ],
-    ),
-  ),
-const SizedBox(height: TSizes.spaceItems),
+            if (widget.product.delivertOption.isNotEmpty)
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: TSizes.defaultSpace),
+                child: Row(
+                  children: [
+                    const SizedBox(
+                        width: 50,
+                        child: EProductTitleText(title: 'Delivery Option: ')),
+                    const SizedBox(width: TSizes.spaceItems),
+                    Text(
+                      widget.product.delivertOption.join(' / '),
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                  ],
+                ),
+              ),
+            const SizedBox(height: TSizes.spaceItems),
             // Descr
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: TSizes.defaultSpace),
@@ -175,8 +182,8 @@ const SizedBox(height: TSizes.spaceItems),
                   style: const TextStyle(fontWeight: FontWeight.normal),
                   trimLines: 2,
                   trimMode: TrimMode.Line,
-                  trimCollapsedText: 'Show more',
-                  trimExpandedText: 'Less',
+                  trimCollapsedText: ' Show more',
+                  trimExpandedText: ' Less',
                   moreStyle: const TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w800,
@@ -193,7 +200,6 @@ const SizedBox(height: TSizes.spaceItems),
 
             if (isLoading)
               const CircularProgressIndicator()
-            
             else if (socialMedia != null)
               Padding(
                 padding:
@@ -203,7 +209,8 @@ const SizedBox(height: TSizes.spaceItems),
                   children: [
                     _buildSocialMediaRow('Facebook', socialMedia?['Facebook']),
                     const SizedBox(height: TSizes.spaceItems),
-                    _buildSocialMediaRow('Instagram', socialMedia?['Instagram']),
+                    _buildSocialMediaRow(
+                        'Instagram', socialMedia?['Instagram']),
                     const SizedBox(height: TSizes.spaceItems),
                     _buildSocialMediaRow('Gmail', socialMedia?['Gmail']),
                     const SizedBox(height: TSizes.spaceItems),
@@ -251,7 +258,7 @@ const SizedBox(height: TSizes.spaceItems),
     );
   }
 
-   Widget _buildSocialMediaRow(String platform, String? value) {
+  Widget _buildSocialMediaRow(String platform, String? value) {
     final displayText =
         (value ?? '').isEmpty ? 'No $platform available' : value!;
     return Row(

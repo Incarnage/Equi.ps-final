@@ -26,7 +26,7 @@ class GcashSettings extends StatelessWidget {
       appBar: TAppbar(
         showBackArrow: true,
         title: Text(
-          'Gcash Credentials',
+          'GCash Credentials',
           style: Theme.of(context)
               .textTheme
               .headlineMedium!
@@ -45,76 +45,75 @@ class GcashSettings extends StatelessWidget {
                   children: [
                     const SizedBox(height: TSizes.spaceInputFields),
 
-                    // Username
-
                     //address
                     TextFormField(
+                      style: const TextStyle(
+                          fontSize: TSizes.fontMedium,
+                          fontWeight: FontWeight.normal),
                       controller: controller.gcashNumber,
                       validator: (value) =>
                           EValidate.validatePhoneNumber(value),
                       decoration: const InputDecoration(
-                        labelText: "Gcash Number",
+                        labelText: "GCash Number",
                         prefixIcon: Icon(Iconsax.home),
                       ),
                     ),
                     const SizedBox(height: TSizes.spaceInputFields),
-                      Text('Current Gcash QR Code:'),
+                    const Text('Current GCash QR Code:'),
 
-                      Obx(() {
-                          final networkImage = controller.currentQRCode.value;
-                          final image = (networkImage.isNotEmpty)
-                              ? networkImage
-                              : 'assets/pic/profile-icon.png';
+                    Obx(() {
+                      final networkImage = controller.currentQRCode.value;
+                      final image = (networkImage.isNotEmpty)
+                          ? networkImage
+                          : 'assets/pic/profile-icon.png';
 
-                          return controller.imageUploading.value
-                              ? const ShimmerEffect(
-                                  width: 80,
-                                  height: 80,
-                                  radius: 80,
-                                )
-                              : GestureDetector(
-                                  
-                                  child: ECircularImage(
-                                    radius: 1,
-                                    image: image,
-                                    width: 300,
-                                    height: 300,
-                                    isNetworkImage: networkImage.isNotEmpty,
-                                  ),
-                                );
-                        }),
-                      const SizedBox(height: TSizes.spaceItems),
-                  
-                     Obx(
-                    () => Column(
-                      children: [
-                        const Text(
-                          "Updated Gcash QR Code:",
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(height: TSizes.spaceItems),
-                        TextButton.icon(
-                          onPressed: () => controller.uploadQRCode(),
-                          icon: const Icon(Iconsax.image,
-                              color: Color(0xFF484d3b)),
-                          label: const Text("Upload Image",
-                              style: TextStyle(color: Color(0xFF484d3b))),
-                        ),
-                        if (controller.QRCode.value.isNotEmpty)
-                          Column(
-                            children: [
-                              // Display preview of the uploaded QR Code
-                              Image.file(
-                                File(controller.QRCode.value),
+                      return controller.imageUploading.value
+                          ? const ShimmerEffect(
+                              width: 80,
+                              height: 80,
+                              radius: 80,
+                            )
+                          : GestureDetector(
+                              child: ECircularImage(
+                                radius: 1,
+                                image: image,
                                 width: 300,
                                 height: 300,
-                                
+                                isNetworkImage: networkImage.isNotEmpty,
                               ),
-                            ],
+                            );
+                    }),
+                    const SizedBox(height: TSizes.spaceItems),
+
+                    Obx(
+                      () => Column(
+                        children: [
+                          const Text(
+                            "Updated GCash QR Code:",
+                            style: TextStyle(fontWeight: FontWeight.bold),
                           ),
-                      ],
+                          const SizedBox(height: TSizes.spaceItems),
+                          TextButton.icon(
+                            onPressed: () => controller.uploadQRCode(),
+                            icon: const Icon(Iconsax.image,
+                                color: Color(0xFF484d3b)),
+                            label: const Text("Upload Image",
+                                style: TextStyle(color: Color(0xFF484d3b))),
+                          ),
+                          if (controller.QRCode.value.isNotEmpty)
+                            Column(
+                              children: [
+                                // Display preview of the uploaded QR Code
+                                Image.file(
+                                  File(controller.QRCode.value),
+                                  width: 300,
+                                  height: 300,
+                                ),
+                              ],
+                            ),
+                        ],
+                      ),
                     ),
-                  ),
                     const SizedBox(height: TSizes.spaceInputFields),
 
                     // cp number
@@ -124,7 +123,6 @@ class GcashSettings extends StatelessWidget {
                       width: double.infinity,
                       child: ElevatedButton(
                         onPressed: () {
-                        
                           controller.updateUserGcash();
                         },
                         style: ElevatedButton.styleFrom(

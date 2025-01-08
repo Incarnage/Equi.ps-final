@@ -8,12 +8,10 @@ import 'package:get/get.dart';
 
 class EBottomEditDeleteProduct extends StatelessWidget {
   final ProductModel product;
-  
 
   const EBottomEditDeleteProduct({
     super.key,
     required this.product,
-    
   });
 
   @override
@@ -36,7 +34,9 @@ class EBottomEditDeleteProduct extends StatelessWidget {
                   side: const BorderSide(color: Color(0xFF25291C)),
                   backgroundColor: const Color(0xFF25291C)),
               onPressed: () {
-                Get.to(() => LessorEditProduct(product: product,));
+                Get.to(() => LessorEditProduct(
+                      product: product,
+                    ));
               },
               child: const Text('Edit'),
             ),
@@ -46,13 +46,18 @@ class EBottomEditDeleteProduct extends StatelessWidget {
             width: TSizes.defaultSpace,
           ),
           // Delete Button
-          Expanded(
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                  side: const BorderSide(color: Color(0xFF25291C)),
-                  backgroundColor: const Color(0xFF25291C)),
-              onPressed: () => ProductRepository.instance.removeProductRecord(product.id),
-              child: const Text('Delete'),
+          SizedBox(
+            width: 80,
+            child: Expanded(
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    side: const BorderSide(color: Colors.red),
+                    backgroundColor: Colors.red),
+                onPressed: () =>
+                    ProductRepository.instance.removeProductRecord(product.id),
+                child:
+                    const Text('Delete', style: TextStyle(color: Colors.white)),
+              ),
             ),
           ),
         ],

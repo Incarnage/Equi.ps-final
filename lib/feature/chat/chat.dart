@@ -7,13 +7,17 @@ import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
 class ChatRoom extends StatefulWidget {
-  ChatRoom({super.key, required this.receiverEmail, required this.receiverID,  this.initialMessage = ''});
+  ChatRoom(
+      {super.key,
+      required this.receiverEmail,
+      required this.receiverID,
+      this.initialMessage = ''});
 
   final String receiverEmail;
 
   final String receiverID;
 
-    final String initialMessage;
+  final String initialMessage;
 
   @override
   State<ChatRoom> createState() => _ChatRoomState();
@@ -30,7 +34,7 @@ class _ChatRoomState extends State<ChatRoom> {
   void initState() {
     super.initState();
 
-     if (widget.initialMessage.isNotEmpty) {
+    if (widget.initialMessage.isNotEmpty) {
       _sendInitialMessage();
     }
 
@@ -56,7 +60,7 @@ class _ChatRoomState extends State<ChatRoom> {
         duration: const Duration(seconds: 1), curve: Curves.fastOutSlowIn);
   }
 
-   void _sendInitialMessage() async {
+  void _sendInitialMessage() async {
     // Send the initial message
     await _chatcontroller.sendMessage(
       widget.receiverID,
@@ -66,7 +70,6 @@ class _ChatRoomState extends State<ChatRoom> {
     _messageController.clear();
     scrollDown();
   }
-
 
   void sendMessage() async {
     if (_messageController.text.isNotEmpty) {
@@ -103,8 +106,6 @@ class _ChatRoomState extends State<ChatRoom> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Text("Loading...");
           }
-
-          
 
           return ListView(
             controller: _scrollController,

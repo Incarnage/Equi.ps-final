@@ -46,19 +46,28 @@ class ImageSlider extends StatelessWidget {
               children: [
                 // Main image display
                 SizedBox(
-                  height: 400,
+                  height: 500,
                   child: Padding(
-                    padding: EdgeInsets.all(TSizes.productImageRadius * 5.5),
+                    padding: const EdgeInsets.only(
+                        left: TSizes.productImageRadius * 3,
+                        right: TSizes.productImageRadius * 3,
+                        bottom: TSizes.productImageRadius * 8,
+                        top: TSizes.productImageRadius * 5),
                     child: Center(
                       child: Obx(() {
-                        final selectedImage = controller.selectedProductImage.value;
+                        final selectedImage =
+                            controller.selectedProductImage.value;
                         return GestureDetector(
-                          onTap: () => controller.showEnlargedImage(selectedImage),
-                          child: selectedImage.isNotEmpty && _isValidUrl(selectedImage)
+                          onTap: () =>
+                              controller.showEnlargedImage(selectedImage),
+                          child: selectedImage.isNotEmpty &&
+                                  _isValidUrl(selectedImage)
                               ? CachedNetworkImage(
                                   imageUrl: selectedImage,
-                                  placeholder: (_, __) => const CircularProgressIndicator(),
-                                  errorWidget: (_, __, ___) => const Icon(Icons.error),
+                                  placeholder: (_, __) =>
+                                      const CircularProgressIndicator(),
+                                  errorWidget: (_, __, ___) =>
+                                      const Icon(Icons.error),
                                 )
                               : const Icon(Icons.error),
                         );
@@ -78,18 +87,23 @@ class ImageSlider extends StatelessWidget {
                       shrinkWrap: true,
                       scrollDirection: Axis.horizontal,
                       physics: const AlwaysScrollableScrollPhysics(),
-                      separatorBuilder: (_, __) => const SizedBox(width: TSizes.spaceItems),
+                      separatorBuilder: (_, __) =>
+                          const SizedBox(width: TSizes.spaceItems),
                       itemCount: images.length,
                       itemBuilder: (_, index) {
                         return Obx(() {
                           final imageSelected =
-                              controller.selectedProductImage.value == images[index];
+                              controller.selectedProductImage.value ==
+                                  images[index];
                           return ERoundedImage(
                             width: 80,
                             isNetworkImage: true,
-                            onPressed: () => controller.selectedProductImage.value = images[index],
+                            onPressed: () => controller
+                                .selectedProductImage.value = images[index],
                             border: Border.all(
-                              color: imageSelected ? const Color(0xFF25291C) : Colors.transparent,
+                              color: imageSelected
+                                  ? const Color(0xFF25291C)
+                                  : Colors.transparent,
                             ),
                             padding: const EdgeInsets.all(TSizes.small),
                             imageUrl: images[index],

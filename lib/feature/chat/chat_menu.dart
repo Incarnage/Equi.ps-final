@@ -3,7 +3,6 @@ import 'package:equips_v2/feature/personalize/controller/user_controller.dart';
 import 'package:equips_v2/utilities/constants/size.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'chat_controller.dart';
 
 class ChatNavigation extends StatelessWidget {
@@ -14,7 +13,7 @@ class ChatNavigation extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xFF25291C),
       appBar: AppBar(
-        title:  Text(
+        title: Text(
           'Messages',
           style: Theme.of(context)
               .textTheme
@@ -23,7 +22,8 @@ class ChatNavigation extends StatelessWidget {
         ),
       ),
       body: FutureBuilder<Map<String, List<Map<String, dynamic>>>>(
-        future: chatController.getChatroomsWithMessages(UserController.instance.user.value.id),
+        future: chatController
+            .getChatroomsWithMessages(UserController.instance.user.value.id),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
@@ -32,7 +32,11 @@ class ChatNavigation extends StatelessWidget {
             return Center(child: Text('Error: ${snapshot.error}'));
           }
           if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(child: Text('No chat rooms found.', style: TextStyle(color: Colors.white),));
+            return const Center(
+                child: Text(
+              'No chat rooms found.',
+              style: TextStyle(color: Colors.white),
+            ));
           }
 
           final chatRooms = snapshot.data!;
@@ -45,7 +49,8 @@ class ChatNavigation extends StatelessWidget {
               final senderID = message['senderID'];
               final receiverID = message['receiverID'];
               final senderName = message['senderName'] ?? 'Unknown Sender';
-              final receiverName = message['receiverName'] ?? 'Unknown Receiver';
+              final receiverName =
+                  message['receiverName'] ?? 'Unknown Receiver';
 
               // Determine the "other person" in the chat room
               String otherID;
@@ -81,14 +86,12 @@ class ChatNavigation extends StatelessWidget {
               final chatRoomID = sender.value['chatRoomID'];
 
               return Container(
-                
                 margin: const EdgeInsets.all(TSizes.spaceItems),
-                padding: const EdgeInsets.all(TSizes.spaceItems/2),
+                padding: const EdgeInsets.all(TSizes.spaceItems / 2),
                 decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(width: 1)
-                ),
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(width: 1)),
                 child: ListTile(
                   title: Text(senderName),
                   onTap: () {
@@ -102,7 +105,8 @@ class ChatNavigation extends StatelessWidget {
                         print('Navigation error: $e');
                       }
                     } else {
-                      print('Invalid sender data: senderName=$senderName, senderID=$senderID');
+                      print(
+                          'Invalid sender data: senderName=$senderName, senderID=$senderID');
                     }
                   },
                 ),

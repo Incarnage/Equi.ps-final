@@ -15,11 +15,10 @@ class AddressController extends GetxController {
   static AddressController get instance => Get.find();
 
   final streetController = TextEditingController();
-    final cityController = TextEditingController();
-    final provinceController = TextEditingController();
-    final address = TextEditingController();
+  final barangayController = TextEditingController();
+  final cityController = TextEditingController();
+  final address = TextEditingController();
 
- 
   final userRepository = Get.put(UserRepository());
   Rx<UserModel> user = UserModel.empty().obs;
   GlobalKey<FormState> updateUserAddressFormKey = GlobalKey<FormState>();
@@ -30,84 +29,69 @@ class AddressController extends GetxController {
     super.onInit();
   }
 
-  
- Future<void> initializeAddress() async {
-  try {
-   
-   var currentUser = await userRepository.fetchUserDetail();
-   
+  Future<void> initializeAddress() async {
+    try {
+      var currentUser = await userRepository.fetchUserDetail();
 
-    
-    String? concatenatedAddress = currentUser.address;
+      String? concatenatedAddress = currentUser.address;
 
-    
-     
-      List<String> addressParts = concatenatedAddress.split(',').map((e) => e.trim()).toList();
+      List<String> addressParts =
+          concatenatedAddress.split(',').map((e) => e.trim()).toList();
 
-      
       streetController.text = addressParts.isNotEmpty ? addressParts[0] : '';
-      cityController.text = addressParts.length > 1 ? addressParts[1] : '';
-      provinceController.text = addressParts.length > 2 ? addressParts[2] : '';
-    
-  } catch (e) {
-  
-    ELoaders.errorSnackBar(
-        title: "Error", message: "Failed to initialize address: $e");
+      barangayController.text = addressParts.length > 1 ? addressParts[1] : '';
+      cityController.text = addressParts.length > 2 ? addressParts[2] : '';
+    } catch (e) {
+      ELoaders.errorSnackBar(
+          title: "Error", message: "Failed to initialize address: $e");
+    }
   }
-}
 
+  Future<void> updateUserAddress() async {
+    try {
+      var currentUser = await userRepository.fetchUserDetail();
 
- Future<void> updateUserAddress() async {
-  try {
-    var currentUser = await userRepository.fetchUserDetail();
-  
-    EFullScreenLoader.openLoadingDialog(
-        'Currently updating your information', 'assets/pic/loading.json');
+      EFullScreenLoader.openLoadingDialog(
+          'Currently updating your information', 'assets/pic/loading.json');
 
-    // Check internet
-    final isConnected = await NetworkManager.instance.isConnected();
+      // Check internet
+      final isConnected = await NetworkManager.instance.isConnected();
 
-    if (!isConnected) {
+      if (!isConnected) {
+        EFullScreenLoader.stopLoading();
+        return;
+      }
+
+      if (!updateUserAddressFormKey.currentState!.validate()) {
+        EFullScreenLoader.stopLoading();
+        return;
+      }
+
+      Map<String, dynamic> addressInfo = {
+        'address': address.text.trim(),
+      };
+      await userRepository.updateSingleField(addressInfo);
+
+      user.value.address = address.text.trim();
+
       EFullScreenLoader.stopLoading();
-      return;
-    }
 
-   
-    if (!updateUserAddressFormKey.currentState!.validate()) {
+      // Success message
+      ELoaders.successSnackBar(
+          title: 'SAVED!', message: 'Your details have been stored.');
+      print("Redirecting User Type: ${currentUser.userType}");
+      // Navigate based on user type
+      if (currentUser.userType == 'Lessor') {
+        print(currentUser.userType);
+        // Redirect to Lessor Navigation Menu if user is a lessor
+        Get.off(() => const LessorNavigationMenu());
+      } else {
+        // Redirect to the main navigation menu for other user types
+        Get.off(() => const NavigationMenu());
+      }
+    } catch (e) {
       EFullScreenLoader.stopLoading();
-      return;
+      ELoaders.errorSnackBar(title: "Oh Snap", message: e.toString());
     }
-
-  
-    Map<String, dynamic> addressInfo = {
-      'address': address.text.trim(),
-    };
-    await userRepository.updateSingleField(addressInfo);
-
- 
-    user.value.address = address.text.trim();
-
-   
-    EFullScreenLoader.stopLoading();
-
-    // Success message
-    ELoaders.successSnackBar(
-        title: 'SAVED!', message: 'Your details have been stored.');
-print("Redirecting User Type: ${currentUser.userType}");
-    // Navigate based on user type
-    if (currentUser.userType == 'Lessor') {
-      print(currentUser.userType);
-      // Redirect to Lessor Navigation Menu if user is a lessor
-      Get.off(() => const LessorNavigationMenu());
-    } else {
-      // Redirect to the main navigation menu for other user types
-      Get.off(() => const NavigationMenu());
-    }
-
-  } catch (e) {
-    EFullScreenLoader.stopLoading();
-    ELoaders.errorSnackBar(title: "Oh Snap", message: e.toString());
   }
-}
-
 }

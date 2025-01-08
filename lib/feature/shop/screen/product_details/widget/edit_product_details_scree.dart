@@ -1,3 +1,4 @@
+import 'package:equips_v2/common/widgets/custom_shapes/container/ERoundedContainer.dart';
 import 'package:equips_v2/common/widgets/text/brandTitle_with_verifiedIcon.dart';
 import 'package:equips_v2/common/widgets/text/productTitle_text.dart';
 import 'package:equips_v2/common/widgets/text/section_heading.dart';
@@ -40,19 +41,46 @@ class EditProductDetails extends StatelessWidget {
           return SingleChildScrollView(
             child: Column(
               children: [
+                // photos
                 ImageSlider(product: product),
-                const Divider(),
-                const SizedBox(height: TSizes.spaceItems),
+
                 // title
-                EProductTitleText(
-                  title: product.productTitle,
-                  smallSize: true,
+                Row(
+                  children: [
+                    const SizedBox(
+                      width: TSizes.defaultSpace,
+                    ),
+                    Expanded(
+                      child: ERoundedcontainer(
+                        padding: const EdgeInsets.only(top: 15, bottom: 15),
+                        backgroundColor: const Color(0xFF25291C),
+                        child: Column(
+                          children: [
+                            // Name of product
+                            Text(
+                              product.productTitle,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleMedium
+                                  ?.copyWith(color: Colors.white),
+                            ),
+
+                            // Store Name and Verified Icon
+                            brandTitleWithVerifiedIcon(
+                              title: product.lessor!.name,
+                              brandTextSize: TextSizes.medium,
+                              textColor: Colors.white,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: TSizes.defaultSpace,
+                    ),
+                  ],
                 ),
-                // lessor name
-                brandTitleWithVerifiedIcon(
-                  title: product.lessor!.name,
-                  brandTextSize: TextSizes.medium,
-                ),
+
                 const SizedBox(height: TSizes.spaceItems),
                 Padding(
                   padding: const EdgeInsets.only(
@@ -64,21 +92,23 @@ class EditProductDetails extends StatelessWidget {
                     children: [
                       // product data: rental cost
                       ProductData(product: product),
-                      const SizedBox(height: TSizes.spaceItems),
 
                       if (product.delivertOption.isNotEmpty)
-  Row(
-    children: [
-      const SizedBox(width: 50, child: EProductTitleText(title: 'Delivery Option: ')),
-      const SizedBox(width: TSizes.spaceItems),
-      Text(
-       product.delivertOption.join(' / '),
-        style: Theme.of(context).textTheme.titleMedium,
-      ),
-    ],
-  ),
-                     
-                     const SizedBox(height: TSizes.spaceItems),
+                        Row(
+                          children: [
+                            const SizedBox(
+                                width: 50,
+                                child: EProductTitleText(
+                                    title: 'Delivery Option: ')),
+                            const SizedBox(width: TSizes.spaceItems),
+                            Text(
+                              product.delivertOption.join(' / '),
+                              style: Theme.of(context).textTheme.titleMedium,
+                            ),
+                          ],
+                        ),
+
+                      const SizedBox(height: TSizes.spaceItems),
                       // Description
                       const SectionHeading(
                           title: 'Description', showActionButton: false),
@@ -88,8 +118,8 @@ class EditProductDetails extends StatelessWidget {
                         style: const TextStyle(fontWeight: FontWeight.normal),
                         trimLines: 2,
                         trimMode: TrimMode.Line,
-                        trimCollapsedText: 'Show more',
-                        trimExpandedText: 'Less',
+                        trimCollapsedText: ' Show more',
+                        trimExpandedText: ' Less',
                         moreStyle: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w800,

@@ -18,6 +18,7 @@ class LessorProducts extends StatelessWidget {
     final controller = LessorController.instance;
     return Scaffold(
       appBar: TAppbar(
+        showBackArrow: true,
         title: Text(
           lessor.fullName,
           style: const TextStyle(color: Color(0xFF25291C)),

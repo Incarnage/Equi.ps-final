@@ -6,6 +6,7 @@ import 'package:equips_v2/common/widgets/shimmer/lessor_shimmer.dart';
 import 'package:equips_v2/feature/shop/controller/lessor_controller.dart';
 import 'package:equips_v2/feature/shop/screen/lessor/lessor_products.dart';
 import 'package:equips_v2/feature/shop/screen/store/store.dart';
+import 'package:equips_v2/navigation_menu.dart';
 import 'package:equips_v2/utilities/constants/size.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -20,7 +21,7 @@ class AllLessors extends StatelessWidget {
       appBar: AppBar(
         leading: IconButton(
             icon: const Icon(Icons.arrow_back, color: Colors.white),
-            onPressed: () => Get.to(() => const Store())),
+            onPressed: () => Get.to(() => const NavigationMenu())),
         title: Text(
           'Verified Lessors',
           style: Theme.of(context)

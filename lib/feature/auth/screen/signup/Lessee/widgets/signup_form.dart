@@ -71,13 +71,13 @@ class SignupForm extends StatelessWidget {
           const SizedBox(height: TSizes.spaceInputFields),
 
           // Address Fields
-          Container(
-            decoration: const BoxDecoration(
-              border: Border(
-                bottom: BorderSide(color: Colors.grey),
+          GooglePlaceAutoCompleteTextField(
+            
+              textStyle: const TextStyle(fontSize: TSizes.fontMedium, fontWeight: FontWeight.normal),
+              inputDecoration: const InputDecoration(
+                labelText: "Address",
+                prefixIcon: Icon(Iconsax.map),
               ),
-            ),
-            child: GooglePlaceAutoCompleteTextField(
               textEditingController: addressController,
               googleAPIKey: "AIzaSyBaYDvf3_TM58IsWhzKIKwaM58w31EEJSU",
               debounceTime: 800,
@@ -94,7 +94,6 @@ class SignupForm extends StatelessWidget {
                 controller.update();
               },
             ),
-          ),
           const SizedBox(height: TSizes.spaceInputFields),
 
           // Phone Number Field

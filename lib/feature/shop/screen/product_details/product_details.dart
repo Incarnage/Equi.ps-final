@@ -82,17 +82,21 @@ class _ProductDetailsState extends State<ProductDetails> {
                 ),
                 Expanded(
                   child: ERoundedcontainer(
-                    padding: const EdgeInsets.only(top: 15, bottom: 15),
+                    padding: const EdgeInsets.only(top: 15, bottom: 15, left: 15, right: 15),
                     backgroundColor: const Color(0xFF25291C),
                     child: Column(
                       children: [
                         // Name of product
-                        Text(
-                          widget.product.productTitle,
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleMedium
-                              ?.copyWith(color: Colors.white),
+                        SingleChildScrollView(
+                           scrollDirection:
+                          Axis.horizontal, 
+                          child: Text(
+                            widget.product.productTitle,
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleMedium
+                                ?.copyWith(color: Colors.white),
+                          ),
                         ),
 
                         // Store Name and Verified Icon

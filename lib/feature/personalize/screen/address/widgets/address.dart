@@ -7,6 +7,7 @@ import 'package:equips_v2/utilities/validator/validate.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:google_places_flutter/google_places_flutter.dart';
 
 class UserAddressScreen extends StatelessWidget {
   const UserAddressScreen({super.key});
@@ -14,12 +15,15 @@ class UserAddressScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(AddressController());
+    final addressController = TextEditingController();
+    
+    
 
     return Scaffold(
       appBar: TAppbar(
         showBackArrow: true,
         title: Text(
-          'Address',
+          'My Address',
           style: Theme.of(context)
               .textTheme
               .headlineMedium!
@@ -28,76 +32,60 @@ class UserAddressScreen extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(TSizes.defaultSpace),
+          padding: const EdgeInsets.only(left: TSizes.defaultSpace, right: TSizes.defaultSpace,bottom: TSizes.defaultSpace, top: TSizes.defaultSpace/2),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Form(
                 key: controller.updateUserAddressFormKey,
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                      const Text("Current Address:", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+                      const SizedBox(height: TSizes.spaceInputFields/2),
+
+                       Obx(() => Text(
+                          controller.user.value.address, 
+                          
+                          style: const TextStyle(fontSize: TSizes.fontMedium, fontWeight: FontWeight.normal)
+                        )),
+                
                     const SizedBox(height: TSizes.spaceInputFields),
 
-                    // Username
+                     GooglePlaceAutoCompleteTextField(
+            
+              textStyle: const TextStyle(fontSize: TSizes.fontMedium, fontWeight: FontWeight.normal),
+              inputDecoration: const InputDecoration(
+                labelText: "Address",
+                prefixIcon: Icon(Iconsax.map),
+              ),
+              textEditingController: addressController,
+              googleAPIKey: "AIzaSyBaYDvf3_TM58IsWhzKIKwaM58w31EEJSU",
+              debounceTime: 800,
+              countries: ["PH"], // Limit to the Philippines
+              isLatLngRequired: true, // Get latitude & longitude
+              getPlaceDetailWithLatLng: (prediction) {
+                controller.latitude.value = double.parse(prediction.lat!);
+                controller.longitude.value =  double.parse(prediction.lng!);
+                controller.address.text = addressController.text;
+              },
+              itemClick: (prediction) {
+                addressController.text = prediction.description!;
+                controller.address.text = prediction.description!;
+                controller.update();
+              },
+            ),
 
-                    //address
-                    TextFormField(
-                      style: const TextStyle(
-                          fontSize: TSizes.fontMedium,
-                          fontWeight: FontWeight.normal),
-                      controller: controller.streetController,
-                      validator: (value) =>
-                          EValidate.validateEmptyText('Street', value),
-                      decoration: const InputDecoration(
-                        labelText: "Street",
-                        prefixIcon: Icon(Iconsax.home),
-                      ),
-                    ),
-                    const SizedBox(height: TSizes.spaceInputFields),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: TextFormField(
-                            style: const TextStyle(
-                                fontSize: TSizes.fontMedium,
-                                fontWeight: FontWeight.normal),
-                            controller: controller.barangayController,
-                            validator: (value) =>
-                                EValidate.validateEmptyText('Barangay', value),
-                            decoration: const InputDecoration(
-                              labelText: "Barangay",
-                              prefixIcon: Icon(Iconsax.location),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: TSizes.spaceInputFields),
-                        Expanded(
-                          child: TextFormField(
-                            style: const TextStyle(
-                                fontSize: TSizes.fontMedium,
-                                fontWeight: FontWeight.normal),
-                            controller: controller.cityController,
-                            validator: (value) =>
-                                EValidate.validateEmptyText('City', value),
-                            decoration: const InputDecoration(
-                              labelText: "City",
-                              prefixIcon: Icon(Iconsax.map),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: TSizes.spaceSections),
-
-                    // cp number
+                  
+                     const SizedBox(height: TSizes.spaceInputFields),
+                    
 
                     // Sign Up Button
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
                         onPressed: () {
-                          controller.address.text =
-                              "${controller.streetController.text}, ${controller.cityController.text}, ${controller.cityController.text}";
+                          
                           controller.updateUserAddress();
                         },
                         style: ElevatedButton.styleFrom(

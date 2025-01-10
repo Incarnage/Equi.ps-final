@@ -11,39 +11,35 @@ import 'package:equips_v2/utilities/popups/loaders.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+
+
 class AddressController extends GetxController {
   static AddressController get instance => Get.find();
 
-  final streetController = TextEditingController();
-  final barangayController = TextEditingController();
-  final cityController = TextEditingController();
   final address = TextEditingController();
-
+  final RxDouble latitude = 0.0.obs;
+  final RxDouble longitude = 0.0.obs;
   final userRepository = Get.put(UserRepository());
   Rx<UserModel> user = UserModel.empty().obs;
   GlobalKey<FormState> updateUserAddressFormKey = GlobalKey<FormState>();
 
   @override
   void onInit() {
-    initializeAddress();
     super.onInit();
+    // Initialize address asynchronously, delay state changes
+    Future.microtask(() => initializeAddress());
   }
 
   Future<void> initializeAddress() async {
     try {
-      var currentUser = await userRepository.fetchUserDetail();
+      // Fetch current user data
+      UserModel currentUser = await userRepository.fetchUserDetail();
+      user.value = currentUser;
 
-      String? concatenatedAddress = currentUser.address;
-
-      List<String> addressParts =
-          concatenatedAddress.split(',').map((e) => e.trim()).toList();
-
-      streetController.text = addressParts.isNotEmpty ? addressParts[0] : '';
-      barangayController.text = addressParts.length > 1 ? addressParts[1] : '';
-      cityController.text = addressParts.length > 2 ? addressParts[2] : '';
+      // Set current address (avoid triggering rebuild during build phase)
+      address.text = currentUser.address ?? '';
     } catch (e) {
-      ELoaders.errorSnackBar(
-          title: "Error", message: "Failed to initialize address: $e");
+      ELoaders.errorSnackBar(title: "Error", message: "Failed to initialize address: $e");
     }
   }
 
@@ -51,47 +47,57 @@ class AddressController extends GetxController {
     try {
       var currentUser = await userRepository.fetchUserDetail();
 
-      EFullScreenLoader.openLoadingDialog(
-          'Currently updating your information', 'assets/pic/loading.json');
+      // Show loading indicator while performing the update
+      EFullScreenLoader.openLoadingDialog('Currently updating your information', 'assets/pic/loading.json');
 
-      // Check internet
+      // Check internet connection
       final isConnected = await NetworkManager.instance.isConnected();
-
       if (!isConnected) {
         EFullScreenLoader.stopLoading();
         return;
       }
 
+      // Validate form before proceeding
       if (!updateUserAddressFormKey.currentState!.validate()) {
         EFullScreenLoader.stopLoading();
         return;
       }
 
+      // Prepare updated address data
       Map<String, dynamic> addressInfo = {
         'address': address.text.trim(),
+        'Latitude': latitude.value,
+        'Longitude': longitude.value,
       };
+
+      // Update the user address
       await userRepository.updateSingleField(addressInfo);
 
+      // Update local user model
       user.value.address = address.text.trim();
+      user.value.latitude = latitude.value;
+      user.value.longitude = longitude.value;
 
+      // Stop loading indicator
       EFullScreenLoader.stopLoading();
 
-      // Success message
-      ELoaders.successSnackBar(
-          title: 'SAVED!', message: 'Your details have been stored.');
-      print("Redirecting User Type: ${currentUser.userType}");
-      // Navigate based on user type
-      if (currentUser.userType == 'Lessor') {
-        print(currentUser.userType);
-        // Redirect to Lessor Navigation Menu if user is a lessor
-        Get.off(() => const LessorNavigationMenu());
-      } else {
-        // Redirect to the main navigation menu for other user types
-        Get.off(() => const NavigationMenu());
-      }
+      // Show success message
+      ELoaders.successSnackBar(title: 'SAVED!', message: 'Your details have been stored.');
+
+      // Navigate to the appropriate menu based on user type
+      _navigateBasedOnUserType(currentUser);
     } catch (e) {
       EFullScreenLoader.stopLoading();
       ELoaders.errorSnackBar(title: "Oh Snap", message: e.toString());
+    }
+  }
+
+  void _navigateBasedOnUserType(UserModel currentUser) {
+    // Redirect to different navigation menu based on user type
+    if (currentUser.userType == 'Lessor') {
+      Get.offAll(() => const LessorNavigationMenu());
+    } else {
+      Get.offAll(() => const NavigationMenu());
     }
   }
 }

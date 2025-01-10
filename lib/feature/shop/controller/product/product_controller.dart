@@ -149,6 +149,8 @@ class ProductController extends GetxController {
           'createdAt': FieldValue.serverTimestamp(),
           'duration': pduration.text,
           'DeliveryOption': deliveryOption,
+          'Latitude': user.latitude,
+          'Longitude': user.longitude
         });
 
         ELoaders.successSnackBar(
@@ -156,9 +158,12 @@ class ProductController extends GetxController {
       } catch (e) {
         ELoaders.errorSnackBar(title: 'Error', message: e.toString());
       } finally {
+        Future.delayed(Duration(milliseconds: 300), () {
         Get.offAll(() => const LessorNavigationMenu());
-        isLoading.value = false;
-        resetForm(); // Set loading state to false when done
+        resetForm(); // Reset form after navigation
+      });
+
+      isLoading.value = false;// Set loading state to false when done
       }
     }
   }
@@ -194,7 +199,10 @@ class ProductController extends GetxController {
               : product.images, // Use new image if uploaded
           'createdAt': FieldValue.serverTimestamp(),
           'duration': pduration.text,
+          'Latitude': user.latitude,
+          'Longitude': user.longitude,
           'DeliveryOption': deliveryOption,
+          
         };
 
         // Call the repository method to update the product

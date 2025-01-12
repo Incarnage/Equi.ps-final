@@ -37,7 +37,7 @@ class EditProductDetails extends StatelessWidget {
             return Center(child: Text('Error: ${snapshot.error}'));
           }
 
-          // Now we have all the images loaded and can build the UI
+         
           return SingleChildScrollView(
             child: Column(
               children: [

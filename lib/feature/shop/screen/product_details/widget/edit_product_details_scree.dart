@@ -20,14 +20,14 @@ class EditProductDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
+    final controller = Get.put(ImagesController());
 
     return Scaffold(
       bottomNavigationBar: EBottomEditDeleteProduct(
         product: product,
       ),
       body: FutureBuilder<List<String>>(
-        future: ImagesController.instance.getAllProductImages(product),
+        future: controller.getAllProductImages(product),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());

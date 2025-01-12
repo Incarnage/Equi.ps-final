@@ -23,7 +23,7 @@ class _SortableProductState extends State<SortableProduct> {
   void initState() {
     super.initState();
     controller.assignProducts(widget.products);
-    controller.getUserLocation(); // Fetch user location when widget initializes
+    controller.fetchUserLocation(); // Fetch user location when widget initializes
   }
 
   @override
@@ -65,6 +65,7 @@ class _SortableProductState extends State<SortableProduct> {
                   'Higher Price',
                   'Lower Price',
                   'Distance (Nearest)',
+                  'Distance (Farthest)',
                 ].map((option) => DropdownMenuItem(value: option, child: Text(option))).toList(),
               )),
         ),

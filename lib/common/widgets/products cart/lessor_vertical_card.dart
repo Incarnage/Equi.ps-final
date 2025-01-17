@@ -9,8 +9,7 @@ import 'package:equips_v2/feature/shop/screen/product_details/widget/edit_produc
 import 'package:equips_v2/utilities/constants/size.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
-import 'package:iconsax/iconsax.dart';
+
 
 class LessorVerticalCard extends StatelessWidget {
   const LessorVerticalCard({super.key, required this.product});
@@ -22,6 +21,7 @@ class LessorVerticalCard extends StatelessWidget {
     // Container with side paddings, color, edges, radius, and shadows
     return GestureDetector(
       onTap: () async {
+         print("Navigating to EditProductDetails with: ${product.toJson()}"); 
         // Navigate to the EditProductDetails screen asynchronously
         await Get.to(() => EditProductDetails(product: product));
       },

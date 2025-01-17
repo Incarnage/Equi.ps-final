@@ -45,41 +45,43 @@ class EditProductDetails extends StatelessWidget {
                 ImageSlider(product: product),
 
                 // title
-                Row(
-                  children: [
-                    const SizedBox(
-                      width: TSizes.defaultSpace,
-                    ),
-                    Expanded(
-                      child: ERoundedcontainer(
-                        padding: const EdgeInsets.only(top: 15, bottom: 15),
-                        backgroundColor: const Color(0xFF25291C),
-                        child: Column(
-                          children: [
-                            // Name of product
-                            Text(
-                              product.productTitle,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleMedium
-                                  ?.copyWith(color: Colors.white),
-                            ),
+                Column(
+        children: [
+          const SizedBox(
+            width: TSizes.defaultSpace,
+          ),
+          ERoundedcontainer(
+            width: MediaQuery.of(context).size.width,
+            margin: EdgeInsets.all(15),
+            padding: const EdgeInsets.only(top: 15, bottom: 15),
+            backgroundColor: const Color(0xFF25291C),
+            child: Column(
+              children: [
+                // Name of product
+                if (product != null)
+                  Text(
+                    product.productTitle,
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleMedium
+                        ?.copyWith(color: Colors.white),
+                  ),
 
-                            // Store Name and Verified Icon
-                            brandTitleWithVerifiedIcon(
-                              title: product.lessor!.name,
-                              brandTextSize: TextSizes.medium,
-                              textColor: Colors.white,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      width: TSizes.defaultSpace,
-                    ),
-                  ],
-                ),
+                // Store Name and Verified Icon
+                if (product?.lessor != null)
+                  brandTitleWithVerifiedIcon(
+                    title: product.lessor!.name,
+                    brandTextSize: TextSizes.medium,
+                    textColor: Colors.white,
+                  ),
+              ],
+            ),
+          ),
+          const SizedBox(
+            width: TSizes.defaultSpace,
+          ),
+        ],
+      ),
 
                 const SizedBox(height: TSizes.spaceItems),
                 Padding(

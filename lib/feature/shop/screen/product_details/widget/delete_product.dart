@@ -48,8 +48,7 @@ class EBottomEditDeleteProduct extends StatelessWidget {
           // Delete Button
           SizedBox(
             width: 80,
-            child: Expanded(
-              child: ElevatedButton(
+            child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                     side: const BorderSide(color: Colors.red),
                     backgroundColor: Colors.red),
@@ -58,7 +57,6 @@ class EBottomEditDeleteProduct extends StatelessWidget {
                 child:
                     const Text('Delete', style: TextStyle(color: Colors.white)),
               ),
-            ),
           ),
         ],
       ),

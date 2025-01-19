@@ -209,6 +209,7 @@ class PayScreen extends StatelessWidget {
                                     }
                                   },
                                   child: ECircularImage(
+                                    
                                     image: image,
                                     width: 300,
                                     height: 300,
@@ -227,15 +228,19 @@ class PayScreen extends StatelessWidget {
                           ),
                         ),
                         SizedBox(
-                          width: double.infinity,
-                          child: Center(
-                            child: Text(
-                              lessorGcashNumber.value,
-                              style:
-                                  const TextStyle(fontSize: TSizes.fontLarge),
-                            ),
-                          ),
-                        )
+  width: double.infinity,
+  child: Center(
+    child: Obx(() {
+      return Text(
+        lessorGcashNumber.value.isNotEmpty
+            ? lessorGcashNumber.value
+            : '',
+        style: const TextStyle(fontSize: TSizes.fontLarge),
+      );
+    }),
+  ),
+),
+
                       ],
                     ),
                   ),

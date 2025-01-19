@@ -14,9 +14,11 @@ class ECircularImage extends StatelessWidget {
       this.fit = BoxFit.cover,
       this.padding = TSizes.small,
       this.isNetworkImage = false,
+      
       this.radius = 100});
 
   final BoxFit? fit;
+
   final String image;
   final bool isNetworkImage;
   final Color? overlayColor;

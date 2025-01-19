@@ -26,11 +26,13 @@ class SelectDate extends StatelessWidget {
   }
 
   selectDate({required BuildContext context}) async {
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
     DateTime? pickedDate = await showDatePicker(
       context: context,
       lastDate: DateTime(2100),
-      firstDate: DateTime(2024),
-      initialDate: DateTime.now(),
+      firstDate: today,
+      initialDate: today,
     );
     if (pickedDate == null) return;
     controller.text = DateFormat('MM-dd-yyyy').format(pickedDate);

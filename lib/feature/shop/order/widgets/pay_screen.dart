@@ -15,6 +15,7 @@ import 'package:equips_v2/feature/shop/order/widgets/order_info.dart';
 import 'package:equips_v2/utilities/constants/size.dart';
 import 'package:equips_v2/utilities/popups/loaders.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
@@ -228,18 +229,33 @@ class PayScreen extends StatelessWidget {
                           ),
                         ),
                         SizedBox(
-  width: double.infinity,
-  child: Center(
-    child: Obx(() {
-      return Text(
-        lessorGcashNumber.value.isNotEmpty
-            ? lessorGcashNumber.value
-            : '',
-        style: const TextStyle(fontSize: TSizes.fontLarge),
-      );
-    }),
-  ),
-),
+                            width: double.infinity,
+                            child: Center(
+                              child: Obx(() {
+                                return lessorGcashNumber.value.isNotEmpty
+                                    ? GestureDetector(
+                                        onTap: () {
+                                          Clipboard.setData(ClipboardData(text: lessorGcashNumber.value));
+                                          ScaffoldMessenger.of(context).showSnackBar(
+                                            SnackBar(
+                                              content: const Text('Gcash number copied to clipboard!'),
+                                              duration: const Duration(seconds: 2),
+                                            ),
+                                          );
+                                        },
+                                        child: Text(
+                                          lessorGcashNumber.value,
+                                          style: const TextStyle(
+                                            fontSize: TSizes.fontLarge,
+                                            color: Colors.blue,
+                                            decoration: TextDecoration.underline, // Optional styling
+                                          ),
+                                        ),
+                                      )
+                                    : const SizedBox.shrink(); // Empty widget if no Gcash number
+                              }),
+                            ),
+                          ),
 
                       ],
                     ),

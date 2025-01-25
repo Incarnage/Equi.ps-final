@@ -1,3 +1,5 @@
+
+
 import 'dart:io';
 import 'package:equips_v2/feature/auth/controller/signUp/signup_controller.dart';
 import 'package:equips_v2/utilities/constants/size.dart';
@@ -16,6 +18,11 @@ class SignupForm extends StatelessWidget {
     final controller = Get.put(SignupController());
      final addressController = TextEditingController();
 
+     final FocusNode usernameFocusNode = FocusNode();
+    final FocusNode addressFocusNode = FocusNode();
+    final FocusNode emailFocusNode = FocusNode();
+    final FocusNode passwordFocusNode = FocusNode();
+
     return Form(
       key: controller.signupFormKey,
       child: Column(
@@ -25,6 +32,7 @@ class SignupForm extends StatelessWidget {
             children: [
               Expanded(
                 child: TextFormField(
+                  
                   style: const TextStyle(
                       fontSize: TSizes.fontMedium,
                       fontWeight: FontWeight.normal),
@@ -58,6 +66,7 @@ class SignupForm extends StatelessWidget {
 
           // Username Field
           TextFormField(
+            focusNode: usernameFocusNode,
             style: const TextStyle(
                 fontSize: TSizes.fontMedium, fontWeight: FontWeight.normal),
             controller: controller.userName,
@@ -72,11 +81,15 @@ class SignupForm extends StatelessWidget {
 
           // Address Fields
           GooglePlaceAutoCompleteTextField(
-            
+            focusNode: addressFocusNode,
               textStyle: const TextStyle(fontSize: TSizes.fontMedium, fontWeight: FontWeight.normal),
               inputDecoration: const InputDecoration(
                 labelText: "Address",
                 prefixIcon: Icon(Iconsax.map),
+                border: InputBorder.none,
+                focusedBorder: InputBorder.none,
+                enabledBorder: InputBorder.none,
+               
               ),
               textEditingController: addressController,
               googleAPIKey: "AIzaSyBaYDvf3_TM58IsWhzKIKwaM58w31EEJSU",
@@ -103,7 +116,7 @@ class SignupForm extends StatelessWidget {
             controller: controller.phoneNumber,
             validator: (value) => EValidate.validatePhoneNumber(value),
             decoration: const InputDecoration(
-              labelText: "Phone Number",
+              labelText: "Phone Number (09xxxxxxxxx)",
               prefixIcon: Icon(Iconsax.call),
             ),
           ),
@@ -111,6 +124,7 @@ class SignupForm extends StatelessWidget {
 
           // Email Field
           TextFormField(
+            focusNode: emailFocusNode,
             style: const TextStyle(
                 fontSize: TSizes.fontMedium, fontWeight: FontWeight.normal),
             controller: controller.email,
@@ -125,6 +139,7 @@ class SignupForm extends StatelessWidget {
           // Password and Confirm Password Fields
           Obx(
             () => TextFormField(
+              focusNode: passwordFocusNode,
               style: const TextStyle(
                   fontSize: TSizes.fontMedium, fontWeight: FontWeight.normal),
               controller: controller.password,

@@ -9,6 +9,7 @@ import 'package:equips_v2/feature/shop/screen/product_details/product_details.da
 import 'package:equips_v2/utilities/constants/size.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class VerticalProductCard extends StatelessWidget {
   const VerticalProductCard({super.key, required this.product});
@@ -17,6 +18,12 @@ class VerticalProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+     final formattedPrice = NumberFormat.currency(
+      locale: 'en_PH', 
+      symbol: '₱', 
+      decimalDigits: 0,
+    ).format(product.price);
     // Container with side paddings, color, edges, radius, and shadows
     return GestureDetector(
       onTap: () => Get.to(() => ProductDetails(
@@ -75,13 +82,13 @@ class VerticalProductCard extends StatelessWidget {
             const Spacer(),
             // Price Row
             Text(
+              formattedPrice, // Use the formatted price
               textAlign: TextAlign.center,
-              "₱ ${product.price.toString()}0",
               style: Theme.of(context)
                   .textTheme
                   .labelLarge!
                   .apply(decoration: TextDecoration.none),
-            ),
+            )
           ],
         ),
       ),

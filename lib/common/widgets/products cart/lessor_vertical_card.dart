@@ -9,6 +9,7 @@ import 'package:equips_v2/feature/shop/screen/product_details/widget/edit_produc
 import 'package:equips_v2/utilities/constants/size.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 
 class LessorVerticalCard extends StatelessWidget {
@@ -18,11 +19,17 @@ class LessorVerticalCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final formattedPrice = NumberFormat.currency(
+  locale: 'en_PH', // Locale for Philippines
+  symbol: '₱',    // Peso symbol
+  decimalDigits: 0, // No decimal places
+).format(product.price);
     // Container with side paddings, color, edges, radius, and shadows
     return GestureDetector(
       onTap: () async {
          print("Navigating to EditProductDetails with: ${product.toJson()}"); 
-        // Navigate to the EditProductDetails screen asynchronously
+
         await Get.to(() => EditProductDetails(product: product));
       },
       child: Container(
@@ -76,13 +83,13 @@ class LessorVerticalCard extends StatelessWidget {
             const Spacer(),
             // Price Row
            Text(
-            textAlign: TextAlign.center,
-                          "₱${product.price.toString()}0",
-                          style: Theme.of(context)
-                              .textTheme
-                              .labelLarge!
-                              .apply(decoration: TextDecoration.none),
-                        )
+              formattedPrice, // Use the formatted price
+              textAlign: TextAlign.center,
+              style: Theme.of(context)
+                  .textTheme
+                  .labelLarge!
+                  .apply(decoration: TextDecoration.none),
+            ),
           ],
         ),
       ),

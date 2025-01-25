@@ -4,6 +4,7 @@ import 'package:equips_v2/feature/shop/controller/product/product_controller.dar
 import 'package:equips_v2/feature/shop/models/product_model.dart';
 import 'package:equips_v2/utilities/constants/size.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class ProductData extends StatelessWidget {
   const ProductData({super.key, required this.product});
@@ -12,6 +13,11 @@ class ProductData extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final formattedPrice = NumberFormat.currency(
+      locale: 'en_PH', 
+      symbol: '₱', 
+      decimalDigits: 0,
+    ).format(product.price);
     final controller = ProductController.instance;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -28,7 +34,7 @@ class ProductData extends StatelessWidget {
             const SizedBox(width: TSizes.spaceItems),
             ProductPriceText(
               isLarge: true,
-              price: controller.getProductPrice(product),
+              price: formattedPrice,
             ),
             Text(' / ${product.pduration} hours', style: Theme.of(context).textTheme.headlineMedium,)
 

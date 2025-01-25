@@ -81,9 +81,9 @@ class SignIn_Form extends StatelessWidget {
                 // Forget Password
                 TextButton(
                     onPressed: () => Get.to(() => const ForgotPassword()),
-                    child: const Text("Forgot Password",
+                    child: const Text("Forgot Password?",
                         style: TextStyle(
-                            fontSize: TSizes.fontSmall, color: Colors.red)))
+                            fontSize: TSizes.fontSmall, color: Color.fromARGB(151, 37, 41, 28))))
               ],
             ),
             const SizedBox(height: TSizes.spaceSections),
@@ -103,15 +103,11 @@ class SignIn_Form extends StatelessWidget {
             const SizedBox(height: TSizes.spaceItems),
 
             // Create Account Button
-            SizedBox(
-                width: double.infinity,
-                child: OutlinedButton(
+           TextButton(
                     onPressed: () => Get.to(() => const SignUpLessee()),
-                    style: ElevatedButton.styleFrom(
-                        side: const BorderSide(
-                      color: Color(0xFF25291C),
-                    )),
-                    child: const Text("Create an Account"))),
+                    
+                    child: const Text("Create an Account", style:  TextStyle(
+                            fontSize: TSizes.fontMedium, color: Color.fromARGB(202, 37, 41, 28),decoration: TextDecoration.underline),)),
             const SizedBox(height: TSizes.spaceSections)
           ],
         ),

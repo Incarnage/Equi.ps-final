@@ -115,19 +115,8 @@ class SignupForm extends StatelessWidget {
                   ),
                   const SizedBox(height: TSizes.spaceInputFields),
 
-                  // Username Field
-                  TextFormField(
-                    focusNode: usernameFocusNode,
-                    style: const TextStyle(
-                        fontSize: TSizes.fontMedium, fontWeight: FontWeight.normal),
-                    controller: controller.userName,
-                    validator: (value) =>
-                        EValidate.validateEmptyText('Username', value),
-                    decoration: const InputDecoration(
-                      labelText: "Username",
-                      prefixIcon: Icon(Iconsax.user_edit),
-                    ),
-                  ),
+                 
+                 
                   const SizedBox(height: TSizes.spaceInputFields),
 
                   // Address Fields

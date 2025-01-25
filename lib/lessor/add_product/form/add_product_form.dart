@@ -198,7 +198,7 @@ class AddProductForm extends StatelessWidget {
           // Image Upload
           TextButton(
             style: TextButton.styleFrom(
-              backgroundColor: Color(0xFF484d3b),
+              
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(10)),
             side: BorderSide(
@@ -213,7 +213,7 @@ class AddProductForm extends StatelessWidget {
               child: Text(
                 "Upload product image (max 5)",
                 style: TextStyle(
-                    color: Color.fromARGB(255, 255, 255, 255), fontSize: TSizes.fontMedium),
+                    color: Color(0xFF25291C), fontSize: TSizes.fontMedium),
               ),
             ),
           ),

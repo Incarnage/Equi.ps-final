@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class UserModel {
   final String userType;
   final String id;
-  final String username;
+  
   final String email;
   String address;
   String gcash;
@@ -25,7 +25,7 @@ class UserModel {
       required this.gcash,
       required this.userType,
       required this.id,
-      required this.username,
+      
       required this.email,
       required this.firstName,
       required this.lastName,
@@ -59,7 +59,7 @@ class UserModel {
       id: "",
       firstName: "",
       lastName: "",
-      username: "",
+      
       email: "",
       phoneNumber: "",
       profilePicture: "",
@@ -78,7 +78,7 @@ class UserModel {
       'Gcash': gcash,
       'FirstName': firstName,
       'LastName': lastName,
-      'Username': username,
+      
       'Email': email,
       'PhoneNumber': phoneNumber,
       'ProfilePicture': profilePicture,
@@ -101,7 +101,7 @@ class UserModel {
         id: document.id,
         firstName: data['FirstName'] ?? "",
         lastName: data['LastName'] ?? "",
-        username: data['Username'] ?? "",
+       
         email: data['Email'] ?? "",
         phoneNumber: data['PhoneNumber'] ?? "",
         profilePicture: data['ProfilePicture'] ?? "",

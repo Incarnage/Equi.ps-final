@@ -32,7 +32,13 @@ class ESectionHeading extends StatelessWidget {
             onPressed: onPressed,
             child: Text(buttonTitle,
                 style: const TextStyle(
-                    fontSize: TSizes.fontMedium, color: Color(0xFFFFD233))))
+                    fontSize: TSizes.fontMedium, color: Color(0xFFf4b240),shadows: [
+      Shadow(
+        color: Colors.black,      
+        blurRadius: 1.0,          
+        offset: Offset(1.0, 1.0), 
+      ),
+    ], )))
     ]);
   }
 }

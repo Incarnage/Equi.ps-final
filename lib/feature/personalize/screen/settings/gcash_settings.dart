@@ -94,6 +94,15 @@ class GcashSettings extends StatelessWidget {
                           ),
                           const SizedBox(height: TSizes.spaceItems),
                           TextButton.icon(
+                            style: TextButton.styleFrom(
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+            side: BorderSide(
+              color: Color(0xFF484d3b),
+              width: 1,
+            ),
+          ),
+        ),
                             onPressed: () => controller.uploadQRCode(),
                             icon: const Icon(Iconsax.image,
                                 color: Color(0xFF484d3b)),
@@ -129,7 +138,7 @@ class GcashSettings extends StatelessWidget {
                           side: const BorderSide(color: Color(0xFF25291C)),
                           backgroundColor: const Color(0xFF25291C),
                         ),
-                        child: const Text('Update Gcash Credentials'),
+                        child: const Text('Update'),
                       ),
                     ),
                   ],

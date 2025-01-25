@@ -203,7 +203,7 @@ Future<void> getLatLongFromAddress() async {
       validID: validIDUrl,
       gcash: qrCodeUrl, // If QRCode is not provided, it will be an empty string
       id: UserCredential.user!.uid,
-      username: userName.text.trim(),
+    
       email: email.text.trim(),
       firstName: firstName.text.trim(),
       lastName: lastName.text.trim(),

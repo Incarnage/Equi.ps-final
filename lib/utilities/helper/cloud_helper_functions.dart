@@ -50,7 +50,10 @@ class ECloudHelperFunctions {
 
     if (!snapshot.hasData || snapshot.data == null || snapshot.data!.isEmpty) {
       if (nothingFound != null) return nothingFound;
-      return const Center(child: Text('No Data Found!'));
+      return const Center(child:  Image(
+                      image: AssetImage('assets/pic/Error.png'),
+                      fit: BoxFit.cover,
+                    ));
     }
 
     if (snapshot.hasError) {

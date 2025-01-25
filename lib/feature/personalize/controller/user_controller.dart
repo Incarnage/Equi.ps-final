@@ -72,7 +72,7 @@ class UserController extends GetxController {
             validID: userCredentials.user!.photoURL ?? '',
             gcash: userCredentials.user!.photoURL ?? '',
             id: userCredentials.user!.uid,
-            username: username,
+           
             email: userCredentials.user!.email ?? '',
             firstName: nameParts[0],
             lastName:

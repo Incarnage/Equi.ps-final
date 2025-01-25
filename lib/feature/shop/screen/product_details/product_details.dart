@@ -12,6 +12,7 @@ import 'package:equips_v2/feature/shop/screen/product_details/widget/unavailable
 import 'package:equips_v2/utilities/constants/enums.dart';
 import 'package:equips_v2/utilities/constants/size.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
@@ -288,6 +289,17 @@ class _ProductDetailsState extends State<ProductDetails> {
               
                 goToWebPage(value);
             }
+            else{
+              if (value != null) {
+                Clipboard.setData(ClipboardData(text: value));
+              }
+                                          ScaffoldMessenger.of(context).showSnackBar(
+                                            SnackBar(
+                                              content: const Text('Gmail copied to clipboard!'),
+                                              duration: const Duration(seconds: 2),
+                                            ),
+                                          );
+            }
           },
           child: Text(
             overflow: TextOverflow.ellipsis,
@@ -295,11 +307,11 @@ class _ProductDetailsState extends State<ProductDetails> {
             style: TextStyle(
               fontSize: 20,
               color: (platform == 'Facebook' || platform == 'Instagram') &&value != null && value.isNotEmpty
-                  ? Color(0xFF25291C) 
+                  ? Colors.blue 
                   :Color(0xFF25291C),
               decoration: (platform == 'Facebook' || platform == 'Instagram')&&value != null && value.isNotEmpty
                   ? TextDecoration.underline 
-                  : null,
+                  : TextDecoration.underline,
             ),
           ),
         ),

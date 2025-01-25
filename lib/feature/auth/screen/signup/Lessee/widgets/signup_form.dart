@@ -46,7 +46,7 @@ class SignupForm extends StatelessWidget {
       DropdownMenuItem(
         value: 'Lessor', // The actual value that will be stored
         child: Text(
-          "I want to my properties to be rented", // Displayed text for the user
+          "I want my properties to be rented", // Displayed text for the user
           style: TextStyle(
             fontSize: TSizes.fontMedium,
             fontWeight: FontWeight.normal,
@@ -241,8 +241,8 @@ class SignupForm extends StatelessWidget {
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(10)),
             side: BorderSide(
-              color: Color(0xFF484d3b),
-              width: 1,
+              color: Color.fromARGB(255, 0, 0, 0),
+              width: 0.5,
             ),
           ),
         ),
@@ -310,8 +310,8 @@ class SignupForm extends StatelessWidget {
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(10)),
             side: BorderSide(
-              color: Color(0xFF484d3b),
-              width: 1,
+              color: Color.fromARGB(255, 0, 0, 0),
+              width: 0.5,
             ),
           ),
         ),

@@ -143,6 +143,7 @@ class _ChatRoomState extends State<ChatRoom> {
         children: [
           Expanded(
             child: TextField(
+              style: const TextStyle(fontWeight: FontWeight.normal),
               focusNode: myFocusNode,
               controller: _messageController,
               decoration: const InputDecoration(labelText: "Type a message"),

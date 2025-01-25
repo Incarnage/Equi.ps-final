@@ -92,9 +92,9 @@ class _ProductReviewScreenState extends State<ProductReviewScreen> {
                   if (snapshot.hasError ||
                       !snapshot.hasData ||
                       snapshot.data!.isEmpty) {
-                    return const Text(
-                      "No reviews available for this product.",
-                      style: TextStyle(fontSize: 16),
+                    return const Image(
+                      image: AssetImage('assets/pic/Error.png'),
+                      fit: BoxFit.cover,
                     );
                   }
 

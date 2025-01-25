@@ -73,7 +73,7 @@ class ProfileScreen extends StatelessWidget {
 
               // Heading Profile Info
               const ESectionHeading(
-                title: "Profile Information",
+                title: "User Information",
                 showActionButton: false,
               ),
               const SizedBox(height: TSizes.spaceItems),
@@ -83,18 +83,8 @@ class ProfileScreen extends StatelessWidget {
                   value: controller.user.value.fullName,
                   icon: Iconsax.arrow_right_1,
                   onPressed: () => Get.to(() => const Changename())),
-             
-
-              const SizedBox(height: TSizes.spaceItems),
-              const Divider(),
-              const SizedBox(height: TSizes.spaceItems),
-
-              // Heading Personal Info
-              ESectionHeading(
-                  title: "Personal Information",
-                  showActionButton: false,
-                  onPressed: () {}),
-              const SizedBox(height: TSizes.spaceItems),
+              
+              
 
               profileMenu(
                   title: "User ID",
@@ -109,14 +99,18 @@ class ProfileScreen extends StatelessWidget {
                   value: controller.user.value.phoneNumber,
                   onPressed: () {}),
 
-              const Divider(),
+             
               const SizedBox(height: TSizes.spaceItems),
 
               Center(
                 child: TextButton(
+                  style: TextButton.styleFrom(
+                      backgroundColor: Colors.red,
+
+                      ),
                     onPressed: () => controller.deleteAccountWarningPopup(),
                     child: const Text("Delete Account",
-                        style: TextStyle(color: Colors.red))),
+                        style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)))),
               )
             ],
           ),

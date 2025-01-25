@@ -3,24 +3,20 @@ import 'package:equips_v2/common/widgets/text/brandTitle_with_verifiedIcon.dart'
 import 'package:equips_v2/common/widgets/text/productTitle_text.dart';
 import 'package:equips_v2/common/widgets/text/section_heading.dart';
 import 'package:equips_v2/data/repository/user/user_repository.dart';
-import 'package:equips_v2/feature/auth/controller/signUp/widgets/usermodel.dart';
-
 import 'package:equips_v2/feature/shop/models/product_model.dart';
+import 'package:equips_v2/feature/shop/screen/product_reviews/productReviews.dart';
 import 'package:equips_v2/feature/shop/screen/product_details/widget/bottom_add_cart.dart';
 import 'package:equips_v2/feature/shop/screen/product_details/widget/image_slider.dart';
 import 'package:equips_v2/feature/shop/screen/product_details/widget/product_data.dart';
 import 'package:equips_v2/feature/shop/screen/product_details/widget/unavailable.dart';
-import 'package:equips_v2/feature/shop/screen/product_reviews/productReviews.dart';
-
 import 'package:equips_v2/utilities/constants/enums.dart';
 import 'package:equips_v2/utilities/constants/size.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:intl/intl.dart';
 import 'package:readmore/readmore.dart';
-
-import 'package:flutter/material.dart';
-import 'package:equips_v2/data/repository/user/user_repository.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ProductDetails extends StatefulWidget {
   const ProductDetails({super.key, required this.product});
@@ -57,9 +53,22 @@ class _ProductDetailsState extends State<ProductDetails> {
       });
     }
   }
+  Future<void> goToWebPage(String urlString) async {
+    final Uri _url = Uri.parse(urlString);
+    if (!await launchUrl(_url)) {
+      throw 'Could not launch $_url';
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
+    final formattedPrice = NumberFormat.currency(
+      locale: 'en_PH', 
+      symbol: '₱', 
+      decimalDigits: 0,
+    ).format(widget.product.price);
+
     return Scaffold(
       bottomNavigationBar: widget.product.isAvailable == true
           ? EBottomeAddToCart(
@@ -150,8 +159,7 @@ class _ProductDetailsState extends State<ProductDetails> {
             ),
 
             const SizedBox(height: TSizes.spaceItems),
-            //deliver options
-// Delivery Options Section
+            // Deliver options
             if (widget.product.delivertOption.isNotEmpty)
               Padding(
                 padding:
@@ -263,17 +271,44 @@ class _ProductDetailsState extends State<ProductDetails> {
   }
 
   Widget _buildSocialMediaRow(String platform, String? value) {
-    final displayText =
-        (value ?? '').isEmpty ? 'No $platform available' : value!;
+    final displayText = (value ?? '').isEmpty
+      ? 'No $platform available'
+      : (platform == 'Facebook' || platform == 'Instagram') 
+          ? 'Visit $platform' 
+          : value!;
+
+    
     return Row(
       children: [
         EProductTitleText(title: platform),
         const SizedBox(width: TSizes.spaceItems),
-        Text(
-          displayText,
-          style: const TextStyle(fontSize: 20),
+        InkWell(
+          onTap: () {
+            if ((platform == 'Facebook' || platform == 'Instagram')&&value != null && value.isNotEmpty) {
+              
+                goToWebPage(value);
+            }
+          },
+          child: Text(
+            overflow: TextOverflow.ellipsis,
+            displayText,
+            style: TextStyle(
+              fontSize: 20,
+              color: (platform == 'Facebook' || platform == 'Instagram') &&value != null && value.isNotEmpty
+                  ? Color(0xFF25291C) 
+                  :Color(0xFF25291C),
+              decoration: (platform == 'Facebook' || platform == 'Instagram')&&value != null && value.isNotEmpty
+                  ? TextDecoration.underline 
+                  : null,
+            ),
+          ),
         ),
       ],
     );
   }
+
+ 
+
+
+
 }

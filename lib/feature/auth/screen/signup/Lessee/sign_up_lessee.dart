@@ -24,7 +24,7 @@ class SignUpLessee extends StatelessWidget {
             const SizedBox(height: TSizes.spaceSections * 1.4),
 
             // Form
-             SignupForm(),
+            const SignupForm(),
           ],
         ),
       )),

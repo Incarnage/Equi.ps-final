@@ -25,6 +25,7 @@ class VerticalImageText extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.only(right: TSizes.spaceItems),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             //circular Icon
             ECircularImage(
@@ -39,16 +40,19 @@ class VerticalImageText extends StatelessWidget {
             const SizedBox(
               height: TSizes.spaceItems / 2,
             ),
-            SizedBox(
-              width: 50,
-              child: Text(
-                title,
-                style: Theme.of(context)
-                    .textTheme
-                    .labelMedium!
-                    .apply(color: textColor),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
+            Expanded(
+              child: SizedBox(
+                
+                child: Text(
+                  title,
+                  style: TextStyle(
+                    color: textColor,
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  maxLines: 2,
+                  
+                ),
               ),
             )
           ],

@@ -124,6 +124,7 @@ class ProductController extends GetxController {
     if (addProductFormKey.currentState!.validate()) {
       isLoading.value = true;
       final user = await userRepository.fetchUserDetail();
+      
       // Set loading state to true
 
       try {

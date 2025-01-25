@@ -111,7 +111,10 @@ class UserController extends GetxController {
             child: Text('Delete'),
           ),
         ),
-        cancel: OutlinedButton(
+        cancel: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFF25291C),
+              side: const BorderSide(color: const Color(0xFF25291C))),
             onPressed: () => Navigator.of(Get.overlayContext!).pop(),
             child: const Text('Cancel')));
   }
@@ -157,7 +160,7 @@ class UserController extends GetxController {
 
       await AuthenticateRepository.instance.reAuthenticateWithEmailAndPassword(
           verifyEmail.text.trim(), verifyPassword.text.trim());
-      await AuthenticateRepository.instance.deleteAccount();
+        await AuthenticateRepository.instance.authUser!.unlink('password');
       EFullScreenLoader.stopLoading();
       Get.offAll(() => const SignInPage());
     } catch (e) {

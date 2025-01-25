@@ -33,6 +33,14 @@ class SocialMediaAccs extends StatelessWidget {
                 'Add other communication channels.',
                 style: Theme.of(context).textTheme.headlineSmall,
               ),
+              Text(
+                'Please provide your social media account links.',
+                style: TextStyle(
+                  fontStyle: FontStyle.italic,
+                    fontSize: TSizes.fontMedium,
+                    fontWeight: FontWeight.normal,
+                    color: const Color.fromARGB(255, 99, 97, 97)),
+              ),
               const SizedBox(
                 height: TSizes.spaceSections,
               ),
@@ -46,8 +54,7 @@ class SocialMediaAccs extends StatelessWidget {
                             fontSize: TSizes.fontMedium,
                             fontWeight: FontWeight.normal),
                         controller: controller.facebook,
-                        validator: (value) =>
-                            EValidate.validateEmptyText('Facebook', value),
+                        
                         expands: false,
                         decoration: InputDecoration(
                             labelText: 'Facebook',
@@ -64,8 +71,8 @@ class SocialMediaAccs extends StatelessWidget {
                             fontSize: TSizes.fontMedium,
                             fontWeight: FontWeight.normal),
                         controller: controller.instagram,
-                        validator: (value) =>
-                            EValidate.validateEmptyText('Instagram', value),
+                      
+
                         expands: false,
                         decoration: InputDecoration(
                             labelText: 'Instagram',
@@ -82,8 +89,7 @@ class SocialMediaAccs extends StatelessWidget {
                             fontSize: TSizes.fontMedium,
                             fontWeight: FontWeight.normal),
                         controller: controller.gmail,
-                        validator: (value) =>
-                            EValidate.validateEmptyText('Gmail', value),
+                       
                         expands: false,
                         decoration: InputDecoration(
                             labelText: 'Gmail',
